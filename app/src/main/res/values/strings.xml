@@ -1,0 +1,5 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">BudgetHashtag</string>
+    <string name="warning_log_maj_bd" tools:ignore="PluralsCandidate">"Mise à jour de la version %1$d vers la version %2$d, les anciennes données sont détruites "</string>
+    <string name="ex_msg_add">"Echec de l'ajout d'une ligne dans %1$s"</string>
+</resources>
