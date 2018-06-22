@@ -79,7 +79,7 @@ public class PortefeuilleProvider extends ContentProvider {
         qb.setTables(TABLE_NAME);
         switch (uriMatcher.match(uri)) {
             case ITEM:
-                qb.appendWhere( Portefeuille.KEY_COL_ID + "=" + uri.getPathSegments().get(1));
+                qb.appendWhere( Portefeuille.KEY_COL_ID + "=" + uri.getPathSegments().get(0));
                 break;
             default:
                 break;

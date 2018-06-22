@@ -13,14 +13,18 @@ import java.util.Objects;
 
 import fr.budgethashtag.R;
 import fr.budgethashtag.contentprovider.PortefeuilleProvider;
+import fr.budgethashtag.interfacecallbackasynctask.CreateDefaultPortefeuilleIfNotExistCallback;
 
 public class CreateDefaultPortefeuilleIfNotExistAsyncTask extends AsyncTask<Void, Void, Integer> {
 
     private final WeakReference<Context> contextRef;
+    private final CreateDefaultPortefeuilleIfNotExistCallback listener;
     private  static final String ID_PORTEFEULLE_SELECTED =  "IdPortefeuilleSelected";
 
-    public CreateDefaultPortefeuilleIfNotExistAsyncTask(Context context) {
+    public CreateDefaultPortefeuilleIfNotExistAsyncTask(Context context,
+                                       CreateDefaultPortefeuilleIfNotExistCallback listener ) {
         this.contextRef = new WeakReference<>(context);
+        this.listener = listener;
     }
 
     @Override
@@ -37,6 +41,11 @@ public class CreateDefaultPortefeuilleIfNotExistAsyncTask extends AsyncTask<Void
         }
     }
 
+    protected void onPostExecute(Integer i){
+        super.onPostExecute(i);
+        listener.onCreateDefaultPortefeuilleIfNotExist(i);
+    }
+
     private int createDefaultPortefeuille() {
         ContentResolver cr = contextRef.get().getContentResolver();
         ContentValues cv = new ContentValues();
@@ -49,7 +58,7 @@ public class CreateDefaultPortefeuilleIfNotExistAsyncTask extends AsyncTask<Void
             //TODO : Do better because it is not good here for catch exception
             e.printStackTrace();
         }
-        return Integer.parseInt(Objects.requireNonNull(uriAdd).getPathSegments().get(1));
+        return Integer.parseInt(Objects.requireNonNull(uriAdd).getPathSegments().get(0));
     }
 
 }

@@ -15,10 +15,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import fr.budgethashtag.db.BudgetHashtagDbHelper;
-import fr.budgethashtag.R;
-
 import java.util.Objects;
+
+import fr.budgethashtag.R;
+import fr.budgethashtag.db.BudgetHashtagDbHelper;
 
 public class BudgetProvider extends ContentProvider {
     @SuppressWarnings("WeakerAccess")
@@ -83,7 +83,7 @@ public class BudgetProvider extends ContentProvider {
         qb.setTables(TABLE_NAME);
         switch (uriMatcher.match(uri)) {
             case ITEM:
-                qb.appendWhere( Budget.KEY_COL_ID + "=" + uri.getPathSegments().get(1));
+                qb.appendWhere( Budget.KEY_COL_ID + "=" + uri.getPathSegments().get(0));
                 break;
             default:
                 break;
