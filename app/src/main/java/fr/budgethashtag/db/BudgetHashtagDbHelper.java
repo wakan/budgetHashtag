@@ -7,6 +7,7 @@ import android.util.Log;
 
 import fr.budgethashtag.R;
 import fr.budgethashtag.contentprovider.BudgetProvider;
+import fr.budgethashtag.contentprovider.PortefeuilleProvider;
 
 public class BudgetHashtagDbHelper extends SQLiteOpenHelper {
     private static final String TAG = "BudgetHashtagDbHelper";
@@ -21,7 +22,12 @@ public class BudgetHashtagDbHelper extends SQLiteOpenHelper {
             + BudgetProvider.Budget.KEY_COL_PREVISIONNEL + " REAL, "
             + BudgetProvider.Budget.KEY_COL_ID_PORTEFEUILLE + " integer)"
             ;
+    private static final String CREATE_TABLE_PORTEFEUILLE  = "create table " + PortefeuilleProvider.TABLE_NAME + " ("
+            + BudgetProvider.Budget.KEY_COL_ID + " integer primary key autoincrement, "
+            + BudgetProvider.Budget.KEY_COL_LIB + " TEXT(55) not null)"
+            ;
     private static final String DROP_TABLE_BUDGET  = "DROP TABLE IF EXISTS "  + BudgetProvider.TABLE_NAME;
+    private static final String DROP_TABLE_PORTEFEUILLE  = "DROP TABLE IF EXISTS "  + PortefeuilleProvider.TABLE_NAME;
     private final Context context;
 
     public BudgetHashtagDbHelper(Context context, SQLiteDatabase.CursorFactory factory) {
@@ -32,6 +38,7 @@ public class BudgetHashtagDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_BUDGET);
+        db.execSQL(CREATE_TABLE_PORTEFEUILLE);
     }
 
     @Override
@@ -39,6 +46,7 @@ public class BudgetHashtagDbHelper extends SQLiteOpenHelper {
         Log.w(TAG, context.getResources().
                 getString(R.string.warning_log_maj_bd, oldVersion, newVersion));
         db.execSQL(DROP_TABLE_BUDGET);
+        db.execSQL(DROP_TABLE_PORTEFEUILLE);
         onCreate(db);
     }
 }

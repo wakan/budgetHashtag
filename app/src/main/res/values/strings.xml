@@ -2,4 +2,7 @@
     <string name="app_name">BudgetHashtag</string>
     <string name="warning_log_maj_bd" tools:ignore="PluralsCandidate">"Mise à jour de la version %1$d vers la version %2$d, les anciennes données sont détruites "</string>
     <string name="ex_msg_add">"Echec de l'ajout d'une ligne dans %1$s"</string>
+    <string name="portefeuille_default_lib">Portefeuille personnel</string>
+    <string name="ex_msg_create_default_portefeuille">"Une erreur c'est produite lors de la création du portefeuille"</string>
+
 </resources>
