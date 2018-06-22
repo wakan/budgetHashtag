@@ -13,7 +13,10 @@
         android:authorities="BudgetStore.Budget"
         android:exported="false" />
         <provider android:name="fr.budgethashtag.contentprovider.PortefeuilleProvider"
-            android:authorities="BudgetStore.Portefeuille"
+        android:authorities="BudgetStore.Portefeuille"
+        android:exported="false" />
+        <provider android:name="fr.budgethashtag.contentprovider.TransactionProvider"
+            android:authorities="BudgetStore.Transaction"
             android:exported="false" />
         <activity android:name=".activity.MainActivity">
             <intent-filter>
@@ -32,12 +35,6 @@
             <intent-filter>
                 <data android:mimeType="vnd.android.cursor.dir/vdn.budgethashtag.transaction" />
                 <action android:name="android.intent.action.INSERT"/>
-            </intent-filter>
-        </activity>
-        <activity android:name=".activity.TestActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.FACTORY_TEST"/>
-                <category android:name="android.intent.category.INFO"/>
             </intent-filter>
         </activity>
     </application>

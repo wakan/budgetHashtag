@@ -5,16 +5,24 @@ import android.content.ContentValues;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import java.util.List;
+
 import fr.budgethashtag.R;
 import fr.budgethashtag.asynctask.CreateDefaultPortefeuilleIfNotExistAsyncTask;
+import fr.budgethashtag.asynctask.LoadBudgetsByPortefeuilleIdAsyncTask;
 import fr.budgethashtag.asynctask.LoadPortefeuilleByIdAsyncTask;
+import fr.budgethashtag.asynctask.LoadTransactionsByPortefeuilleIdAsyncTask;
 import fr.budgethashtag.contentprovider.PortefeuilleProvider;
 import fr.budgethashtag.interfacecallbackasynctask.CreateDefaultPortefeuilleIfNotExistCallback;
+import fr.budgethashtag.interfacecallbackasynctask.LoadBudgetsByPortefeuilleIdCallback;
 import fr.budgethashtag.interfacecallbackasynctask.LoadPortefeuilleByIdCallback;
+import fr.budgethashtag.interfacecallbackasynctask.LoadTransactionsByPortefeuilleIdCallback;
 
 public class MainActivity extends Activity
     implements CreateDefaultPortefeuilleIfNotExistCallback,
-        LoadPortefeuilleByIdCallback
+        LoadPortefeuilleByIdCallback,
+        LoadTransactionsByPortefeuilleIdCallback,
+        LoadBudgetsByPortefeuilleIdCallback
 {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,13 +40,24 @@ public class MainActivity extends Activity
         new LoadPortefeuilleByIdAsyncTask(this, this, idPortefeuille).execute();
     }
     private void loadTransactions(int idPortefeuille) {
-
+        new LoadTransactionsByPortefeuilleIdAsyncTask(this, this, idPortefeuille)
+                .execute();
     }
     private void loadBudgets(int idPortefeuille) {
+        new LoadBudgetsByPortefeuilleIdAsyncTask(this, this, idPortefeuille)
+                .execute();
     }
     @Override
     public void onLoadPortefeuilleById(ContentValues contentValues) {
         ((TextView)findViewById(R.id.lbl_title)).setText(
                 contentValues.getAsString(PortefeuilleProvider.Portefeuille.KEY_COL_LIB));
     }
+    @Override
+    public void onLoadTransactionsByPortefeuilleId(List<ContentValues> contentValuesList) {
+    }
+
+    @Override
+    public void onLoadBudgetsByPortefeuilleIdCallback(List<ContentValues> contentValuesList) {
+    }
+
 }
