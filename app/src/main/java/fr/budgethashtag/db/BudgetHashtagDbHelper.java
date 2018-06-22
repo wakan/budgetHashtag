@@ -1,4 +1,4 @@
-package fr.budgethashtag.Db;
+package fr.budgethashtag.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
