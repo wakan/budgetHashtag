@@ -12,11 +12,29 @@
         <provider android:name="fr.budgethashtag.contentprovider.BudgetProvider"
             android:authorities="BudgetStore.Budget"
             android:exported="false" />
-        <activity android:name=".activity.TestActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.AddBudgetActivity">
+            <intent-filter>
+                <data android:mimeType="vnd.android.cursor.dir/vdn.budgethashtag.budget" />
+                <action android:name="android.intent.action.INSERT"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.AddTransactionActivity">
+            <intent-filter>
+                <data android:mimeType="vnd.android.cursor.dir/vdn.budgethashtag.transaction" />
+                <action android:name="android.intent.action.INSERT"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.TestActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.FACTORY_TEST"/>
+                <category android:name="android.intent.category.INFO"/>
             </intent-filter>
         </activity>
     </application>

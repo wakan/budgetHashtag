@@ -32,9 +32,9 @@ public class BudgetProvider extends ContentProvider {
 
     public class Budget implements BaseColumns {
         @SuppressWarnings("WeakerAccess")
-        public static final String MIME_COLLECTION = "vnd.android.cursor.dir/vdn.budgethashtag.contentType";
+        public static final String MIME_COLLECTION = "vnd.android.cursor.dir/vdn.budgethashtag.budget";
         @SuppressWarnings("WeakerAccess")
-        public static final String MIME_ITEM  = "vnd.android.cursor.item/vdn.budgethashtag.contentType";
+        public static final String MIME_ITEM  = "vnd.android.cursor.item/vdn.budgethashtag.budget";
 
         public static final String KEY_COL_ID = "_id";
         public static final String KEY_COL_LIB = "libelle";
