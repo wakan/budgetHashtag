@@ -17,6 +17,7 @@ import android.text.TextUtils;
 
 import java.util.Objects;
 
+import fr.budgethashtag.R;
 import fr.budgethashtag.db.BudgetHashtagDbHelper;
 
 public class PortefeuilleProvider extends ContentProvider {
