@@ -1,6 +1,8 @@
 package fr.budgethashtag.activity;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.ContentValues;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -13,6 +15,8 @@ import fr.budgethashtag.asynctask.LoadBudgetsByPortefeuilleIdAsyncTask;
 import fr.budgethashtag.asynctask.LoadPortefeuilleByIdAsyncTask;
 import fr.budgethashtag.asynctask.LoadTransactionsByPortefeuilleIdAsyncTask;
 import fr.budgethashtag.contentprovider.PortefeuilleProvider;
+import fr.budgethashtag.fragment.BudgetFragment;
+import fr.budgethashtag.fragment.TransactionFragment;
 import fr.budgethashtag.interfacecallbackasynctask.CreateDefaultPortefeuilleIfNotExistCallback;
 import fr.budgethashtag.interfacecallbackasynctask.LoadBudgetsByPortefeuilleIdCallback;
 import fr.budgethashtag.interfacecallbackasynctask.LoadPortefeuilleByIdCallback;
@@ -27,7 +31,6 @@ public class MainActivity extends Activity
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         new CreateDefaultPortefeuilleIfNotExistAsyncTask(this, this).execute();
     }
     @Override
@@ -54,10 +57,14 @@ public class MainActivity extends Activity
     }
     @Override
     public void onLoadTransactionsByPortefeuilleId(List<ContentValues> contentValuesList) {
+        TransactionFragment transactionFragment = (TransactionFragment)getFragmentManager().findFragmentById(R.id.frg_transaction);
+        transactionFragment.onLoadTransactionsByPortefeuilleId(contentValuesList);
     }
 
     @Override
     public void onLoadBudgetsByPortefeuilleIdCallback(List<ContentValues> contentValuesList) {
+        BudgetFragment budgetFragment = (BudgetFragment)getFragmentManager().findFragmentById(R.id.frg_budget);
+        budgetFragment.onLoadBudgetsByPortefeuilleIdCallback(contentValuesList);
     }
 
 }

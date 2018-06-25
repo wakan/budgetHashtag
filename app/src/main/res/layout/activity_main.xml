@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
+    android:layout_height="fill_parent">
+    <fragment
+        android:name="fr.budgethashtag.fragment.BudgetFragment"
+        android:id="@+id/frg_budget"
+        tools:layout="@layout/fragment_budget"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <TextView
         android:id="@+id/lbl_title"
         android:layout_width="match_parent"
@@ -13,11 +20,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <fragment
-            android:id="@+id/frg_budget"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-        <fragment
+            android:name="fr.budgethashtag.fragment.TransactionFragment"
             android:id="@+id/frg_transaction"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
