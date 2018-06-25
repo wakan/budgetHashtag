@@ -5,7 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import fr.budgethashtag.R;
 import fr.budgethashtag.contentprovider.BudgetProvider;
 import fr.budgethashtag.contentprovider.PortefeuilleProvider;
 import fr.budgethashtag.contentprovider.TransactionProvider;

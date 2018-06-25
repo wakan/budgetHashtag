@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
-import fr.budgethashtag.R;
 import fr.budgethashtag.db.BudgetHashtagDbHelper;
 
 public class BudgetProvider extends ContentProvider {

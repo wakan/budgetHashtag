@@ -11,7 +11,6 @@ import android.os.AsyncTask;
 import java.lang.ref.WeakReference;
 import java.util.Objects;
 
-import fr.budgethashtag.R;
 import fr.budgethashtag.contentprovider.PortefeuilleProvider;
 import fr.budgethashtag.interfacecallbackasynctask.CreateDefaultPortefeuilleIfNotExistCallback;
 
