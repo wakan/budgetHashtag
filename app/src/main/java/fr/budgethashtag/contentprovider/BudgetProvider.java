@@ -42,8 +42,6 @@ public class BudgetProvider extends ContentProvider {
         public static final String KEY_COL_ID = "_id";
         public static final String KEY_COL_LIB = "libelle";
         public static final String KEY_COL_COLOR = "color";
-        public static final String KEY_COL_DT_DEB = "dtDeb";
-        public static final String KEY_COL_DT_FIN = "dtFin";
         public static final String KEY_COL_PREVISIONNEL = "previsionnel";
         public static final String KEY_COL_ID_PORTEFEUILLE = "idPortefeuille";
     }
@@ -118,15 +116,15 @@ public class BudgetProvider extends ContentProvider {
     private void reformatLibelle(ContentValues initialValues) {
         String initialLibLowercase = initialValues.getAsString(Budget.KEY_COL_LIB).toLowerCase();
         String replacedBadChar = initialLibLowercase.replaceAll("[^a-z0-9]","-");
-        String removedDuplicates = removeDuplicates(replacedBadChar, '-');
+        String removedDuplicates = removeDuplicates(replacedBadChar);
         initialValues.put(Budget.KEY_COL_LIB, removedDuplicates);
     }
 
-    private String removeDuplicates(String word, char c) {
-        StringBuffer buffer = new StringBuffer(word.length());
+    private String removeDuplicates(String word) {
+        StringBuilder buffer = new StringBuilder(word.length());
         for (int i = 0; i < word.length();i++) {
             char letter = word.charAt(i);
-            if(letter == c) {
+            if(letter == '-') {
                 if (letter != buffer.length() -1) {
                     buffer.append(letter);
                 }
@@ -136,19 +134,19 @@ public class BudgetProvider extends ContentProvider {
         }
         return  buffer.toString();
     }
-    public void setDefaultColorIfNotExit(ContentValues initialValues) {
+    private void setDefaultColorIfNotExit(ContentValues initialValues) {
         String initialColor = initialValues.getAsString(Budget.KEY_COL_COLOR);
-        if(null == initialColor || "" == initialColor.trim()) {
+        if(null == initialColor || Objects.equals("", initialColor.trim())) {
             String defaultColor = getRandomDefaultColor();
             initialValues.put(Budget.KEY_COL_COLOR, defaultColor);
         }
     }
-    public String getRandomDefaultColor() {
+    private String getRandomDefaultColor() {
         Random random = new Random();
-        String color = colors().get(random.nextInt(colors().size()));
-        return  color;
+        return colors().get(random.nextInt(colors().size()));
     }
-    public List<String> colors() {
+    @SuppressWarnings("SpellCheckingInspection")
+    private List<String> colors() {
         ArrayList<String> colors = new ArrayList<>(256);
         colors.add("##F0F8FF");
         colors.add("##FAEBD7");

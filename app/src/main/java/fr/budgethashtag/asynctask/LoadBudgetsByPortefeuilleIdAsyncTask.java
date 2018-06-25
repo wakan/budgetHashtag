@@ -56,10 +56,6 @@ public class LoadBudgetsByPortefeuilleIdAsyncTask extends AsyncTask<Void, Void, 
                 c.getString(c.getColumnIndex(BudgetProvider.Budget.KEY_COL_LIB)));
         cv.put(BudgetProvider.Budget.KEY_COL_COLOR,
                 c.getString(c.getColumnIndex(BudgetProvider.Budget.KEY_COL_COLOR)));
-        cv.put(BudgetProvider.Budget.KEY_COL_DT_DEB,
-                c.getString(c.getColumnIndex(BudgetProvider.Budget.KEY_COL_DT_DEB)));
-        cv.put(BudgetProvider.Budget.KEY_COL_DT_FIN,
-                c.getString(c.getColumnIndex(BudgetProvider.Budget.KEY_COL_DT_FIN)));
         cv.put(BudgetProvider.Budget.KEY_COL_PREVISIONNEL,
                 c.getFloat(c.getColumnIndex(BudgetProvider.Budget.KEY_COL_PREVISIONNEL)));
         cv.put(BudgetProvider.Budget.KEY_COL_ID_PORTEFEUILLE,
