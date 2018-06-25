@@ -1,8 +1,6 @@
 package fr.budgethashtag.activity;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.ContentValues;
 import android.os.Bundle;
 import android.widget.TextView;
