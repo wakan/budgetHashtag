@@ -33,19 +33,19 @@ public class MainActivity extends Activity
     }
     @Override
     public void onCreateDefaultPortefeuilleIfNotExist(int idPortefeuille) {
-        loadPortefeuilleName(idPortefeuille);
-        loadTransactions(idPortefeuille);
-        loadBudgets(idPortefeuille);
+        loadPortefeuilleName();
+        loadTransactions();
+        loadBudgets();
     }
-    private void loadPortefeuilleName(int idPortefeuille) {
-        new LoadPortefeuilleByIdAsyncTask(this, this, idPortefeuille).execute();
+    private void loadPortefeuilleName() {
+        new LoadPortefeuilleByIdAsyncTask(this, this).execute();
     }
-    private void loadTransactions(int idPortefeuille) {
-        new LoadTransactionsByPortefeuilleIdAsyncTask(this, this, idPortefeuille)
+    private void loadTransactions() {
+        new LoadTransactionsByPortefeuilleIdAsyncTask(this, this)
                 .execute();
     }
-    private void loadBudgets(int idPortefeuille) {
-        new LoadBudgetsByPortefeuilleIdAsyncTask(this, this, idPortefeuille)
+    private void loadBudgets() {
+        new LoadBudgetsByPortefeuilleIdAsyncTask(this, this)
                 .execute();
     }
     @Override

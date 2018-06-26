@@ -15,11 +15,12 @@ public class AddBudgetActivity extends Activity {
         findViewById(R.id.btn_save_budget).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String libelle = ((EditText)findViewById(R.id.txt_libelle)).getText().toString();
-                String strConcurrency = ((EditText)findViewById(R.id.txt_previsionnel)).getText().toString();
-                Float concurrency = Float.parseFloat(strConcurrency);
-                String color = "";
+                final String libelle = ((EditText)findViewById(R.id.txt_libelle)).getText().toString();
+                final String strConcurrency = ((EditText)findViewById(R.id.txt_previsionnel)).getText().toString();
+                final Float concurrency = Float.parseFloat(strConcurrency);
+                final String color = "";
                 new SaveBudgetAsyncTask(AddBudgetActivity.this, libelle, concurrency, color).execute();
+                finish();
             }
         });
     }
