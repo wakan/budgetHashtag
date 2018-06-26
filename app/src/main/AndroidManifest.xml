@@ -18,20 +18,20 @@
         <provider android:name="fr.budgethashtag.contentprovider.TransactionProvider"
             android:authorities="BudgetStore.Transaction"
             android:exported="false" />
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".view.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.AddBudgetActivity">
+        <activity android:name=".view.activity.AddBudgetActivity">
             <intent-filter>
                 <data android:mimeType="vnd.android.cursor.dir/vdn.budgethashtag.budget" />
                 <action android:name="android.intent.action.INSERT"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.AddTransactionActivity">
+        <activity android:name=".view.activity.AddTransactionActivity">
             <intent-filter>
                 <data android:mimeType="vnd.android.cursor.dir/vdn.budgethashtag.transaction" />
                 <action android:name="android.intent.action.INSERT"/>
