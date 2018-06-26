@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -14,6 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 import fr.budgethashtag.contentprovider.TransactionProvider;
+import fr.budgethashtag.helpers.TransactionHelper;
 import fr.budgethashtag.interfacecallbackasynctask.LoadTransactionsByPortefeuilleIdCallback;
 
 public class LoadTransactionsByPortefeuilleIdAsyncTask extends AsyncTask<Void, Void, List<ContentValues>> {
@@ -37,7 +37,7 @@ public class LoadTransactionsByPortefeuilleIdAsyncTask extends AsyncTask<Void, V
                 null, where, whereParam, null);
         List<ContentValues> ret = new ArrayList<>(Objects.requireNonNull(c).getCount());
         while (Objects.requireNonNull(c).moveToNext()) {
-            ContentValues cv = extractContentValueFromCursor(c);
+            ContentValues cv = TransactionHelper.extractContentValueFromCursor(c);
             ret.add(cv);
         }
         c.close();
@@ -47,33 +47,6 @@ public class LoadTransactionsByPortefeuilleIdAsyncTask extends AsyncTask<Void, V
     protected void onPostExecute(List<ContentValues> c){
         super.onPostExecute(c);
         listener.onLoadTransactionsByPortefeuilleId(c);
-    }
-    @NonNull
-    private ContentValues extractContentValueFromCursor(Cursor c) {
-        ContentValues cv = new ContentValues();
-        cv.put(TransactionProvider.Transaction.KEY_COL_ID,
-                c.getInt(c.getColumnIndex(TransactionProvider.Transaction.KEY_COL_ID)));
-        cv.put(TransactionProvider.Transaction.KEY_COL_LIB,
-                c.getString(c.getColumnIndex(TransactionProvider.Transaction.KEY_COL_LIB)));
-        cv.put(TransactionProvider.Transaction.KEY_COL_DT_VALEUR,
-                c.getString(c.getColumnIndex(TransactionProvider.Transaction.KEY_COL_DT_VALEUR)));
-        cv.put(TransactionProvider.Transaction.KEY_COL_MONTANT,
-                c.getFloat(c.getColumnIndex(TransactionProvider.Transaction.KEY_COL_MONTANT)));
-        cv.put(TransactionProvider.Transaction.KEY_COL_ID_PORTEFEUILLE,
-                c.getInt(c.getColumnIndex(TransactionProvider.Transaction.KEY_COL_ID_PORTEFEUILLE)));
-        cv.put(TransactionProvider.Transaction.KEY_COL_LOCATION_TIME,
-                c.getLong(c.getColumnIndex(TransactionProvider.Transaction.KEY_COL_LOCATION_TIME)));
-        cv.put(TransactionProvider.Transaction.KEY_COL_LOCATION_PROVIDER,
-                c.getString(c.getColumnIndex(TransactionProvider.Transaction.KEY_COL_LOCATION_PROVIDER)));
-        cv.put(TransactionProvider.Transaction.KEY_COL_LOCATION_ACCURACY,
-                c.getFloat(c.getColumnIndex(TransactionProvider.Transaction.KEY_COL_LOCATION_ACCURACY)));
-        cv.put(TransactionProvider.Transaction.KEY_COL_LOCATION_ALTITUDE,
-                c.getFloat(c.getColumnIndex(TransactionProvider.Transaction.KEY_COL_LOCATION_ALTITUDE)));
-        cv.put(TransactionProvider.Transaction.KEY_COL_LOCATION_LATITUDE,
-                c.getDouble(c.getColumnIndex(TransactionProvider.Transaction.KEY_COL_LOCATION_LATITUDE)));
-        cv.put(TransactionProvider.Transaction.KEY_COL_LOCATION_LONGITUDE,
-                c.getDouble(c.getColumnIndex(TransactionProvider.Transaction.KEY_COL_LOCATION_LONGITUDE)));
-        return cv;
     }
 
 }

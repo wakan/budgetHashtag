@@ -10,5 +10,5 @@
     <string name="hint_libelle_budget">Libelle</string>
     <string name="hint_libelle_transaction">Libelle</string>
     <string name="hint_montant_budget">Montant</string>
-
+    <string name="toast_export_done">Export terminé</string>
 </resources>

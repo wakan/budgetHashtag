@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -14,6 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 import fr.budgethashtag.contentprovider.BudgetProvider;
+import fr.budgethashtag.helpers.BudgetHelper;
 import fr.budgethashtag.interfacecallbackasynctask.LoadBudgetsByPortefeuilleIdCallback;
 
 public class LoadBudgetsByPortefeuilleIdAsyncTask extends AsyncTask<Void, Void, List<ContentValues>> {
@@ -37,7 +37,7 @@ public class LoadBudgetsByPortefeuilleIdAsyncTask extends AsyncTask<Void, Void, 
                 null, where, whereParam, null);
         List<ContentValues> ret = new ArrayList<>(Objects.requireNonNull(c).getCount());
         while (Objects.requireNonNull(c).moveToNext()) {
-            ContentValues cv = extractContentValueFromCursor(c);
+            ContentValues cv = BudgetHelper.extractContentValueFromCursor(c);
             ret.add(cv);
         }
         c.close();
@@ -47,21 +47,6 @@ public class LoadBudgetsByPortefeuilleIdAsyncTask extends AsyncTask<Void, Void, 
     protected void onPostExecute(List<ContentValues> c){
         super.onPostExecute(c);
         listener.onLoadBudgetsByPortefeuilleIdCallback(c);
-    }
-    @NonNull
-    private ContentValues extractContentValueFromCursor(Cursor c) {
-        ContentValues cv = new ContentValues();
-        cv.put(BudgetProvider.Budget.KEY_COL_ID,
-                c.getInt(c.getColumnIndex(BudgetProvider.Budget.KEY_COL_ID)));
-        cv.put(BudgetProvider.Budget.KEY_COL_LIB,
-                c.getString(c.getColumnIndex(BudgetProvider.Budget.KEY_COL_LIB)));
-        cv.put(BudgetProvider.Budget.KEY_COL_COLOR,
-                c.getString(c.getColumnIndex(BudgetProvider.Budget.KEY_COL_COLOR)));
-        cv.put(BudgetProvider.Budget.KEY_COL_PREVISIONNEL,
-                c.getFloat(c.getColumnIndex(BudgetProvider.Budget.KEY_COL_PREVISIONNEL)));
-        cv.put(BudgetProvider.Budget.KEY_COL_ID_PORTEFEUILLE,
-                c.getInt(c.getColumnIndex(BudgetProvider.Budget.KEY_COL_ID_PORTEFEUILLE)));
-        return cv;
     }
 
 }
