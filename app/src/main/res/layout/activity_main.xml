@@ -1,34 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/lbl_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <data>
 
-    <ViewFlipper
-        android:id="@+id/view_flipper_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        <import type="android.view.View"/>
 
-        <fragment
-            android:name="fr.budgethashtag.view.fragment.BudgetFragment"
-            android:id="@+id/frg_budget"
-            tools:layout="@layout/fragment_budget"
+        <variable
+            name="viewModel"
+            type="fr.budgethashtag.viewmodel.MainActivityViewModel"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/lbl_title"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"/>
 
-        <fragment
-            android:name="fr.budgethashtag.view.fragment.TransactionFragment"
-            android:id="@+id/frg_transaction"
-            tools:layout="@layout/fragment_transaction"
+        <ViewFlipper
+            android:id="@+id/view_flipper_main"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
 
-    </ViewFlipper>
+            <fragment
+                android:id="@+id/frg_budget"
+                android:name="fr.budgethashtag.view.fragment.BudgetFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout="@layout/fragment_budget"/>
 
-</LinearLayout>
+            <fragment
+                android:id="@+id/frg_transaction"
+                android:name="fr.budgethashtag.view.fragment.TransactionFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout="@layout/fragment_transaction"/>
+
+        </ViewFlipper>
+
+    </LinearLayout>
+
+</layout>

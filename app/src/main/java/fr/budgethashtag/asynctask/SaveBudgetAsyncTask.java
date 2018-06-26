@@ -17,11 +17,11 @@ public class SaveBudgetAsyncTask extends AsyncTask<Void, Void, Void> {
 
     private final WeakReference<Context> contextRef;
     private final String libelle;
-    private final Float concurrency;
+    private final double concurrency;
     private final String color;
 
     public SaveBudgetAsyncTask(Context contextRef,
-                               String libelle, Float concurrency, String color) {
+                               String libelle, double concurrency, String color) {
         this.contextRef = new WeakReference<>(contextRef);
         this.libelle = libelle;
         this.concurrency = concurrency;
