@@ -3,6 +3,7 @@ package fr.budgethashtag.asynctask;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -19,19 +20,19 @@ public class LoadBudgetsByPortefeuilleIdAsyncTask extends AsyncTask<Void, Void, 
 
     private final WeakReference<Context> contextRef;
     private final LoadBudgetsByPortefeuilleIdCallback listener;
-    private final int idPortefeuilleSelected;
     public LoadBudgetsByPortefeuilleIdAsyncTask(Context context,
-                                                LoadBudgetsByPortefeuilleIdCallback listener,
-                                                int idPortefeuilleSelected ) {
+                                                LoadBudgetsByPortefeuilleIdCallback listener) {
         this.contextRef = new WeakReference<>(context);
         this.listener = listener;
-        this.idPortefeuilleSelected = idPortefeuilleSelected;
     }
     @Override
     protected List<ContentValues> doInBackground(Void... params) {
+        SharedPreferences appSharedPref =  contextRef.get().getSharedPreferences("BudgetHashtagSharedPref", Context.MODE_PRIVATE);
         ContentResolver cr = contextRef.get().getContentResolver();
         String where = BudgetProvider.Budget.KEY_COL_ID_PORTEFEUILLE + "=?";
-        String[] whereParam = {String.valueOf(idPortefeuilleSelected)};
+        String[] whereParam = {String.valueOf(
+                appSharedPref.getInt(CreateDefaultPortefeuilleIfNotExistAsyncTask.ID_PORTEFEULLE_SELECTED, 0)
+        )};
         Cursor c = cr.query(BudgetProvider.CONTENT_URI,
                 null, where, whereParam, null);
         List<ContentValues> ret = new ArrayList<>(Objects.requireNonNull(c).getCount());
