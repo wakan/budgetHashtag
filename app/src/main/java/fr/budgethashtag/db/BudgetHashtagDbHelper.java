@@ -17,7 +17,7 @@ public class BudgetHashtagDbHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_BUDGET  = "create table " + BudgetProvider.TABLE_NAME + " ("
             + BudgetProvider.Budget.KEY_COL_ID + " integer primary key autoincrement, "
             + BudgetProvider.Budget.KEY_COL_LIB + " TEXT(55) not null, "
-            + BudgetProvider.Budget.KEY_COL_COLOR + " TEXT(8), "
+            + BudgetProvider.Budget.KEY_COL_COLOR + " TEXT(9) not null, "
             + BudgetProvider.Budget.KEY_COL_PREVISIONNEL + " REAL, "
             + BudgetProvider.Budget.KEY_COL_ID_PORTEFEUILLE + " integer not null)"
             ;

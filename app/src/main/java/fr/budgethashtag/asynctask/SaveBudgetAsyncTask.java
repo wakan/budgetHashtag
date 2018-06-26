@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.OperationApplicationException;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 
@@ -29,10 +30,13 @@ public class SaveBudgetAsyncTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
+        SharedPreferences appSharedPref =  contextRef.get().getSharedPreferences("BudgetHashtagSharedPref", Context.MODE_PRIVATE);
         ContentResolver cr = contextRef.get().getContentResolver();
         ContentValues cv = new ContentValues();
         cv.put(BudgetProvider.Budget.KEY_COL_LIB, libelle);
         cv.put(BudgetProvider.Budget.KEY_COL_PREVISIONNEL, concurrency);
+        cv.put(BudgetProvider.Budget.KEY_COL_ID_PORTEFEUILLE,
+                appSharedPref.getInt(CreateDefaultPortefeuilleIfNotExistAsyncTask.ID_PORTEFEULLE_SELECTED, 0) );
         Uri uriAdd = cr.insert(BudgetProvider.CONTENT_URI,cv);
         if(uriAdd == null)
             try {

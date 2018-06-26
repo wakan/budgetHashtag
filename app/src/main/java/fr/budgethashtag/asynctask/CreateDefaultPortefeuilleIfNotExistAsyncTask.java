@@ -19,7 +19,7 @@ public class CreateDefaultPortefeuilleIfNotExistAsyncTask extends AsyncTask<Void
 
     private final WeakReference<Context> contextRef;
     private final CreateDefaultPortefeuilleIfNotExistCallback listener;
-    private  static final String ID_PORTEFEULLE_SELECTED =  "IdPortefeuilleSelected";
+    public   static final String ID_PORTEFEULLE_SELECTED =  "IdPortefeuilleSelected";
 
     public CreateDefaultPortefeuilleIfNotExistAsyncTask(Context context,
                                        CreateDefaultPortefeuilleIfNotExistCallback listener ) {

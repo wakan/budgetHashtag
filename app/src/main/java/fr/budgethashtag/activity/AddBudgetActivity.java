@@ -20,6 +20,7 @@ public class AddBudgetActivity extends Activity {
                 Float concurrency = Float.parseFloat(strConcurrency);
                 String color = "";
                 new SaveBudgetAsyncTask(AddBudgetActivity.this, libelle, concurrency, color).execute();
+                finish();
             }
         });
     }
