@@ -1,4 +1,4 @@
-package fr.budgethashtag.activity;
+package fr.budgethashtag.view.activity;
 
 import android.app.Activity;
 import android.os.Bundle;

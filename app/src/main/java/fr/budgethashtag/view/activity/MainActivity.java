@@ -1,4 +1,4 @@
-package fr.budgethashtag.activity;
+package fr.budgethashtag.view.activity;
 
 import android.app.Activity;
 import android.content.ContentValues;
@@ -13,8 +13,8 @@ import fr.budgethashtag.asynctask.LoadBudgetsByPortefeuilleIdAsyncTask;
 import fr.budgethashtag.asynctask.LoadPortefeuilleByIdAsyncTask;
 import fr.budgethashtag.asynctask.LoadTransactionsByPortefeuilleIdAsyncTask;
 import fr.budgethashtag.contentprovider.PortefeuilleProvider;
-import fr.budgethashtag.fragment.BudgetFragment;
-import fr.budgethashtag.fragment.TransactionFragment;
+import fr.budgethashtag.view.fragment.BudgetFragment;
+import fr.budgethashtag.view.fragment.TransactionFragment;
 import fr.budgethashtag.interfacecallbackasynctask.CreateDefaultPortefeuilleIfNotExistCallback;
 import fr.budgethashtag.interfacecallbackasynctask.LoadBudgetsByPortefeuilleIdCallback;
 import fr.budgethashtag.interfacecallbackasynctask.LoadPortefeuilleByIdCallback;
