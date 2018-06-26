@@ -4,5 +4,23 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
+    <EditText
+        android:id="@+id/txt_libelle"
+        android:hint="@string/hint_libelle_budget"
+        android:inputType="textAutoCorrect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
+    <EditText
+        android:id="@+id/txt_previsionnel"
+        android:hint="@string/hint_montant_budget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        />
+    <Button
+        android:id="@+id/btn_save_budget"
+        android:text="@string/add_budget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

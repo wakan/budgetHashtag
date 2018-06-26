@@ -4,6 +4,11 @@
     <string name="ex_msg_add">"Echec de l'ajout d'une ligne dans %1$s"</string>
     <string name="portefeuille_default_lib">Portefeuille personnel</string>
     <string name="ex_msg_create_default_portefeuille">"Une erreur c'est produite lors de la création du portefeuille"</string>
+    <string name="ex_msg_save_budget">"Une erreur c'est produite lors de la sauvegarde du budget"</string>
     <string name="add_budget">Add budget</string>
     <string name="add_transaction">Add transaction</string>
+    <string name="hint_libelle_budget">Libelle</string>
+    <string name="hint_libelle_transaction">Libelle</string>
+    <string name="hint_montant_budget">Montant</string>
+
 </resources>
