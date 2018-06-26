@@ -17,5 +17,6 @@ class AddBudgetActivity : Activity()
         super.onCreate(savedInstanceState)
         var binding : ActivityAddBudgetBinding = DataBindingUtil.setContentView(this, R.layout.activity_add_budget)
         binding.viewModel = viewModel
+
     }
 }

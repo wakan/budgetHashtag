@@ -7,6 +7,7 @@ class MainActivityViewModel : ILifeCycleViewModel
 {
     private val TAG: String = "MainActivityViewModel"
     private val mContext: Context
+    var toolBarTitle : String = ""
 
     constructor(context: Context) {
         mContext = context
@@ -26,4 +27,10 @@ class MainActivityViewModel : ILifeCycleViewModel
     override fun onDestroy() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    fun updateToolBar(asString: String) {
+        toolBarTitle = asString
+    }
+
+
 }

@@ -4,8 +4,6 @@ import android.app.Activity
 import android.content.ContentValues
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.view.View
-import android.widget.TextView
 import fr.budgethashtag.R
 import fr.budgethashtag.asynctask.CreateDefaultPortefeuilleIfNotExistAsyncTask
 import fr.budgethashtag.asynctask.LoadBudgetsByPortefeuilleIdAsyncTask
@@ -45,17 +43,15 @@ class MainActivity : Activity(), CreateDefaultPortefeuilleIfNotExistCallback, Lo
     }
 
     private fun loadTransactions() {
-        LoadTransactionsByPortefeuilleIdAsyncTask(this, this)
-                .execute()
+        LoadTransactionsByPortefeuilleIdAsyncTask(this, this).execute()
     }
 
     private fun loadBudgets() {
-        LoadBudgetsByPortefeuilleIdAsyncTask(this, this)
-                .execute()
+        LoadBudgetsByPortefeuilleIdAsyncTask(this, this).execute()
     }
 
     override fun onLoadPortefeuilleById(contentValues: ContentValues) {
-        (findViewById<View>(R.id.lbl_title) as TextView).text = contentValues.getAsString(PortefeuilleProvider.Portefeuille.KEY_COL_LIB)
+        viewModel.updateToolBar(contentValues.getAsString(PortefeuilleProvider.Portefeuille.KEY_COL_LIB))
     }
 
     override fun onLoadTransactionsByPortefeuilleId(contentValuesList: List<ContentValues>) {
