@@ -31,11 +31,16 @@ public class LoadPortefeuilleByIdAsyncTask extends AsyncTask<Void, Void, Content
         String[] whereParam = {String.valueOf(
                 appSharedPref.getInt(CreateDefaultPortefeuilleIfNotExistAsyncTask.ID_PORTEFEULLE_SELECTED, 0)
         )};
+        ContentValues cv = new ContentValues();
         Cursor c = cr.query(PortefeuilleProvider.CONTENT_URI,
                 null, where, whereParam, null);
-        Objects.requireNonNull(c).moveToNext();
-        ContentValues cv = PortefeuilleHelper.extractContentValueFromCursor(c);
-        c.close();
+        try {
+            Objects.requireNonNull(c).moveToNext();
+             cv = PortefeuilleHelper.extractContentValueFromCursor(c);
+        } finally {
+            if(null != c)
+                c.close();
+        }
         return cv;
     }
     @Override

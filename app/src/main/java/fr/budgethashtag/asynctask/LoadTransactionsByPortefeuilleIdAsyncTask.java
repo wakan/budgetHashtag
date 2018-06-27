@@ -36,11 +36,16 @@ public class LoadTransactionsByPortefeuilleIdAsyncTask extends AsyncTask<Void, V
         Cursor c = cr.query(TransactionProvider.CONTENT_URI,
                 null, where, whereParam, null);
         List<ContentValues> ret = new ArrayList<>(Objects.requireNonNull(c).getCount());
-        while (Objects.requireNonNull(c).moveToNext()) {
-            ContentValues cv = TransactionHelper.extractContentValueFromCursor(c);
-            ret.add(cv);
+        try {
+            while (Objects.requireNonNull(c).moveToNext()) {
+                ContentValues cv = TransactionHelper.extractContentValueFromCursor(c);
+                ret.add(cv);
+            }
         }
-        c.close();
+        finally {
+            if(null != c)
+                c.close();
+        }
         return ret;
     }
     @Override

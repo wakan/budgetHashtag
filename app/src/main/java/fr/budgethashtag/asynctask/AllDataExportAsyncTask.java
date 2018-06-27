@@ -41,41 +41,53 @@ public class AllDataExportAsyncTask extends AsyncTask<Void, Void, Void> {
     private void writeBudgetToCsv(ContentResolver cr) {
         Cursor c = cr.query(BudgetProvider.CONTENT_URI,
                 null, null, null, null);
-        List<ContentValues> ret = new ArrayList<>(Objects.requireNonNull(c).getCount());
-        while (Objects.requireNonNull(c).moveToNext()) {
-            ContentValues cv = BudgetHelper.extractContentValueFromCursor(c);
-            Integer idPortefeuille = cv.getAsInteger(BudgetProvider.Budget.KEY_COL_ID_PORTEFEUILLE);
-            String libPortefeuille = cachePortefeuille.get(idPortefeuille);
-            cv.put(BudgetProvider.Budget.KEY_COL_ID_PORTEFEUILLE, libPortefeuille);
-            ret.add(cv);
+        try {
+            List<ContentValues> ret = new ArrayList<>(Objects.requireNonNull(c).getCount());
+            while (Objects.requireNonNull(c).moveToNext()) {
+                ContentValues cv = BudgetHelper.extractContentValueFromCursor(c);
+                Integer idPortefeuille = cv.getAsInteger(BudgetProvider.Budget.KEY_COL_ID_PORTEFEUILLE);
+                String libPortefeuille = cachePortefeuille.get(idPortefeuille);
+                cv.put(BudgetProvider.Budget.KEY_COL_ID_PORTEFEUILLE, libPortefeuille);
+                ret.add(cv);
+            }
+        }finally {
+            if(null != c)
+                c.close();
         }
-        c.close();
     }
     private void writeTransactionToCsv(ContentResolver cr) {
         Cursor c = cr.query(TransactionProvider.CONTENT_URI,
                 null, null, null, null);
-        List<ContentValues> ret = new ArrayList<>(Objects.requireNonNull(c).getCount());
-        while (Objects.requireNonNull(c).moveToNext()) {
-            ContentValues cv = TransactionHelper.extractContentValueFromCursor(c);
-            Integer idPortefeuille = cv.getAsInteger(TransactionProvider.Transaction.KEY_COL_ID_PORTEFEUILLE);
-            String libPortefeuille = cachePortefeuille.get(idPortefeuille);
-            cv.put(TransactionProvider.Transaction.KEY_COL_ID_PORTEFEUILLE, libPortefeuille);
-            ret.add(cv);
+        try {
+            List<ContentValues> ret = new ArrayList<>(Objects.requireNonNull(c).getCount());
+            while (Objects.requireNonNull(c).moveToNext()) {
+                ContentValues cv = TransactionHelper.extractContentValueFromCursor(c);
+                Integer idPortefeuille = cv.getAsInteger(TransactionProvider.Transaction.KEY_COL_ID_PORTEFEUILLE);
+                String libPortefeuille = cachePortefeuille.get(idPortefeuille);
+                cv.put(TransactionProvider.Transaction.KEY_COL_ID_PORTEFEUILLE, libPortefeuille);
+                ret.add(cv);
+            }
+        } finally {
+            if(null != c)
+                c.close();
         }
-        c.close();
     }
 
     private SparseArray<String> cachePortefeuille;
     private void loadCachePortefeuille(ContentResolver cr) {
         Cursor p = cr.query(PortefeuilleProvider.CONTENT_URI,
                     null, null, null, null);
-        cachePortefeuille = new SparseArray<>(Objects.requireNonNull(p).getCount());
-        while (Objects.requireNonNull(p).moveToNext()) {
-            ContentValues cv = BudgetHelper.extractContentValueFromCursor(p);
-            cachePortefeuille.put(cv.getAsInteger(PortefeuilleProvider.Portefeuille.KEY_COL_ID),
-                    cv.getAsString(PortefeuilleProvider.Portefeuille.KEY_COL_LIB));
+        try {
+            cachePortefeuille = new SparseArray<>(Objects.requireNonNull(p).getCount());
+            while (Objects.requireNonNull(p).moveToNext()) {
+                ContentValues cv = BudgetHelper.extractContentValueFromCursor(p);
+                cachePortefeuille.put(cv.getAsInteger(PortefeuilleProvider.Portefeuille.KEY_COL_ID),
+                        cv.getAsString(PortefeuilleProvider.Portefeuille.KEY_COL_LIB));
+            }
+        } finally {
+            if(null != p)
+                p.close();
         }
-        p.close();
     }
 
 

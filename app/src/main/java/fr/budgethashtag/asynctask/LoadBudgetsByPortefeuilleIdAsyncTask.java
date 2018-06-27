@@ -36,11 +36,15 @@ public class LoadBudgetsByPortefeuilleIdAsyncTask extends AsyncTask<Void, Void, 
         Cursor c = cr.query(BudgetProvider.CONTENT_URI,
                 null, where, whereParam, null);
         List<ContentValues> ret = new ArrayList<>(Objects.requireNonNull(c).getCount());
-        while (Objects.requireNonNull(c).moveToNext()) {
-            ContentValues cv = BudgetHelper.extractContentValueFromCursor(c);
-            ret.add(cv);
+        try {
+            while (Objects.requireNonNull(c).moveToNext()) {
+                ContentValues cv = BudgetHelper.extractContentValueFromCursor(c);
+                ret.add(cv);
+            }
+        } finally {
+            if(null != c)
+                c.close();
         }
-        c.close();
         return ret;
     }
     @Override
