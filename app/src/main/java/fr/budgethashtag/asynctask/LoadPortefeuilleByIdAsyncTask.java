@@ -31,7 +31,7 @@ public class LoadPortefeuilleByIdAsyncTask extends AsyncTask<Void, Void, Content
         String[] whereParam = {String.valueOf(
                 appSharedPref.getInt(CreateDefaultPortefeuilleIfNotExistAsyncTask.ID_PORTEFEULLE_SELECTED, 0)
         )};
-        ContentValues cv = new ContentValues();
+        ContentValues cv;
         try (Cursor c = cr.query(PortefeuilleProvider.CONTENT_URI,
                 null, where, whereParam, null)) {
             Objects.requireNonNull(c).moveToNext();

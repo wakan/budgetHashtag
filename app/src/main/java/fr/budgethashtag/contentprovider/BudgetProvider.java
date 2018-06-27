@@ -91,7 +91,7 @@ public class BudgetProvider extends ContentProvider {
             default:
                 break;
         }
-        Cursor c = null;
+        Cursor c;
         if(null == projection && null == sortOrder) {
             String query = "select " +
                     "bud." + Budget.KEY_COL_ID + ", " +

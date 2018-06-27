@@ -52,9 +52,8 @@ public class AllDataExportAsyncTask extends AsyncTask<Void, Void, Void> {
         }
     }
     private void writeTransactionToCsv(ContentResolver cr) {
-        Cursor c = cr.query(TransactionProvider.CONTENT_URI,
-                null, null, null, null);
-        try {
+        try (Cursor c = cr.query(TransactionProvider.CONTENT_URI,
+                null, null, null, null)) {
             List<ContentValues> ret = new ArrayList<>(Objects.requireNonNull(c).getCount());
             while (Objects.requireNonNull(c).moveToNext()) {
                 ContentValues cv = TransactionHelper.extractContentValueFromCursor(c);
@@ -63,9 +62,6 @@ public class AllDataExportAsyncTask extends AsyncTask<Void, Void, Void> {
                 cv.put(TransactionProvider.Transaction.KEY_COL_ID_PORTEFEUILLE, libPortefeuille);
                 ret.add(cv);
             }
-        } finally {
-            if(null != c)
-                c.close();
         }
     }
 
