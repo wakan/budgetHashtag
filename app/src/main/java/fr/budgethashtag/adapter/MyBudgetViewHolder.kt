@@ -15,11 +15,7 @@ class MyBudgetViewHolder//c'est ici que l'on fait nos findView//itemView est la 
 
     private var tvLibelle: TextView = itemView.findViewById(R.id.tvLibelle)
     private var tvMontant: TextView = itemView.findViewById(R.id.tvMontant)
-    private var imageView: ImageView
-
-    init {
-        imageView = itemView.findViewById(R.id.image)
-    }
+    private var imageView: ImageView = itemView.findViewById(R.id.image)
 
 
     //puis ajouter une fonction pour remplir la cellule en fonction d'un MyObject
