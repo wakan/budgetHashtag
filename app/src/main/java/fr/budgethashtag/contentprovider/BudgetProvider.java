@@ -23,6 +23,8 @@ import java.util.Random;
 import fr.budgethashtag.R;
 import fr.budgethashtag.db.BudgetHashtagDbHelper;
 
+import static fr.budgethashtag.contentprovider.BudgetProvider.Budget.KEY_COL_ID;
+
 public class BudgetProvider extends ContentProvider {
     @SuppressWarnings("WeakerAccess")
     public static final String AUTHORITY = "BudgetStore.Budget";
@@ -30,8 +32,6 @@ public class BudgetProvider extends ContentProvider {
     public static final String PATH_TO_DATA = "";
     public static final Uri CONTENT_URI = Uri.parse("content://" +
             BudgetProvider.AUTHORITY + "/" + BudgetProvider.PATH_TO_DATA);
-
-    public static final String TABLE_NAME = "budgets";
 
     public class Budget implements BaseColumns {
         @SuppressWarnings("WeakerAccess")
@@ -44,6 +44,8 @@ public class BudgetProvider extends ContentProvider {
         public static final String KEY_COL_COLOR = "color";
         public static final String KEY_COL_PREVISIONNEL = "previsionnel";
         public static final String KEY_COL_ID_PORTEFEUILLE = "idPortefeuille";
+        public static final String KEY_COL_EXP_SUM_MNT = "sum_mnt";
+        public static final String KEY_COL_EXP_COUNT_MNT = "count_mnt";
     }
 
     private SQLiteDatabase budgetHashtagDb;
@@ -81,21 +83,43 @@ public class BudgetProvider extends ContentProvider {
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection,
                         @Nullable String[] selectionArgs, @Nullable String sortOrder) {
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-        qb.setTables(TABLE_NAME);
+        qb.setTables(BudgetHashtagDbHelper.BUDGET_TABLE_NAME);
         switch (uriMatcher.match(uri)) {
             case ITEM:
-                qb.appendWhere( Budget.KEY_COL_ID + "=" + uri.getPathSegments().get(0));
+                qb.appendWhere( KEY_COL_ID + "=" + uri.getPathSegments().get(0));
                 break;
             default:
                 break;
         }
-        String orderBy;
-        if (TextUtils.isEmpty(sortOrder)) {
-            orderBy = Budget.KEY_COL_LIB;
+        Cursor c = null;
+        if(null == projection && null == sortOrder) {
+            String query = "select " +
+                    "bud" + Budget.KEY_COL_ID + ", " +
+                    "bud" + Budget.KEY_COL_LIB + ", " +
+                    "bud" + Budget.KEY_COL_COLOR + ", " +
+                    "bud" + Budget.KEY_COL_PREVISIONNEL + ", " +
+                    "bud" + Budget.KEY_COL_ID_PORTEFEUILLE + ", " +
+                    "SUM( " + TransactionProvider.Transaction.KEY_COL_MONTANT + ") as " + Budget.KEY_COL_EXP_SUM_MNT +", " +
+                    "COUNT( " + TransactionProvider.Transaction.KEY_COL_MONTANT + ") as " + Budget.KEY_COL_EXP_COUNT_MNT  +
+                    " FROM " + BudgetHashtagDbHelper.BUDGET_TABLE_NAME + " bud " +
+                    " INNER JOIN " + BudgetHashtagDbHelper.BUDGET_TRANSACTION_TABLE_NAME +
+                    " ON bud." + Budget.KEY_COL_ID + " = id_budget" +
+                    " INNER JOIN " + BudgetHashtagDbHelper.TRANSACTION_TABLE_NAME + " tran" +
+                    " ON tran." + TransactionProvider.Transaction.KEY_COL_ID + " = id_transaction" +
+                    " WHERE 1 = 1 ";
+                    if(null != selection) {
+                        query += " AND " + selection;
+                    }
+            c = budgetHashtagDb.rawQuery(query, selectionArgs);
         } else {
-            orderBy = sortOrder;
+            String orderBy;
+            if (TextUtils.isEmpty(sortOrder)) {
+                orderBy = Budget.KEY_COL_LIB;
+            } else {
+                orderBy = sortOrder;
+            }
+            c = qb.query(budgetHashtagDb, projection, selection, selectionArgs, null, null, orderBy);
         }
-        Cursor c = qb.query(budgetHashtagDb, projection, selection, selectionArgs, null, null, orderBy);
         c.setNotificationUri(Objects.requireNonNull(getContext()).getContentResolver(), uri);
         return c;
     }
@@ -103,7 +127,7 @@ public class BudgetProvider extends ContentProvider {
     public Uri insert(@NonNull Uri uri, ContentValues initialValues) {
         reformatLibelle(initialValues);
         setDefaultColorIfNotExit(initialValues);
-        long rowId = budgetHashtagDb.insert(TABLE_NAME, "test", initialValues);
+        long rowId = budgetHashtagDb.insert(BudgetHashtagDbHelper.BUDGET_TABLE_NAME, "test", initialValues);
         if(rowId > 0) {
             Uri uriAdd = ContentUris.withAppendedId(CONTENT_URI, rowId);
             Objects.requireNonNull(getContext()).getContentResolver().notifyChange(uriAdd, null);

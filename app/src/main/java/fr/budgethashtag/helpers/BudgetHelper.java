@@ -21,6 +21,13 @@ public class BudgetHelper {
                 c.getFloat(c.getColumnIndex(BudgetProvider.Budget.KEY_COL_PREVISIONNEL)));
         cv.put(BudgetProvider.Budget.KEY_COL_ID_PORTEFEUILLE,
                 c.getInt(c.getColumnIndex(BudgetProvider.Budget.KEY_COL_ID_PORTEFEUILLE)));
+        if(c.getColumnCount() > 5) {
+            cv.put(BudgetProvider.Budget.KEY_COL_EXP_SUM_MNT,
+                    c.getInt(c.getColumnIndex(BudgetProvider.Budget.KEY_COL_EXP_SUM_MNT)));
+            cv.put(BudgetProvider.Budget.KEY_COL_EXP_COUNT_MNT,
+                    c.getInt(c.getColumnIndex(BudgetProvider.Budget.KEY_COL_EXP_COUNT_MNT)));
+        }
+
         return cv;
     }
 

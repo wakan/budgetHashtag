@@ -28,8 +28,6 @@ public class TransactionProvider extends ContentProvider {
     public static final Uri CONTENT_URI = Uri.parse("content://" +
             TransactionProvider.AUTHORITY + "/" + TransactionProvider.PATH_TO_DATA);
 
-    public static final String TABLE_NAME = "transactions";
-
     public class Transaction implements BaseColumns {
         @SuppressWarnings("WeakerAccess")
         public static final String MIME_COLLECTION = "vnd.android.cursor.dir/vdn.budgethashtag.transaction";
@@ -84,7 +82,7 @@ public class TransactionProvider extends ContentProvider {
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection,
                         @Nullable String[] selectionArgs, @Nullable String sortOrder) {
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-        qb.setTables(TABLE_NAME);
+        qb.setTables(BudgetHashtagDbHelper.TRANSACTION_TABLE_NAME);
         switch (uriMatcher.match(uri)) {
             case ITEM:
                 qb.appendWhere( Transaction.KEY_COL_ID + "=" + uri.getPathSegments().get(0));
@@ -104,7 +102,7 @@ public class TransactionProvider extends ContentProvider {
     }
     @Override
     public Uri insert(@NonNull Uri uri, ContentValues initialValues) {
-        long rowId = budgetHashtagDb.insert(TABLE_NAME, "test", initialValues);
+        long rowId = budgetHashtagDb.insert(BudgetHashtagDbHelper.TRANSACTION_TABLE_NAME, "test", initialValues);
         if(rowId > 0) {
             Uri uriAdd = ContentUris.withAppendedId(CONTENT_URI, rowId);
             Objects.requireNonNull(getContext()).getContentResolver().notifyChange(uriAdd, null);
