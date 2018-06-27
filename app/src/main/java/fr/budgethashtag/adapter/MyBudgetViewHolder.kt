@@ -10,17 +10,14 @@ import fr.budgethashtag.contentprovider.BudgetProvider.Budget.KEY_COL_LIB
 import fr.budgethashtag.contentprovider.BudgetProvider.Budget.KEY_COL_PREVISIONNEL
 
 
-class MyBudgetViewHolder : RecyclerView.ViewHolder {
+class MyBudgetViewHolder//c'est ici que l'on fait nos findView//itemView est la vue correspondante à 1 cellule
+(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    private var tvLibelle: TextView
-    private var tvMontant: TextView
+    private var tvLibelle: TextView = itemView.findViewById(R.id.tvLibelle)
+    private var tvMontant: TextView = itemView.findViewById(R.id.tvMontant)
     private var imageView: ImageView
 
-    //itemView est la vue correspondante à 1 cellule
-    constructor(itemView: View) : super(itemView) {
-        //c'est ici que l'on fait nos findView
-        tvLibelle = itemView.findViewById(R.id.tvLibelle)
-        tvMontant = itemView.findViewById(R.id.tvMontant)
+    init {
         imageView = itemView.findViewById(R.id.image)
     }
 

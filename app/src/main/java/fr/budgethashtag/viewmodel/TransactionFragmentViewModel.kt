@@ -5,14 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import fr.budgethashtag.view.activity.AddTransactionActivity
 
-class TransactionFragmentViewModel : ILifeCycleViewModel
+class TransactionFragmentViewModel(context: Context) : ILifeCycleViewModel
 {
     private val TAG: String = "TransactionFragmentViewModel"
-    private val mContext: Context
-
-    constructor(context: Context) {
-        mContext = context
-    }
+    private val mContext: Context = context
 
     override fun onCreate(extras: Bundle) {
         //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

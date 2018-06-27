@@ -67,18 +67,14 @@ public class AllDataExportAsyncTask extends AsyncTask<Void, Void, Void> {
 
     private SparseArray<String> cachePortefeuille;
     private void loadCachePortefeuille(ContentResolver cr) {
-        Cursor p = cr.query(PortefeuilleProvider.CONTENT_URI,
-                    null, null, null, null);
-        try {
+        try (Cursor p = cr.query(PortefeuilleProvider.CONTENT_URI,
+                null, null, null, null)) {
             cachePortefeuille = new SparseArray<>(Objects.requireNonNull(p).getCount());
             while (Objects.requireNonNull(p).moveToNext()) {
                 ContentValues cv = BudgetHelper.extractContentValueFromCursor(p);
                 cachePortefeuille.put(cv.getAsInteger(PortefeuilleProvider.Portefeuille.KEY_COL_ID),
                         cv.getAsString(PortefeuilleProvider.Portefeuille.KEY_COL_LIB));
             }
-        } finally {
-            if(null != p)
-                p.close();
         }
     }
 

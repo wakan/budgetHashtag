@@ -19,7 +19,7 @@
 
         <ImageView
             android:id="@+id/image"
-            android:contentDescription="icon budget"
+            android:contentDescription="@string/content_description_icon_budget"
             android:layout_width="94dp"
             android:layout_height="141dp"
             android:scaleType="centerCrop"

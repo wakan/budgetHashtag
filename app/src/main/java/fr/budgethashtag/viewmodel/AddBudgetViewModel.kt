@@ -7,16 +7,12 @@ import android.util.Log
 import fr.budgethashtag.asynctask.SaveBudgetAsyncTask
 
 
-class AddBudgetViewModel : ILifeCycleViewModel
+class AddBudgetViewModel(context: Context) : ILifeCycleViewModel
 {
     private val TAG: String = "AddBudgetViewModel"
-    private val mContext: Context
+    private val mContext: Context = context
     var libelle = ObservableField<String>("")
     var montant = ObservableField<String>("")
-
-    constructor(context: Context) {
-        mContext = context
-    }
 
     override fun onCreate(extras: Bundle) {
         //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

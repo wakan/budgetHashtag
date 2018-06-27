@@ -13,7 +13,7 @@ class AddTransactionActivity : Activity() {
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        var binding: ActivityAddTransactionBinding = DataBindingUtil.setContentView(this, R.layout.activity_add_transaction)
+        val binding: ActivityAddTransactionBinding = DataBindingUtil.setContentView(this, R.layout.activity_add_transaction)
         binding.viewModel = viewModel
     }
 }

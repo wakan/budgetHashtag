@@ -6,14 +6,11 @@ import android.os.Bundle
 
 
 
-class MainActivityViewModel : ILifeCycleViewModel, BaseObservable
+class MainActivityViewModel(context: Context) : ILifeCycleViewModel, BaseObservable()
 {
     private val TAG: String = "MainActivityViewModel"
-    private val mContext: Context
+    private val mContext: Context = context
 
-    constructor(context: Context) {
-        mContext = context
-    }
     override fun onCreate(extras: Bundle) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

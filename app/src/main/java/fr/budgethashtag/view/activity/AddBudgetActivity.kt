@@ -15,7 +15,7 @@ class AddBudgetActivity : Activity()
     public override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-        var binding : ActivityAddBudgetBinding = DataBindingUtil.setContentView(this, R.layout.activity_add_budget)
+        val binding : ActivityAddBudgetBinding = DataBindingUtil.setContentView(this, R.layout.activity_add_budget)
         binding.viewModel = viewModel
 
     }
