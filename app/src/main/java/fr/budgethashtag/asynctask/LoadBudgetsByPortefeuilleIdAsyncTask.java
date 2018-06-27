@@ -29,7 +29,7 @@ public class LoadBudgetsByPortefeuilleIdAsyncTask extends AsyncTask<Void, Void, 
     protected List<ContentValues> doInBackground(Void... params) {
         SharedPreferences appSharedPref =  contextRef.get().getSharedPreferences("BudgetHashtagSharedPref", Context.MODE_PRIVATE);
         ContentResolver cr = contextRef.get().getContentResolver();
-        String where = BudgetProvider.Budget.KEY_COL_ID_PORTEFEUILLE + "=?";
+        String where = "bud." + BudgetProvider.Budget.KEY_COL_ID_PORTEFEUILLE + "=?";
         String[] whereParam = {String.valueOf(
                 appSharedPref.getInt(CreateDefaultPortefeuilleIfNotExistAsyncTask.ID_PORTEFEULLE_SELECTED, 0)
         )};

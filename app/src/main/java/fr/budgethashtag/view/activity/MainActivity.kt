@@ -23,10 +23,11 @@ class MainActivity : Activity(), CreateDefaultPortefeuilleIfNotExistCallback, Lo
 
     private val TAG: String = "MainActivity"
     private var viewModel = MainActivityViewModel(this)
+    lateinit var binding: ActivityMainBinding
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        var binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.viewModel = viewModel
 
         CreateDefaultPortefeuilleIfNotExistAsyncTask(this, this).execute()
@@ -51,7 +52,7 @@ class MainActivity : Activity(), CreateDefaultPortefeuilleIfNotExistCallback, Lo
     }
 
     override fun onLoadPortefeuilleById(contentValues: ContentValues) {
-        viewModel.updateToolBar(contentValues.getAsString(PortefeuilleProvider.Portefeuille.KEY_COL_LIB))
+        binding.toolbar.title = contentValues.getAsString(PortefeuilleProvider.Portefeuille.KEY_COL_LIB)
     }
 
     override fun onLoadTransactionsByPortefeuilleId(contentValuesList: List<ContentValues>) {

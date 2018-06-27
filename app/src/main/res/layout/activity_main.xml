@@ -27,9 +27,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
-                app:title="@string/portefeuille_default_lib"
                 app:popupTheme="@style/AppTheme.PopupOverlay"/>
-            <!--app:title="@={viewModel.toolBarTitle}"-->
+
 
         </android.support.design.widget.AppBarLayout>
 

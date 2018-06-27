@@ -10,16 +10,10 @@
             type="fr.budgethashtag.viewmodel.BudgetFragmentViewModel"/>
     </data>
 
-    <LinearLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/budgetRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-      <!--  <Button
-            android:id="@+id/btn_add_budget"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="@{()-> viewModel.onClickedBtnBudgetFragment(0)}"
-            android:text="@string/add_budget"/>-->
-    </LinearLayout>
+    </android.support.v7.widget.RecyclerView>
 </layout>

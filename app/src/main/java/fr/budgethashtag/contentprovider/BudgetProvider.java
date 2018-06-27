@@ -94,11 +94,11 @@ public class BudgetProvider extends ContentProvider {
         Cursor c = null;
         if(null == projection && null == sortOrder) {
             String query = "select " +
-                    "bud" + Budget.KEY_COL_ID + ", " +
-                    "bud" + Budget.KEY_COL_LIB + ", " +
-                    "bud" + Budget.KEY_COL_COLOR + ", " +
-                    "bud" + Budget.KEY_COL_PREVISIONNEL + ", " +
-                    "bud" + Budget.KEY_COL_ID_PORTEFEUILLE + ", " +
+                    "bud." + Budget.KEY_COL_ID + ", " +
+                    "bud." + Budget.KEY_COL_LIB + ", " +
+                    "bud." + Budget.KEY_COL_COLOR + ", " +
+                    "bud." + Budget.KEY_COL_PREVISIONNEL + ", " +
+                    "bud." + Budget.KEY_COL_ID_PORTEFEUILLE + ", " +
                     "SUM( " + TransactionProvider.Transaction.KEY_COL_MONTANT + ") as " + Budget.KEY_COL_EXP_SUM_MNT +", " +
                     "COUNT( " + TransactionProvider.Transaction.KEY_COL_MONTANT + ") as " + Budget.KEY_COL_EXP_COUNT_MNT  +
                     " FROM " + BudgetHashtagDbHelper.BUDGET_TABLE_NAME + " bud " +

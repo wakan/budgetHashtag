@@ -1,5 +1,6 @@
 package fr.budgethashtag.asynctask;
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,6 +8,7 @@ import android.content.OperationApplicationException;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
@@ -46,5 +48,14 @@ public class SaveBudgetAsyncTask extends AsyncTask<Void, Void, Void> {
                 e.printStackTrace();
             }
         return null;
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid)
+    {
+        super.onPostExecute(aVoid);
+        ((Activity)contextRef.get()).finish();
+        Toast.makeText(contextRef.get(), "Ajout OK", Toast.LENGTH_SHORT).show();
+
     }
 }

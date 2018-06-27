@@ -1,13 +1,15 @@
 package fr.budgethashtag.viewmodel
 
 import android.content.Context
+import android.databinding.BaseObservable
 import android.os.Bundle
 
-class MainActivityViewModel : ILifeCycleViewModel
+
+
+class MainActivityViewModel : ILifeCycleViewModel, BaseObservable
 {
     private val TAG: String = "MainActivityViewModel"
     private val mContext: Context
-    var toolBarTitle : String = ""
 
     constructor(context: Context) {
         mContext = context
@@ -27,10 +29,5 @@ class MainActivityViewModel : ILifeCycleViewModel
     override fun onDestroy() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
-
-    fun updateToolBar(asString: String) {
-        toolBarTitle = asString
-    }
-
 
 }
