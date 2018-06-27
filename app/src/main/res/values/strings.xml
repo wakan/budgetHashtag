@@ -8,7 +8,6 @@
     <string name="add_budget">Add budget</string>
     <string name="add_transaction">Add transaction</string>
     <string name="hint_libelle_budget">Libelle</string>
-    <string name="hint_libelle_transaction">Libelle</string>
     <string name="hint_montant_budget">Montant</string>
     <string name="libelle_card">Libelle :</string>
     <string name="montant_card">Montant :</string>
