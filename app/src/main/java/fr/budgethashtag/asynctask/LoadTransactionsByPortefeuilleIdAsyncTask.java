@@ -43,8 +43,7 @@ public class LoadTransactionsByPortefeuilleIdAsyncTask extends AsyncTask<Void, V
             }
         }
         finally {
-            if(null != c)
-                c.close();
+            c.close();
         }
         return ret;
     }

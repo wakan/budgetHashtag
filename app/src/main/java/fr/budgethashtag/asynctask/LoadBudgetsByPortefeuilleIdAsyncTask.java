@@ -42,8 +42,7 @@ public class LoadBudgetsByPortefeuilleIdAsyncTask extends AsyncTask<Void, Void, 
                 ret.add(cv);
             }
         } finally {
-            if(null != c)
-                c.close();
+            c.close();
         }
         return ret;
     }

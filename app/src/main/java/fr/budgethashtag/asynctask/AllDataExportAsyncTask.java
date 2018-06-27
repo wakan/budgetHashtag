@@ -39,9 +39,8 @@ public class AllDataExportAsyncTask extends AsyncTask<Void, Void, Void> {
     }
 
     private void writeBudgetToCsv(ContentResolver cr) {
-        Cursor c = cr.query(BudgetProvider.CONTENT_URI,
-                null, null, null, null);
-        try {
+        try (Cursor c = cr.query(BudgetProvider.CONTENT_URI,
+                null, null, null, null)) {
             List<ContentValues> ret = new ArrayList<>(Objects.requireNonNull(c).getCount());
             while (Objects.requireNonNull(c).moveToNext()) {
                 ContentValues cv = BudgetHelper.extractContentValueFromCursor(c);
@@ -50,9 +49,6 @@ public class AllDataExportAsyncTask extends AsyncTask<Void, Void, Void> {
                 cv.put(BudgetProvider.Budget.KEY_COL_ID_PORTEFEUILLE, libPortefeuille);
                 ret.add(cv);
             }
-        }finally {
-            if(null != c)
-                c.close();
         }
     }
     private void writeTransactionToCsv(ContentResolver cr) {
