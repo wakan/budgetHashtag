@@ -5,15 +5,8 @@
     <color name="colorAccent">#FF3F80</color>
     <color name="colorAccentBis">#536DFE</color>
 
-    <color name="receptionToolbarColor">#F44336</color>
-    <color name="MecanisationToolbarColor">#3F51B5</color>
 
-    <item name="violetAdrexo" type="color">#FF481466</item>
-    <item name="violetColis" type="color">#6A277F</item>
-    <item name="vertAdrexo" type="color">#FFA3AB11</item>
-    <item name="vertColis" type="color">#A5C914</item>
     <item name="rouge_vif" type="color">#FF0000</item>
-    <color name="rougeSpir">#BF2907</color>
 
 
     <color name="googleGreen">#26B14C</color>

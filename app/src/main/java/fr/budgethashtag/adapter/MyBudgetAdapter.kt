@@ -10,15 +10,15 @@ import fr.budgethashtag.R
 
 class MyBudgetAdapter() : RecyclerView.Adapter<MyBudgetViewHolder>() {
 
-    private lateinit var listBugets:  List<ContentValues>
+    private lateinit var listBudgets:  List<ContentValues>
 
     constructor(list: List<ContentValues>) : this(){
-        this.listBugets = list
+        this.listBudgets = list
     }
 
     //ajouter un constructeur prenant en entrée une list
    /* fun MyBudgetAdapter( list: List<ContentValues>) {
-        this.listBugets = list
+        this.listBudgets = list
     }*/
 
     //cette fonction permet de créer les viewHolder
@@ -30,11 +30,11 @@ class MyBudgetAdapter() : RecyclerView.Adapter<MyBudgetViewHolder>() {
 
     //c'est ici que nous allons remplir notre cellule avec le texte/image de chaque MyObjects
     override fun onBindViewHolder(holder: MyBudgetViewHolder, position: Int) {
-        val myObject = listBugets[position]
+        val myObject = listBudgets[position]
         holder.bind(myObject)
     }
 
     override fun getItemCount(): Int {
-        return  listBugets.size
+        return  listBudgets.size
     }
 }
