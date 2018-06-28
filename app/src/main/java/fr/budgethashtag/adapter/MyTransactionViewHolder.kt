@@ -6,11 +6,9 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import fr.budgethashtag.R
-import fr.budgethashtag.contentprovider.BudgetProvider.Budget.KEY_COL_LIB
-import fr.budgethashtag.contentprovider.BudgetProvider.Budget.KEY_COL_PREVISIONNEL
+import fr.budgethashtag.contentprovider.TransactionProvider
 
-
-class MyBudgetViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class MyTransactionViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private var tvLibelle: TextView = itemView.findViewById(R.id.tvLibelle)
     private var tvMontant: TextView = itemView.findViewById(R.id.tvMontant)
@@ -19,9 +17,9 @@ class MyBudgetViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     //puis ajouter une fonction pour remplir la cellule en fonction d'un MyObject
     fun bind(myObject: ContentValues) {
-        tvLibelle.text = myObject.get(KEY_COL_LIB) as? String
-        tvMontant.text = myObject.get(KEY_COL_PREVISIONNEL).toString()
-        imageView.setImageResource(R.mipmap.ic_launcher_round)
-       // Picasso.with(imageView.getContext()).load(myObject.getImageUrl()).centerCrop().fit().into(imageView)
+        tvLibelle.text = myObject.get(TransactionProvider.Transaction.KEY_COL_LIB) as? String
+        tvMontant.text = myObject.get(TransactionProvider.Transaction.KEY_COL_DT_VALEUR).toString()
+        imageView.setImageResource(R.mipmap.ic_launcher)
+        // Picasso.with(imageView.getContext()).load(myObject.getImageUrl()).centerCrop().fit().into(imageView)
     }
 }

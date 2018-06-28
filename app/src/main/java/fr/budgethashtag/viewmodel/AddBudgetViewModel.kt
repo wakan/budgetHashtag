@@ -14,7 +14,7 @@ class AddBudgetViewModel(context: Context) : ILifeCycleViewModel
     var libelle = ObservableField<String>("")
     var montant = ObservableField<String>("")
 
-    override fun onCreate(extras: Bundle) {
+    override fun onCreate(extras: Bundle?) {
         //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

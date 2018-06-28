@@ -7,16 +7,16 @@
 
         <variable
             name="viewModel"
-            type="fr.budgethashtag.viewmodel.BudgetFragmentViewModel"/>
+            type="fr.budgethashtag.viewmodel.TransactionFragmentViewModel"/>
     </data>
 
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshBudgetLayout"
+        android:id="@+id/swipeRefreshTransactionLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/budgetRecyclerView"
+            android:id="@+id/transactionRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 

@@ -8,7 +8,7 @@ class AddTransactionViewModel(context: Context) : ILifeCycleViewModel
     private val TAG: String = "AddTransactionViewModel"
     private val mContext: Context = context
 
-    override fun onCreate(extras: Bundle) {
+    override fun onCreate(extras: Bundle?) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

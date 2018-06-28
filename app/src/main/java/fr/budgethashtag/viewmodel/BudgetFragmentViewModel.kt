@@ -12,7 +12,7 @@ class BudgetFragmentViewModel(context: Context, budgetFragment: BudgetFragment) 
     private val mContext: Context = context
     private val budgetFragment : BudgetFragment = budgetFragment
 
-    override fun onCreate(extras: Bundle) {
+    override fun onCreate(extras: Bundle?) {
         //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

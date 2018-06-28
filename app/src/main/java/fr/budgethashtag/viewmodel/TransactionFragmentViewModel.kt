@@ -3,14 +3,17 @@ package fr.budgethashtag.viewmodel
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import fr.budgethashtag.asynctask.LoadTransactionsByPortefeuilleIdAsyncTask
 import fr.budgethashtag.view.activity.AddTransactionActivity
+import fr.budgethashtag.view.fragment.TransactionFragment
 
-class TransactionFragmentViewModel(context: Context) : ILifeCycleViewModel
+class TransactionFragmentViewModel(context: Context,  transactionFragment: TransactionFragment) : ILifeCycleViewModel
 {
     private val TAG: String = "TransactionFragmentViewModel"
     private val mContext: Context = context
+    private val transactionFragment : TransactionFragment = transactionFragment
 
-    override fun onCreate(extras: Bundle) {
+    override fun onCreate(extras: Bundle?) {
         //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -33,6 +36,10 @@ class TransactionFragmentViewModel(context: Context) : ILifeCycleViewModel
                 mContext.startActivity(intent)
             }
         }
+    }
+
+    fun reloadTransactions() {
+        LoadTransactionsByPortefeuilleIdAsyncTask(mContext, transactionFragment).execute()
     }
 
 }
