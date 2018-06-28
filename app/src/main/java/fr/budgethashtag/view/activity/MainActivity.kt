@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
-import android.widget.Toolbar
+import android.support.v7.widget.Toolbar
 import fr.budgethashtag.R
 import fr.budgethashtag.contentprovider.PortefeuilleProvider
 import fr.budgethashtag.databinding.ActivityMainBinding
@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity(), LoadPortefeuilleByIdCallback, LoadTran
     private var viewModel = MainActivityViewModel(this)
     private lateinit var binding: ActivityMainBinding
 
-    private lateinit var toolbar: Toolbar
+    private lateinit var mainToolbar: Toolbar
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager
 
@@ -36,12 +36,12 @@ class MainActivity : AppCompatActivity(), LoadPortefeuilleByIdCallback, LoadTran
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.viewModel = viewModel
-
         viewPager = binding.viewpager
         tabLayout = binding.tabs
-        tabLayout.setupWithViewPager(viewPager)
+        mainToolbar = binding.toolbarMain as Toolbar
 
-        setSupportActionBar(binding.toolbar)
+        setSupportActionBar(mainToolbar)
+        tabLayout.setupWithViewPager(viewPager)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         budgetFragment = BudgetFragment()
@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity(), LoadPortefeuilleByIdCallback, LoadTran
     }
 
     override fun onLoadPortefeuilleById(contentValues: ContentValues) {
-        binding.toolbar.title = contentValues.getAsString(PortefeuilleProvider.Portefeuille.KEY_COL_LIB)
+        supportActionBar!!.title = contentValues.getAsString(PortefeuilleProvider.Portefeuille.KEY_COL_LIB)
     }
 
     override fun onLoadTransactionsByPortefeuilleId(contentValuesList: List<ContentValues>) {

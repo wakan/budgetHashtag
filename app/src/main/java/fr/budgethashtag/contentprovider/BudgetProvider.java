@@ -92,7 +92,7 @@ public class BudgetProvider extends ContentProvider {
                 break;
         }
         Cursor c;
-        if(false && null == projection && null == sortOrder) {
+        if(null == projection && null == sortOrder) {
             String query = "select " +
                     "bud." + Budget.KEY_COL_ID + ", " +
                     "bud." + Budget.KEY_COL_LIB + ", " +
