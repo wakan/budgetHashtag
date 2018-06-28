@@ -18,7 +18,7 @@
         tools:context=".view.CreationMatchActivity">
 
         <include
-            android:id="@+id/testInclude"
+            android:id="@+id/includeContentFragmentBudget"
             layout="@layout/content_fragment_budget"
             app:viewModel = "@{viewModel}"/>
 
