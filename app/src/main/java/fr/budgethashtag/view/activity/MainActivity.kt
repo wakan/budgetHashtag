@@ -1,68 +1,75 @@
 package fr.budgethashtag.view.activity
 
-import android.app.Activity
 import android.content.ContentValues
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.design.widget.TabLayout
+import android.support.v4.view.ViewPager
+import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import fr.budgethashtag.R
-import fr.budgethashtag.asynctask.CreateDefaultPortefeuilleIfNotExistAsyncTask
-import fr.budgethashtag.asynctask.LoadBudgetsByPortefeuilleIdAsyncTask
-import fr.budgethashtag.asynctask.LoadPortefeuilleByIdAsyncTask
-import fr.budgethashtag.asynctask.LoadTransactionsByPortefeuilleIdAsyncTask
 import fr.budgethashtag.contentprovider.PortefeuilleProvider
 import fr.budgethashtag.databinding.ActivityMainBinding
-import fr.budgethashtag.interfacecallbackasynctask.CreateDefaultPortefeuilleIfNotExistCallback
 import fr.budgethashtag.interfacecallbackasynctask.LoadBudgetsByPortefeuilleIdCallback
 import fr.budgethashtag.interfacecallbackasynctask.LoadPortefeuilleByIdCallback
 import fr.budgethashtag.interfacecallbackasynctask.LoadTransactionsByPortefeuilleIdCallback
 import fr.budgethashtag.view.fragment.BudgetFragment
 import fr.budgethashtag.view.fragment.TransactionFragment
+import fr.budgethashtag.view.fragment.ViewPagerAdapter
 import fr.budgethashtag.viewmodel.MainActivityViewModel
 
-class MainActivity : Activity(), CreateDefaultPortefeuilleIfNotExistCallback, LoadPortefeuilleByIdCallback, LoadTransactionsByPortefeuilleIdCallback, LoadBudgetsByPortefeuilleIdCallback {
+
+class MainActivity : AppCompatActivity(), LoadPortefeuilleByIdCallback, LoadTransactionsByPortefeuilleIdCallback, LoadBudgetsByPortefeuilleIdCallback {
 
     private val TAG: String = "MainActivity"
     private var viewModel = MainActivityViewModel(this)
-    lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
+
+    private lateinit var mainToolbar: Toolbar
+    private lateinit var tabLayout: TabLayout
+    private lateinit var viewPager: ViewPager
+
+    private lateinit var transactionFragment : TransactionFragment
+    private lateinit var budgetFragment : BudgetFragment
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.viewModel = viewModel
+        viewPager = binding.viewpager
+        tabLayout = binding.tabs
+        mainToolbar = binding.toolbarMain as Toolbar
 
-        CreateDefaultPortefeuilleIfNotExistAsyncTask(this, this).execute()
-    }
+        setSupportActionBar(mainToolbar)
+        tabLayout.setupWithViewPager(viewPager)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-    override fun onCreateDefaultPortefeuilleIfNotExist(idPortefeuille: Int) {
-        loadPortefeuilleName()
-        loadTransactions()
-        loadBudgets()
-    }
+        budgetFragment = BudgetFragment()
+        transactionFragment = TransactionFragment()
+        setupViewPager(binding.viewpager)
 
-    private fun loadPortefeuilleName() {
-        LoadPortefeuilleByIdAsyncTask(this, this).execute()
-    }
+        viewModel.onCreate(savedInstanceState)
 
-    private fun loadTransactions() {
-        LoadTransactionsByPortefeuilleIdAsyncTask(this, this).execute()
-    }
-
-    private fun loadBudgets() {
-        LoadBudgetsByPortefeuilleIdAsyncTask(this, this).execute()
     }
 
     override fun onLoadPortefeuilleById(contentValues: ContentValues) {
-        binding.toolbar.title = contentValues.getAsString(PortefeuilleProvider.Portefeuille.KEY_COL_LIB)
+        supportActionBar!!.title = contentValues.getAsString(PortefeuilleProvider.Portefeuille.KEY_COL_LIB)
     }
 
     override fun onLoadTransactionsByPortefeuilleId(contentValuesList: List<ContentValues>) {
-        val transactionFragment = fragmentManager.findFragmentById(R.id.frg_transaction) as TransactionFragment
+
         transactionFragment.onLoadTransactionsByPortefeuilleId(contentValuesList)
     }
 
     override fun onLoadBudgetsByPortefeuilleIdCallback(contentValuesList: List<ContentValues>) {
-        val budgetFragment = fragmentManager.findFragmentById(R.id.frg_budget) as BudgetFragment
         budgetFragment.onLoadBudgetsByPortefeuilleIdCallback(contentValuesList)
+    }
+
+    private fun setupViewPager(viewPager: ViewPager) {
+        val adapter = ViewPagerAdapter(supportFragmentManager)
+        adapter.addFragment(budgetFragment, "Budget")
+        adapter.addFragment(transactionFragment, "Transaction")
+        viewPager.adapter = adapter
     }
 
 }

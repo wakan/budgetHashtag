@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -15,12 +16,27 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <include
+                android:id="@+id/toolbarAddBudget"
+                layout="@layout/my_toolbar"/>
+
+
+        </android.support.design.widget.AppBarLayout>
+
         <EditText
             android:id="@+id/txt_libelle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_libelle_budget"
             android:inputType="textAutoCorrect"
+            android:textColor="@color/googleBlue"
+            android:layout_margin="20dp"
+            android:padding="10dp"
             android:text="@={viewModel.libelle}"/>
 
         <EditText
@@ -29,13 +45,9 @@
             android:layout_height="wrap_content"
             android:hint="@string/hint_montant_budget"
             android:inputType="numberDecimal"
+            android:textColor="@color/googleBlue"
+            android:layout_margin="20dp"
+            android:padding="10dp"
             android:text="@={viewModel.montant}"/>
-
-        <Button
-            android:id="@+id/btn_save_budget"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="@{()-> viewModel.onClickedBtnAddBudgetActivity(0)}"
-            android:text="@string/add_budget"/>
     </LinearLayout>
 </layout>
