@@ -99,13 +99,17 @@ public class BudgetProvider extends ContentProvider {
                     "bud." + Budget.KEY_COL_COLOR + ", " +
                     "bud." + Budget.KEY_COL_PREVISIONNEL + ", " +
                     "bud." + Budget.KEY_COL_ID_PORTEFEUILLE + ", " +
-                    "SUM( " + TransactionProvider.Transaction.KEY_COL_MONTANT + ") as " + Budget.KEY_COL_EXP_SUM_MNT +", " +
-                    "COUNT( " + TransactionProvider.Transaction.KEY_COL_MONTANT + ") as " + Budget.KEY_COL_EXP_COUNT_MNT  +
+                    " ( select count("+ TransactionProvider.Transaction.KEY_COL_MONTANT + ") " +
+                    " from " + BudgetHashtagDbHelper.BUDGET_TRANSACTION_TABLE_NAME +
+                    " inner join " + BudgetHashtagDbHelper.TRANSACTION_TABLE_NAME + " tran " +
+                    "     on tran." + TransactionProvider.Transaction.KEY_COL_ID + " = id_transaction " +
+                    " where id_budget = bud." + Budget.KEY_COL_ID + " ) as " + Budget.KEY_COL_EXP_SUM_MNT +", " +
+                    " ( select count("+ TransactionProvider.Transaction.KEY_COL_MONTANT + ") " +
+                    " from " + BudgetHashtagDbHelper.BUDGET_TRANSACTION_TABLE_NAME +
+                    " inner join " + BudgetHashtagDbHelper.TRANSACTION_TABLE_NAME + " tran " +
+                    "     on tran." + TransactionProvider.Transaction.KEY_COL_ID + " = id_transaction " +
+                    " where id_budget = bud." + Budget.KEY_COL_ID + ") as " + Budget.KEY_COL_EXP_COUNT_MNT +" " +
                     " FROM " + BudgetHashtagDbHelper.BUDGET_TABLE_NAME + " bud " +
-                    " INNER JOIN " + BudgetHashtagDbHelper.BUDGET_TRANSACTION_TABLE_NAME +
-                    " ON bud." + Budget.KEY_COL_ID + " = id_budget" +
-                    " INNER JOIN " + BudgetHashtagDbHelper.TRANSACTION_TABLE_NAME + " tran" +
-                    " ON tran." + TransactionProvider.Transaction.KEY_COL_ID + " = id_transaction" +
                     " WHERE 1 = 1 ";
                     if(null != selection) {
                         query += " AND " + selection;
