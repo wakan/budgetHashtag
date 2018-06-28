@@ -17,19 +17,17 @@ import java.util.Objects;
 
 import static fr.budgethashtag.contentprovider.BudgetProvider.Budget.KEY_COL_ID;
 
-public class BudgetHashtagAsyncTask extends ContentProvider {
+public class BudgetHashtagProvider extends ContentProvider {
     @SuppressWarnings("WeakerAccess")
     public static final String AUTHORITY = "budgetStore";
-    @SuppressWarnings("WeakerAccess")
-    public static final String PATH_TO_DATA_BUDGET = "budget";
-    public static final String PATH_TO_DATA_PORTEFEUILLE = "portefeuille";
-    public static final String PATH_TO_DATA_TRANSACTION = "transaction";
-    public static final String PATH_TO_DATA_BUDGET_TRANSACTION = "budgetstransactions";
     public class Budget implements BaseColumns {
         @SuppressWarnings("WeakerAccess")
         public static final String MIME_COLLECTION = "vnd.android.cursor.dir/vdn.budgethashtag.budget";
         @SuppressWarnings("WeakerAccess")
         public static final String MIME_ITEM  = "vnd.android.cursor.item/vdn.budgethashtag.budget";
+        public static final String PATH_TO_DATA = Portefeuille.PATH_TO_DATA + "/#/budget";
+        public static final Uri CONTENT_URI = Uri.parse("content://" +
+                                    BudgetHashtagProvider.AUTHORITY + "/" + PATH_TO_DATA);
 
         public static final String KEY_COL_ID = "_id";
         public static final String KEY_COL_LIB = "libelle";
@@ -44,6 +42,9 @@ public class BudgetHashtagAsyncTask extends ContentProvider {
         public static final String MIME_COLLECTION = "vnd.android.cursor.dir/vdn.budgethashtag.portefeuille";
         @SuppressWarnings("WeakerAccess")
         public static final String MIME_ITEM  = "vnd.android.cursor.item/vdn.budgethashtag.portefeuille";
+        public static final String PATH_TO_DATA = "portefeuille";
+        public static final Uri CONTENT_URI = Uri.parse("content://" +
+                BudgetHashtagProvider.AUTHORITY + "/" + PATH_TO_DATA);
 
         @SuppressWarnings("WeakerAccess")
         public static final String KEY_COL_ID = "_id";
@@ -54,6 +55,9 @@ public class BudgetHashtagAsyncTask extends ContentProvider {
         public static final String MIME_COLLECTION = "vnd.android.cursor.dir/vdn.budgethashtag.transaction";
         @SuppressWarnings("WeakerAccess")
         public static final String MIME_ITEM  = "vnd.android.cursor.item/vdn.budgethashtag.transaction";
+        public static final String PATH_TO_DATA = Portefeuille.PATH_TO_DATA + "/#/transaction";
+        public static final Uri CONTENT_URI = Uri.parse("content://" +
+                BudgetHashtagProvider.AUTHORITY + "/" + PATH_TO_DATA);
 
         public static final String KEY_COL_ID = "_id";
         public static final String KEY_COL_LIB = "libelle";
@@ -72,6 +76,9 @@ public class BudgetHashtagAsyncTask extends ContentProvider {
         public static final String MIME_COLLECTION = "vnd.android.cursor.dir/vdn.budgethashtag.budgetstransactions";
         @SuppressWarnings("WeakerAccess")
         public static final String MIME_ITEM  = "vnd.android.cursor.item/vdn.budgethashtag.budgetstransactions";
+        public static final String PATH_TO_DATA = Portefeuille.PATH_TO_DATA + "/#/budgetstransactions";
+        public static final Uri CONTENT_URI = Uri.parse("content://" +
+                BudgetHashtagProvider.AUTHORITY + "/" + PATH_TO_DATA);
 
         public static final String KEY_COL_ID_TRANSACTION = "id_transaction";
         public static final String KEY_COL_ID_BUDGET = "id_budget";
@@ -117,7 +124,6 @@ public class BudgetHashtagAsyncTask extends ContentProvider {
     private static final int TRANSACTION = 5;
     private static final int TRANSACTION_ID = 6;
     private static final int BUDGET_TRANSACTION = 7;
-    private static final int BUDGET_TRANSACTION_ID = 8;
     static {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         uriMatcher.addURI(AUTHORITY , PATH_TO_DATA_BUDGET, BUDGET);
@@ -127,7 +133,6 @@ public class BudgetHashtagAsyncTask extends ContentProvider {
         uriMatcher.addURI(AUTHORITY , PATH_TO_DATA_TRANSACTION, TRANSACTION);
         uriMatcher.addURI(AUTHORITY, PATH_TO_DATA_TRANSACTION + "/#", TRANSACTION_ID);
         uriMatcher.addURI(AUTHORITY , PATH_TO_DATA_BUDGET_TRANSACTION, BUDGET_TRANSACTION);
-        uriMatcher.addURI(AUTHORITY, PATH_TO_DATA_BUDGET_TRANSACTION + "/#", BUDGET_TRANSACTION_ID);
     }
 
     @Nullable
@@ -135,20 +140,101 @@ public class BudgetHashtagAsyncTask extends ContentProvider {
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection,
                         @Nullable String[] selectionArgs, @Nullable String sortOrder) {
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-        qb.setTables(BudgetHashtagDbHelper.BUDGET_TABLE_NAME);
         switch (uriMatcher.match(uri)) {
             case PORTEFEUILLE_ID:
-                qb.appendWhere( KEY_COL_ID + "=" + uri.getPathSegments().get(0));
+                qb.setTables(BudgetHashtagDbHelper.PORTEFEUILLE_TABLE_NAME);
+                qb.appendWhere( Portefeuille.KEY_COL_ID + "=" + uri.getPathSegments().get(0));
+                break;
+            case BUDGET_ID:
+                qb.setTables(BudgetHashtagDbHelper.BUDGET_TABLE_NAME);
+                qb.appendWhere( Portefeuille.KEY_COL_ID + "=" + uri.getPathSegments(0)
+                        + "AND" + Budget.KEY_COL_ID + "=" + uri.getPathSegments().get(1));
+                break;
+            case TRANSACTION_ID:
+                qb.setTables(BudgetHashtagDbHelper.TRANSACTION_TABLE_NAME);
+                qb.appendWhere( Portefeuille.KEY_COL_ID + "=" + uri.getPathSegments(0)
+                        + "AND" + Budget.KEY_COL_ID + "=" + uri.getPathSegments().get(1));
+                break;
+            case PORTEFEUILLE:
+                qb.setTables(BudgetHashtagDbHelper.PORTEFEUILLE_TABLE_NAME);
+                break;
+            case TRANSACTION:
+                qb.setTables(BudgetHashtagDbHelper.TRANSACTION_TABLE_NAME);
+                qb.appendWhere( Portefeuille.KEY_COL_ID + "=" + uri.getPathSegments().get(0));
+                break;
+            case BUDGET:
+                SQLiteQueryBuilder.appendColumns(qb, {
+                        Budget.KEY_COL_ID,
+                        Budget.KEY_COL_LIB,
+                        Budget.KEY_COL_COLOR,
+                        Budget.KEY_COL_PREVISIONNEL,
+                        Budget.KEY_COL_ID_PORTEFEUILLE,
+                        " ( select count("+ TransactionProvider.Transaction.KEY_COL_MONTANT + ") " +
+                                " from " + BudgetHashtagDbHelper.BUDGET_TRANSACTION_TABLE_NAME +
+                                " inner join " + BudgetHashtagDbHelper.TRANSACTION_TABLE_NAME + " tran " +
+                                "     on tran." + TransactionProvider.Transaction.KEY_COL_ID + " = id_transaction " +
+                                " where id_budget = bud." + Budget.KEY_COL_ID + " ) as " + Budget.KEY_COL_EXP_SUM_MNT,
+                        " ( select count("+ TransactionProvider.Transaction.KEY_COL_MONTANT + ") " +
+                                " from " + BudgetHashtagDbHelper.BUDGET_TRANSACTION_TABLE_NAME +
+                                " inner join " + BudgetHashtagDbHelper.TRANSACTION_TABLE_NAME + " tran " +
+                                "     on tran." + TransactionProvider.Transaction.KEY_COL_ID + " = id_transaction " +
+                                " where id_budget = bud." + Budget.KEY_COL_ID + ") as " + Budget.KEY_COL_EXP_COUNT_MNT
+                });
+                qb.setTables(BudgetHashtagDbHelper.BUDGET_TABLE_NAME);
+                qb.appendWhere( Portefeuille.KEY_COL_ID + "=" + uri.getPathSegments().get(0));
                 break;
             default:
                 break;
         }
-        Cursor c = null;
+        String orderBy = setOrderbyClose(sortOrder);
+        Cursor c = qb.query(budgetHashtagDb, projection, selection, selectionArgs, null, null, orderBy);
+        c.setNotificationUri(Objects.requireNonNull(getContext()).getContentResolver(), uri);
         return c;
+    }
+    private final String setOrderbyClose(String sortOrder) {
+        String orderBy;
+        if (TextUtils.isEmpty(sortOrder)) {
+            switch (uriMatcher.match(uri)) {
+                case PORTEFEUILLE:
+                    orderBy = Portefeuille.KEY_COL_LIB;
+                    break;
+                case BUDGET:
+                    orderBy = Budget.KEY_COL_LIB;
+                    break;
+                case TRANSACTION:
+                    orderBy = Transaction.KEY_COL_LIB;
+                    break;
+            }
+        } else {
+            orderBy = sortOrder;
+        }
+        return orderBy;
     }
     @Override
     public Uri insert(@NonNull Uri uri, ContentValues initialValues) {
-        return Uri.parse("http://google.fr/");
+        Uri returnUri;
+        long idAdded;
+        switch (uriMatcher.match(uri)) {
+            case PORTEFEUILLE:
+                idAdded = budgetHashtagDb.insert(BudgetHashtagDbHelper.PORTEFEUILLE_TABLE_NAME, null, initialValues);
+                break;
+            case BUDGET:
+                idAdded = budgetHashtagDb.insert(BudgetHashtagDbHelper.BUDGET_TABLE_NAME, null, initialValues);
+                break;
+            case TRANSACTION:
+                idAdded = budgetHashtagDb.insert(BudgetHashtagDbHelper.TRANSACTION_TABLE_NAME, null, initialValues);
+                break;
+            case BUDGET_TRANSACTION:
+                idAdded = budgetHashtagDb.insert(BudgetHashtagDbHelper.BUDGET_TRANSACTION_TABLE_NAME, null, initialValues);
+                break;
+        }
+        if(idAdded <= 0) {
+            throw new SQLException(
+                    getContext().getString(R.string.ex_msg_insert) + uri);
+        }
+        returnUri = UriHelper.getUriForId(uri, idAdded);
+        getContext().getContentResolver().notifyChange(uri, null);
+        return returnUri;
     }
     @Override
     public int delete(@NonNull Uri uri, String where, String[] whereArgs) {

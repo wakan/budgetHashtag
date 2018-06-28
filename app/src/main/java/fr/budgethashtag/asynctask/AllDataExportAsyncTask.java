@@ -30,7 +30,6 @@ public class AllDataExportAsyncTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        SharedPreferences appSharedPref = contextRef.get().getSharedPreferences("BudgetHashtagSharedPref", Context.MODE_PRIVATE);
         ContentResolver cr = contextRef.get().getContentResolver();
         loadCachePortefeuille(cr);
         writeBudgetToCsv(cr);

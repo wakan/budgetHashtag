@@ -5,6 +5,7 @@
     <string name="portefeuille_default_lib">Portefeuille personnel</string>
     <string name="ex_msg_create_default_portefeuille">"Une erreur c'est produite lors de la création du portefeuille"</string>
     <string name="ex_msg_save_budget">"Une erreur c'est produite lors de la sauvegarde du budget"</string>
+    <string name="ex_msg_insert">"Une erreur c'est produite lors de l'insertion : "</string>
     <string name="add">Ajouter</string>
     <string name="add_budget">Ajouter budget</string>
     <string name="add_transaction">Ajouter transaction</string>

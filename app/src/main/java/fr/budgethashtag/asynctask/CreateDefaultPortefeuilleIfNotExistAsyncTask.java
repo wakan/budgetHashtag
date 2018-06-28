@@ -51,7 +51,7 @@ public class CreateDefaultPortefeuilleIfNotExistAsyncTask extends AsyncTask<Void
         ContentResolver cr = contextRef.get().getContentResolver();
         ContentValues cv = new ContentValues();
         cv.put(PortefeuilleProvider.Portefeuille.KEY_COL_LIB, contextRef.get().getString(R.string.portefeuille_default_lib));
-        Uri uriAdd = cr.insert(PortefeuilleProvider.CONTENT_URI,cv);
+        Uri uriAdd = cr.insert(BudgetHashtagProvider.Portefeuille.CONTENT_URI,cv);
         if(uriAdd == null)
         try {
             throw new OperationApplicationException(contextRef.get().getString(R.string.ex_msg_create_default_portefeuille));

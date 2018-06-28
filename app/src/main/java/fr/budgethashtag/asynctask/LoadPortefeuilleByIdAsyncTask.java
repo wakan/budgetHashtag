@@ -26,12 +26,10 @@ public class LoadPortefeuilleByIdAsyncTask extends AsyncTask<Void, Void, Content
     @Override
     protected ContentValues doInBackground(Void... params) {
         ContentResolver cr = contextRef.get().getContentResolver();
-        String where = PortefeuilleProvider.Portefeuille.KEY_COL_ID + "=?";
         int idPortefeuille = PortefeuilleHelper.getIdPortefeuilleFromSharedPref(contextRef);
-        String[] whereParam = {String.valueOf(idPortefeuille)};
         ContentValues cv;
-        try (Cursor c = cr.query(PortefeuilleProvider.CONTENT_URI,
-                null, where, whereParam, null)) {
+        try (Cursor c = cr.query(UriHelper.getUriForId(BudgetHashyagProvider.Portefeuille.CONTENT_URI, idPortefeuille),
+                null, null, null, null)) {
             Objects.requireNonNull(c).moveToNext();
             cv = PortefeuilleHelper.extractContentValueFromCursor(c);
         }
