@@ -110,6 +110,7 @@ public class BudgetProvider extends ContentProvider {
                     if(null != selection) {
                         query += " AND " + selection;
                     }
+                    query += " ORDER BY " + Budget.KEY_COL_LIB;
             c = budgetHashtagDb.rawQuery(query, selectionArgs);
         } else {
             String orderBy;
