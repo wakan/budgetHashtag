@@ -25,12 +25,10 @@ public class LoadPortefeuilleByIdAsyncTask extends AsyncTask<Void, Void, Content
     }
     @Override
     protected ContentValues doInBackground(Void... params) {
-        SharedPreferences appSharedPref =  contextRef.get().getSharedPreferences("BudgetHashtagSharedPref", Context.MODE_PRIVATE);
         ContentResolver cr = contextRef.get().getContentResolver();
         String where = PortefeuilleProvider.Portefeuille.KEY_COL_ID + "=?";
-        String[] whereParam = {String.valueOf(
-                appSharedPref.getInt(CreateDefaultPortefeuilleIfNotExistAsyncTask.ID_PORTEFEULLE_SELECTED, 0)
-        )};
+        int idPortefeuille = PortefeuilleHelper.getIdPortefeuilleFromSharedPref(contextRef);
+        String[] whereParam = {String.valueOf(idPortefeuille)};
         ContentValues cv;
         try (Cursor c = cr.query(PortefeuilleProvider.CONTENT_URI,
                 null, where, whereParam, null)) {

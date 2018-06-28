@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 import fr.budgethashtag.contentprovider.TransactionProvider;
+import fr.budgethashtag.helpers.PortefeuilleHelper;
 import fr.budgethashtag.helpers.TransactionHelper;
 import fr.budgethashtag.interfacecallbackasynctask.LoadTransactionsByPortefeuilleIdCallback;
 
@@ -27,12 +28,10 @@ public class LoadTransactionsByPortefeuilleIdAsyncTask extends AsyncTask<Void, V
     }
     @Override
     protected List<ContentValues> doInBackground(Void... params) {
-        SharedPreferences appSharedPref =  contextRef.get().getSharedPreferences("BudgetHashtagSharedPref", Context.MODE_PRIVATE);
         ContentResolver cr = contextRef.get().getContentResolver();
         String where = TransactionProvider.Transaction.KEY_COL_ID_PORTEFEUILLE + "=?";
-        String[] whereParam = {String.valueOf(
-                appSharedPref.getInt(CreateDefaultPortefeuilleIfNotExistAsyncTask.ID_PORTEFEULLE_SELECTED, 0)
-        )};
+        int idPortefeuille = PortefeuilleHelper.getIdPortefeuilleFromSharedPref(contextRef);
+        String[] whereParam = {String.valueOf(idPortefeuille)};
         Cursor c = cr.query(TransactionProvider.CONTENT_URI,
                 null, where, whereParam, null);
         List<ContentValues> ret = new ArrayList<>(Objects.requireNonNull(c).getCount());

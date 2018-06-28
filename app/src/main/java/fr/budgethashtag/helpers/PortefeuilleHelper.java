@@ -1,10 +1,15 @@
 package fr.budgethashtag.helpers;
 
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 
+import fr.budgethashtag.asynctask.CreateDefaultPortefeuilleIfNotExistAsyncTask;
 import fr.budgethashtag.contentprovider.PortefeuilleProvider;
+
+import java.lang.ref.WeakReference;
 
 public class PortefeuilleHelper {
 
@@ -16,6 +21,13 @@ public class PortefeuilleHelper {
         cv.put(PortefeuilleProvider.Portefeuille.KEY_COL_LIB,
                 c.getString(c.getColumnIndex(PortefeuilleProvider.Portefeuille.KEY_COL_LIB)));
         return cv;
+    }
+
+
+    public static int getIdPortefeuilleFromSharedPref(WeakReference<Context> contextRef) {
+        SharedPreferences appSharedPref =  contextRef.get().getSharedPreferences("BudgetHashtagSharedPref", Context.MODE_PRIVATE);
+        int idPortefeuille = appSharedPref.getInt(CreateDefaultPortefeuilleIfNotExistAsyncTask.ID_PORTEFEULLE_SELECTED, 0);
+        return idPortefeuille;
     }
 
 }

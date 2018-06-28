@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import fr.budgethashtag.contentprovider.BudgetProvider;
 import fr.budgethashtag.helpers.BudgetHelper;
+import fr.budgethashtag.helpers.PortefeuilleHelper;
 import fr.budgethashtag.interfacecallbackasynctask.LoadBudgetsByPortefeuilleIdCallback;
 
 public class LoadBudgetsByPortefeuilleIdAsyncTask extends AsyncTask<Void, Void, List<ContentValues>> {
@@ -27,12 +28,10 @@ public class LoadBudgetsByPortefeuilleIdAsyncTask extends AsyncTask<Void, Void, 
     }
     @Override
     protected List<ContentValues> doInBackground(Void... params) {
-        SharedPreferences appSharedPref =  contextRef.get().getSharedPreferences("BudgetHashtagSharedPref", Context.MODE_PRIVATE);
         ContentResolver cr = contextRef.get().getContentResolver();
         String where = "bud." + BudgetProvider.Budget.KEY_COL_ID_PORTEFEUILLE + "=?";
-        String[] whereParam = {String.valueOf(
-                appSharedPref.getInt(CreateDefaultPortefeuilleIfNotExistAsyncTask.ID_PORTEFEULLE_SELECTED, 0)
-        )};
+        int idPortefeuille = PortefeuilleHelper.getIdPortefeuilleFromSharedPref(contextRef);
+        String[] whereParam = {String.valueOf(idPortefeuille)};
         Cursor c = cr.query(BudgetProvider.CONTENT_URI,
                 null, where, whereParam, null);
         List<ContentValues> ret = new ArrayList<>(Objects.requireNonNull(c).getCount());

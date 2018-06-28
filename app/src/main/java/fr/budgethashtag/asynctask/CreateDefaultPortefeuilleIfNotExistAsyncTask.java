@@ -13,6 +13,7 @@ import java.util.Objects;
 
 import fr.budgethashtag.R;
 import fr.budgethashtag.contentprovider.PortefeuilleProvider;
+import fr.budgethashtag.helpers.UriHelper;
 import fr.budgethashtag.interfacecallbackasynctask.CreateDefaultPortefeuilleIfNotExistCallback;
 
 public class CreateDefaultPortefeuilleIfNotExistAsyncTask extends AsyncTask<Void, Void, Integer> {
@@ -58,7 +59,7 @@ public class CreateDefaultPortefeuilleIfNotExistAsyncTask extends AsyncTask<Void
             //TODO : Do better because it is not good here for catch exception
             e.printStackTrace();
         }
-        return Integer.parseInt(Objects.requireNonNull(uriAdd).getPathSegments().get(0));
+        return UriHelper.getIdFromContentUri(uriAdd);
     }
 
 }
