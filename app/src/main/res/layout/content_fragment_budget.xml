@@ -10,10 +10,17 @@
             type="fr.budgethashtag.viewmodel.BudgetFragmentViewModel"/>
     </data>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/budgetRecyclerView"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/budgetRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 </layout>

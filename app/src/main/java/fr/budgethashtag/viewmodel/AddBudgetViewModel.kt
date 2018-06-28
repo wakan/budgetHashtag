@@ -33,7 +33,7 @@ class AddBudgetViewModel(context: Context) : ILifeCycleViewModel
     fun onClickedBtnAddBudgetActivity(value: Int) {
         when (value) {
             0 -> {
-                Log.i(TAG, "Libelle : " + libelle.get() + "Montant : " +  montant.get())
+                Log.i(TAG, "Libelle : ${libelle.get()} Montant : ${montant.get()}")
                 val color = ""
                 SaveBudgetAsyncTask(mContext, libelle.get(), montant.get()!!.toDouble(), color).execute()
             }
