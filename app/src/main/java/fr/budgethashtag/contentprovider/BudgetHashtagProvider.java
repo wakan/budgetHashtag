@@ -82,24 +82,24 @@ public class BudgetHashtagProvider extends ContentProvider {
         switch (uriMatcher.match(uri)) {
             case PORTEFEUILLE_ID:
                 qb.setTables(BudgetHashtagDbHelper.PORTEFEUILLE_TABLE_NAME);
-                qb.appendWhere( Portefeuille.KEY_COL_ID + "=" + uri.getPathSegments().get(0));
+                qb.appendWhere( Portefeuille.KEY_COL_ID + "=" + uri.getPathSegments().get(1));
                 break;
             case BUDGET_ID:
                 qb.setTables(BudgetHashtagDbHelper.BUDGET_TABLE_NAME);
-                qb.appendWhere( Portefeuille.KEY_COL_ID + "=" + uri.getPathSegments().get(0)
-                        + "AND" + Budget.KEY_COL_ID + "=" + uri.getPathSegments().get(1));
+                qb.appendWhere( Budget.KEY_COL_ID_PORTEFEUILLE + "=" + uri.getPathSegments().get(1)
+                        + "AND" + Budget.KEY_COL_ID + "=" + uri.getPathSegments().get(3));
                 break;
             case TRANSACTION_ID:
                 qb.setTables(BudgetHashtagDbHelper.TRANSACTION_TABLE_NAME);
-                qb.appendWhere( Portefeuille.KEY_COL_ID + "=" + uri.getPathSegments().get(0)
-                        + "AND" + Budget.KEY_COL_ID + "=" + uri.getPathSegments().get(1));
+                qb.appendWhere( Transaction.KEY_COL_ID_PORTEFEUILLE + "=" + uri.getPathSegments().get(1)
+                        + "AND" + Transaction.KEY_COL_ID + "=" + uri.getPathSegments().get(3));
                 break;
             case PORTEFEUILLE:
                 qb.setTables(BudgetHashtagDbHelper.PORTEFEUILLE_TABLE_NAME);
                 break;
             case TRANSACTION:
                 qb.setTables(BudgetHashtagDbHelper.TRANSACTION_TABLE_NAME);
-                qb.appendWhere( Portefeuille.KEY_COL_ID + "=" + uri.getPathSegments().get(0));
+                qb.appendWhere( Transaction.KEY_COL_ID_PORTEFEUILLE + "=" + uri.getPathSegments().get(1));
                 break;
             case BUDGET:
                 if(null == projection) {
@@ -121,8 +121,8 @@ public class BudgetHashtagProvider extends ContentProvider {
                                     " where id_budget = bud." + Budget.KEY_COL_ID + ") as " + Budget.KEY_COL_EXP_COUNT_MNT
                     };
                 }
-                qb.setTables(BudgetHashtagDbHelper.BUDGET_TABLE_NAME);
-                qb.appendWhere( Portefeuille.KEY_COL_ID + "=" + uri.getPathSegments().get(0));
+                qb.setTables(BudgetHashtagDbHelper.BUDGET_TABLE_NAME + " bud");
+                qb.appendWhere( Budget.KEY_COL_ID_PORTEFEUILLE + "=" + uri.getPathSegments().get(1));
                 break;
             default:
                 break;

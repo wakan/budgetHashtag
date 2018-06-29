@@ -58,6 +58,6 @@ public class CreateDefaultPortefeuilleIfNotExistAsyncTask extends AsyncTask<Void
                 //TODO : Do better because it is not good here for catch exception
                 e.printStackTrace();
             }
-        return UriHelper.getIdFromContentUri(uriAdd);
+        return Integer.parseInt(uriAdd.getPathSegments().get(1));
     }
 }

@@ -83,7 +83,7 @@ public class SaveTransactionAsyncTask extends AsyncTask<Void, Void, Void> {
                     //TODO : Do better because it is not good here for catch exception
                     e.printStackTrace();
                 }
-            idBudgetsAjoutes.add(UriHelper.getIdFromContentUri(uriAdd));
+            idBudgetsAjoutes.add(Integer.parseInt(uriAdd.getPathSegments().get(3)));
         }
         return idBudgetsAjoutes;
     }
@@ -109,7 +109,7 @@ public class SaveTransactionAsyncTask extends AsyncTask<Void, Void, Void> {
                 //TODO : Do better because it is not good here for catch exception
                 e.printStackTrace();
             }
-        return UriHelper.getIdFromContentUri(uriAdd);
+        return Integer.parseInt(uriAdd.getPathSegments().get(3));
     }
 
     private void insertBudgetTransaction(ContentResolver cr, long idTransaction, long idPortefeuille,
