@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,6 +16,7 @@ import fr.budgethashtag.basecolumns.BudgetTransaction;
 import fr.budgethashtag.basecolumns.Portefeuille;
 import fr.budgethashtag.basecolumns.Transaction;
 import fr.budgethashtag.db.BudgetHashtagDbHelper;
+import fr.budgethashtag.helpers.ColorHelper;
 import fr.budgethashtag.helpers.UriHelper;
 
 import java.util.Objects;
@@ -161,6 +163,8 @@ public class BudgetHashtagProvider extends ContentProvider {
                 idAdded = budgetHashtagDb.insert(BudgetHashtagDbHelper.PORTEFEUILLE_TABLE_NAME, null, initialValues);
                 break;
             case BUDGET:
+                reformatLibelle(initialValues);
+                setDefaultColorIfNotExit(initialValues);
                 idAdded = budgetHashtagDb.insert(BudgetHashtagDbHelper.BUDGET_TABLE_NAME, null, initialValues);
                 break;
             case TRANSACTION:
@@ -186,5 +190,36 @@ public class BudgetHashtagProvider extends ContentProvider {
     public int update(@NonNull Uri uri, ContentValues values, String where, String[] whereArgs) {
         throw new UnsupportedOperationException();
     }
+
+
+    private void reformatLibelle(ContentValues initialValues) {
+        String initialLibLowercase = initialValues.getAsString(Budget.KEY_COL_LIB).toLowerCase();
+        String replacedBadChar = initialLibLowercase.replaceAll("[^a-z0-9]","-");
+        String removedDuplicates = removeDuplicates(replacedBadChar);
+        initialValues.put(Budget.KEY_COL_LIB, removedDuplicates);
+    }
+
+    private String removeDuplicates(String word) {
+        StringBuilder buffer = new StringBuilder(word.length());
+        for (int i = 0; i < word.length();i++) {
+            char letter = word.charAt(i);
+            if(letter == '-') {
+                if (letter != buffer.length() -1) {
+                    buffer.append(letter);
+                }
+            } else {
+                buffer.append(letter);
+            }
+        }
+        return  buffer.toString();
+    }
+    private void setDefaultColorIfNotExit(ContentValues initialValues) {
+        String initialColor = initialValues.getAsString(Budget.KEY_COL_COLOR);
+        if(null == initialColor || Objects.equals("", initialColor.trim())) {
+            String defaultColor = ColorHelper.getRandomDefaultColor();
+            initialValues.put(Budget.KEY_COL_COLOR, defaultColor);
+        }
+    }
+
 
 }
