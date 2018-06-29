@@ -29,8 +29,8 @@ public class LoadBudgetsByPortefeuilleIdAsyncTask extends AsyncTask<Void, Void, 
     @Override
     protected List<ContentValues> doInBackground(Void... params) {
         ContentResolver cr = contextRef.get().getContentResolver();
-        int idPortefeuille = PortefeuilleHelper.getIdPortefeuilleFromSharedPref(contextRef);
-        Cursor c = cr.query(BudgetHashtagProvider.Budget.CONTENT_URI,
+        long idPortefeuille = PortefeuilleHelper.getIdPortefeuilleFromSharedPref(contextRef);
+        Cursor c = cr.query(BudgetHashtagProvider.Budget.contentUriCollection(idPortefeuille),
                 null, null, null, null);
         List<ContentValues> ret = new ArrayList<>(Objects.requireNonNull(c).getCount());
         try {

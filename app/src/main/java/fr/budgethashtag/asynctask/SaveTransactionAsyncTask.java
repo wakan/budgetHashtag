@@ -52,24 +52,27 @@ public class SaveTransactionAsyncTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
         ContentResolver cr = contextRef.get().getContentResolver();
-        int idPortefeuille = PortefeuilleHelper.getIdPortefeuilleFromSharedPref(contextRef);
-        insertTransaction(cr, idPortefeuille);
+        long idPortefeuille = PortefeuilleHelper.getIdPortefeuilleFromSharedPref(contextRef);
+        long idTransaction = insertTransaction(cr, idPortefeuille);
         List<Integer> idsInsert = insertNewBudget(cr, idPortefeuille, transactions.transactionsNouvelles);
-        insertBudgetTransaction(cr, idPortefeuille, idsInsert, transactions);
+        insertBudgetTransaction(cr, idTransaction, idsInsert, transactions.transactionsExistantesAjoutees);
+        deleteBudgetTransaction(cr, idTransaction, transactions.transactionsExistantesSupprimees);
         return null;
     }
-
-    private void insertBudgetTransaction(ContentResolver cr, int idPortefeuille, List<Integer> idsInsert, WorkTransactions transactions) {
-
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        ((Activity) contextRef.get()).finish();
+        Toast.makeText(contextRef.get(), "Ajout OK", Toast.LENGTH_SHORT).show();
     }
 
-    private List<Integer> insertNewBudget(ContentResolver cr, int idPortefeuille, List<String> transactionsNouvelles) {
+    private List<Integer> insertNewBudget(ContentResolver cr, long idPortefeuille, List<String> transactionsNouvelles) {
         List<Integer> idBudgetsAjoutes = new ArrayList<>(transactionsNouvelles.size());
         for(String lib : transactionsNouvelles) {
             ContentValues cv = new ContentValues();
             cv.put(BudgetProvider.Budget.KEY_COL_LIB, lib);
             cv.put(BudgetProvider.Budget.KEY_COL_ID_PORTEFEUILLE, idPortefeuille);
-            Uri uriAdd = cr.insert(BudgetProvider.CONTENT_URI, cv);
+            Uri uriAdd = cr.insert(BudgetHashtagProvider.Budget.contentUriCollection(idPortefeuille), cv);
             if (uriAdd == null)
                 try {
                     throw new OperationApplicationException(contextRef.get().getString(R.string.ex_msg_save_budget));
@@ -82,7 +85,7 @@ public class SaveTransactionAsyncTask extends AsyncTask<Void, Void, Void> {
         return idBudgetsAjoutes;
     }
 
-    private void insertTransaction(ContentResolver cr, int idPortefeuille) {
+    private long insertTransaction(ContentResolver cr, long idPortefeuille) {
         ContentValues cv = new ContentValues();
         cv.put(TransactionProvider.Transaction.KEY_COL_ID_PORTEFEUILLE, idPortefeuille);
         cv.put(TransactionProvider.Transaction.KEY_COL_LIB, libelle);
@@ -95,7 +98,32 @@ public class SaveTransactionAsyncTask extends AsyncTask<Void, Void, Void> {
             cv.put(TransactionProvider.Transaction.KEY_COL_LOCATION_LATITUDE, latitude);
             cv.put(TransactionProvider.Transaction.KEY_COL_LOCATION_LONGITUDE, longitude);
         }
-        Uri uriAdd = cr.insert(TransactionProvider.CONTENT_URI,cv);
+        Uri uriAdd = cr.insert(BudgetHashtagProvider.Transaction.contentUriCollection(idPortefeuille),cv);
+        if(uriAdd == null)
+            try {
+                throw new OperationApplicationException(contextRef.get().getString(R.string.ex_msg_save_budget));
+            } catch (OperationApplicationException e) {
+                //TODO : Do better because it is not good here for catch exception
+                e.printStackTrace();
+            }
+        return UriHelper.getIdFromContentUri(uriAdd);
+    }
+
+    private void insertBudgetTransaction(ContentResolver cr, long idTransaction,
+                                         List<Integer> idsInsert, List<Integer> budgetExistantsAjoutes) {
+        for(Integer id : idsInsert) {
+            insertOneBudgetTransaction(cr, idTransaction);
+        }
+        for(Integer id : budgetExistantsAjoutes) {
+            insertOneBudgetTransaction(cr, idTransaction);
+        }
+    }
+
+    private void insertOneBudgetTransaction(ContentResolver cr, long idTransaction) {
+        ContentValues cv = new ContentValues();
+        cv.put(BudgetHashtagProvider.BudgetTransaction.KEY_COL_ID_TRANSACTION, idTransaction);
+        cv.put(BudgetHashtagProvider.BudgetTransaction.KEY_COL_ID_BUDGET, libelle);
+        Uri uriAdd = cr.insert(BudgetHashtagProvider.BudgetTransaction.contentUriCollection(idPortefeuille), cv);
         if(uriAdd == null)
             try {
                 throw new OperationApplicationException(contextRef.get().getString(R.string.ex_msg_save_budget));
@@ -104,5 +132,9 @@ public class SaveTransactionAsyncTask extends AsyncTask<Void, Void, Void> {
                 e.printStackTrace();
             }
     }
+    private void insertBudgetTransaction(ContentResolver cr, long idTransaction, List<Integer> ids) {
+        for(Integer id : ids) {
 
+        }
+    }
 }

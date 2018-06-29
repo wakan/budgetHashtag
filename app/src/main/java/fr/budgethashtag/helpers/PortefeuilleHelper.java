@@ -24,9 +24,9 @@ public class PortefeuilleHelper {
     }
 
 
-    public static int getIdPortefeuilleFromSharedPref(WeakReference<Context> contextRef) {
+    public static long getIdPortefeuilleFromSharedPref(WeakReference<Context> contextRef) {
         SharedPreferences appSharedPref =  contextRef.get().getSharedPreferences("BudgetHashtagSharedPref", Context.MODE_PRIVATE);
-        int idPortefeuille = appSharedPref.getInt(CreateDefaultPortefeuilleIfNotExistAsyncTask.ID_PORTEFEULLE_SELECTED, 0);
+        long idPortefeuille = appSharedPref.getLong(CreateDefaultPortefeuilleIfNotExistAsyncTask.ID_PORTEFEULLE_SELECTED, 0);
         return idPortefeuille;
     }
 

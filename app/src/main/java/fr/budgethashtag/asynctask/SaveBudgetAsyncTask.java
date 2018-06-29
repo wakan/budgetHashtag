@@ -33,13 +33,13 @@ public class SaveBudgetAsyncTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        int idPortefeuille = PortefeuilleHelper.getIdPortefeuilleFromSharedPref(contextRef);
+        long idPortefeuille = PortefeuilleHelper.getIdPortefeuilleFromSharedPref(contextRef);
         ContentResolver cr = contextRef.get().getContentResolver();
         ContentValues cv = new ContentValues();
         cv.put(BudgetProvider.Budget.KEY_COL_LIB, libelle);
         cv.put(BudgetProvider.Budget.KEY_COL_PREVISIONNEL, concurrency);
         cv.put(BudgetProvider.Budget.KEY_COL_ID_PORTEFEUILLE, idPortefeuille);
-        Uri uriAdd = cr.insert(BudgetProvider.CONTENT_URI,cv);
+        Uri uriAdd = cr.insert(BudgetHashtagProvider.Budget.contentUriCollection(idPortefeuille),cv);
         if(uriAdd == null)
             try {
                 throw new OperationApplicationException(contextRef.get().getString(R.string.ex_msg_save_budget));
@@ -56,6 +56,5 @@ public class SaveBudgetAsyncTask extends AsyncTask<Void, Void, Void> {
         super.onPostExecute(aVoid);
         ((Activity)contextRef.get()).finish();
         Toast.makeText(contextRef.get(), "Ajout OK", Toast.LENGTH_SHORT).show();
-
     }
 }

@@ -29,11 +29,9 @@ public class LoadTransactionsByPortefeuilleIdAsyncTask extends AsyncTask<Void, V
     @Override
     protected List<ContentValues> doInBackground(Void... params) {
         ContentResolver cr = contextRef.get().getContentResolver();
-        String where = TransactionProvider.Transaction.KEY_COL_ID_PORTEFEUILLE + "=?";
-        int idPortefeuille = PortefeuilleHelper.getIdPortefeuilleFromSharedPref(contextRef);
-        String[] whereParam = {String.valueOf(idPortefeuille)};
-        Cursor c = cr.query(TransactionProvider.CONTENT_URI,
-                null, where, whereParam, null);
+        long idPortefeuille = PortefeuilleHelper.getIdPortefeuilleFromSharedPref(contextRef);
+        Cursor c = cr.query(BudgetHashtagProvider.Transaction.contentUriCollection(idPortefeuille),
+                null, null, null, null);
         List<ContentValues> ret = new ArrayList<>(Objects.requireNonNull(c).getCount());
         try {
             while (Objects.requireNonNull(c).moveToNext()) {

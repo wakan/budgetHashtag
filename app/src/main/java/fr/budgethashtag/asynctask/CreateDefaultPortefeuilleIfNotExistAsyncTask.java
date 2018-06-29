@@ -16,7 +16,7 @@ import fr.budgethashtag.contentprovider.PortefeuilleProvider;
 import fr.budgethashtag.helpers.UriHelper;
 import fr.budgethashtag.interfacecallbackasynctask.CreateDefaultPortefeuilleIfNotExistCallback;
 
-public class CreateDefaultPortefeuilleIfNotExistAsyncTask extends AsyncTask<Void, Void, Integer> {
+public class CreateDefaultPortefeuilleIfNotExistAsyncTask extends AsyncTask<Void, Void, Long> {
 
     private final WeakReference<Context> contextRef;
     private final CreateDefaultPortefeuilleIfNotExistCallback listener;
@@ -29,12 +29,12 @@ public class CreateDefaultPortefeuilleIfNotExistAsyncTask extends AsyncTask<Void
     }
 
     @Override
-    protected Integer doInBackground(Void... params) {
+    protected Long doInBackground(Void... params) {
         SharedPreferences appSharedPref =  contextRef.get().getSharedPreferences("BudgetHashtagSharedPref", Context.MODE_PRIVATE);
         if(appSharedPref.contains(ID_PORTEFEULLE_SELECTED)) {
             return appSharedPref.getInt(ID_PORTEFEULLE_SELECTED, -1);
         } else {
-            int idPortefeuille = createDefaultPortefeuille();
+            long idPortefeuille = createDefaultPortefeuille();
             SharedPreferences.Editor editor = appSharedPref.edit();
             editor.putInt(ID_PORTEFEULLE_SELECTED, idPortefeuille);
             editor.apply();
@@ -51,7 +51,7 @@ public class CreateDefaultPortefeuilleIfNotExistAsyncTask extends AsyncTask<Void
         ContentResolver cr = contextRef.get().getContentResolver();
         ContentValues cv = new ContentValues();
         cv.put(PortefeuilleProvider.Portefeuille.KEY_COL_LIB, contextRef.get().getString(R.string.portefeuille_default_lib));
-        Uri uriAdd = cr.insert(BudgetHashtagProvider.Portefeuille.CONTENT_URI,cv);
+        Uri uriAdd = cr.insert(BudgetHashtagProvider.Portefeuille.contentUriCollection(),cv);
         if(uriAdd == null)
         try {
             throw new OperationApplicationException(contextRef.get().getString(R.string.ex_msg_create_default_portefeuille));
@@ -60,6 +60,6 @@ public class CreateDefaultPortefeuilleIfNotExistAsyncTask extends AsyncTask<Void
             e.printStackTrace();
         }
         return UriHelper.getIdFromContentUri(uriAdd);
-    }
+    i
 
 }

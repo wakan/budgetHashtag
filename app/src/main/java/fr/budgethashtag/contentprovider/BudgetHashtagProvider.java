@@ -25,9 +25,15 @@ public class BudgetHashtagProvider extends ContentProvider {
         public static final String MIME_COLLECTION = "vnd.android.cursor.dir/vdn.budgethashtag.budget";
         @SuppressWarnings("WeakerAccess")
         public static final String MIME_ITEM  = "vnd.android.cursor.item/vdn.budgethashtag.budget";
-        public static final String PATH_TO_DATA = Portefeuille.PATH_TO_DATA + "/#/budget";
-        public static final Uri CONTENT_URI = Uri.parse("content://" +
+        private static final String PATH_TO_DATA = Portefeuille.PATH_TO_DATA + "/#/budget";
+        private static final Uri CONTENT_URI = Uri.parse("content://" +
                                     BudgetHashtagProvider.AUTHORITY + "/" + PATH_TO_DATA);
+        public static final Uri contentUriCollection(long idPortefeuille) {
+            return ContentUri.withAppendedPath(Portefeuille.contentUriItem(idPortefeuille), "budget");
+        }
+        public static final Uri contentUriItem(long idPortefeuille, long id) {
+            return UriHelper.getUriForId(contentUriCollection(idPortefeuille), id);
+        }
 
         public static final String KEY_COL_ID = "_id";
         public static final String KEY_COL_LIB = "libelle";
@@ -42,9 +48,15 @@ public class BudgetHashtagProvider extends ContentProvider {
         public static final String MIME_COLLECTION = "vnd.android.cursor.dir/vdn.budgethashtag.portefeuille";
         @SuppressWarnings("WeakerAccess")
         public static final String MIME_ITEM  = "vnd.android.cursor.item/vdn.budgethashtag.portefeuille";
-        public static final String PATH_TO_DATA = "portefeuille";
-        public static final Uri CONTENT_URI = Uri.parse("content://" +
+        private static final String PATH_TO_DATA = "portefeuille";
+        private static final Uri CONTENT_URI = Uri.parse("content://" +
                 BudgetHashtagProvider.AUTHORITY + "/" + PATH_TO_DATA);
+        public static final Uri contentUriCollection() {
+            return CONTENT_URI;
+        }
+        public static final Uri contentUriItem(long id) {
+            return UriHelper.getUriForId(CONTENT_URI, id);
+        }
 
         @SuppressWarnings("WeakerAccess")
         public static final String KEY_COL_ID = "_id";
@@ -55,9 +67,15 @@ public class BudgetHashtagProvider extends ContentProvider {
         public static final String MIME_COLLECTION = "vnd.android.cursor.dir/vdn.budgethashtag.transaction";
         @SuppressWarnings("WeakerAccess")
         public static final String MIME_ITEM  = "vnd.android.cursor.item/vdn.budgethashtag.transaction";
-        public static final String PATH_TO_DATA = Portefeuille.PATH_TO_DATA + "/#/transaction";
-        public static final Uri CONTENT_URI = Uri.parse("content://" +
+        private static final String PATH_TO_DATA = Portefeuille.PATH_TO_DATA + "/#/transaction";
+        private static final Uri CONTENT_URI = Uri.parse("content://" +
                 BudgetHashtagProvider.AUTHORITY + "/" + PATH_TO_DATA);
+        public static final Uri contentUriCollection(long idPortefeuille) {
+            return ContentUri.withAppendedPath(Portefeuille.contentUriItem(idPortefeuille), "transaction");
+        }
+        public static final Uri contentUriItem(long idPortefeuille, long id) {
+            return UriHelper.getUriForId(contentUriCollection(idPortefeuille), id);
+        }
 
         public static final String KEY_COL_ID = "_id";
         public static final String KEY_COL_LIB = "libelle";
@@ -76,9 +94,12 @@ public class BudgetHashtagProvider extends ContentProvider {
         public static final String MIME_COLLECTION = "vnd.android.cursor.dir/vdn.budgethashtag.budgetstransactions";
         @SuppressWarnings("WeakerAccess")
         public static final String MIME_ITEM  = "vnd.android.cursor.item/vdn.budgethashtag.budgetstransactions";
-        public static final String PATH_TO_DATA = Portefeuille.PATH_TO_DATA + "/#/budgetstransactions";
-        public static final Uri CONTENT_URI = Uri.parse("content://" +
+        private static final String PATH_TO_DATA = Portefeuille.PATH_TO_DATA + "/#/budgetstransactions";
+        private static final Uri CONTENT_URI = Uri.parse("content://" +
                 BudgetHashtagProvider.AUTHORITY + "/" + PATH_TO_DATA);
+        public static final Uri contentUriCollection(long idPortefeuille) {
+            return ContentUri.withAppendedPath(Portefeuille.contentUriItem(idPortefeuille), "budgetstransactions");
+        }
 
         public static final String KEY_COL_ID_TRANSACTION = "id_transaction";
         public static final String KEY_COL_ID_BUDGET = "id_budget";
