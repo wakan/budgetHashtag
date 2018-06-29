@@ -9,10 +9,10 @@ import android.net.Uri;
 import android.os.AsyncTask;
 
 import java.lang.ref.WeakReference;
+import java.util.Objects;
 
 import fr.budgethashtag.R;
 import fr.budgethashtag.basecolumns.Portefeuille;
-import fr.budgethashtag.helpers.UriHelper;
 import fr.budgethashtag.interfacecallbackasynctask.CreateDefaultPortefeuilleIfNotExistCallback;
 
 public class CreateDefaultPortefeuilleIfNotExistAsyncTask extends AsyncTask<Void, Void, Long> {
@@ -58,6 +58,6 @@ public class CreateDefaultPortefeuilleIfNotExistAsyncTask extends AsyncTask<Void
                 //TODO : Do better because it is not good here for catch exception
                 e.printStackTrace();
             }
-        return Integer.parseInt(uriAdd.getPathSegments().get(1));
+        return Integer.parseInt(Objects.requireNonNull(uriAdd).getPathSegments().get(1));
     }
 }

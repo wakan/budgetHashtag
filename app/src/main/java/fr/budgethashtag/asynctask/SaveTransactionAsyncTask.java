@@ -10,12 +10,12 @@ import fr.budgethashtag.basecolumns.Budget;
 import fr.budgethashtag.basecolumns.BudgetTransaction;
 import fr.budgethashtag.basecolumns.Transaction;
 import fr.budgethashtag.helpers.PortefeuilleHelper;
-import fr.budgethashtag.helpers.UriHelper;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class SaveTransactionAsyncTask extends AsyncTask<Void, Void, Void> {
 
@@ -83,7 +83,7 @@ public class SaveTransactionAsyncTask extends AsyncTask<Void, Void, Void> {
                     //TODO : Do better because it is not good here for catch exception
                     e.printStackTrace();
                 }
-            idBudgetsAjoutes.add(Integer.parseInt(uriAdd.getPathSegments().get(3)));
+            idBudgetsAjoutes.add(Integer.parseInt(Objects.requireNonNull(uriAdd).getPathSegments().get(3)));
         }
         return idBudgetsAjoutes;
     }

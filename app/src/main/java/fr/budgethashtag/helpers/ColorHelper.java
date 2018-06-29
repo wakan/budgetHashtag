@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.Random;
 
 public class ColorHelper {
-    public final static String getRandomDefaultColor() {
+    public static String getRandomDefaultColor() {
         Random random = new Random();
         return colors().get(random.nextInt(colors().size()));
     }
     @SuppressWarnings("SpellCheckingInspection")
-    private final static List<String> colors() {
+    private static List<String> colors() {
         ArrayList<String> colors = new ArrayList<>(256);
         colors.add("#F0F8FF");
         colors.add("#FAEBD7");
