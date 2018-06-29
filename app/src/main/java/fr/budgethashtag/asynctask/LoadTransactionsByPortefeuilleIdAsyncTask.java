@@ -31,6 +31,8 @@ public class LoadTransactionsByPortefeuilleIdAsyncTask extends AsyncTask<Void, V
         long idPortefeuille = PortefeuilleHelper.getIdPortefeuilleFromSharedPref(contextRef);
         Cursor c = cr.query(Transaction.contentUriCollection(idPortefeuille),
                 null, null, null, null);
+        if(null == c)
+            return new ArrayList<>();
         List<ContentValues> ret = new ArrayList<>(Objects.requireNonNull(c).getCount());
         try {
             while (Objects.requireNonNull(c).moveToNext()) {

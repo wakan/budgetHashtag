@@ -31,6 +31,8 @@ public class LoadBudgetsByPortefeuilleIdAsyncTask extends AsyncTask<Void, Void, 
         long idPortefeuille = PortefeuilleHelper.getIdPortefeuilleFromSharedPref(contextRef);
         Cursor c = cr.query(Budget.contentUriCollection(idPortefeuille),
                 null, null, null, null);
+        if(c == null)
+            return new ArrayList<>();
         List<ContentValues> ret = new ArrayList<>(Objects.requireNonNull(c).getCount());
         try {
             while (Objects.requireNonNull(c).moveToNext()) {
