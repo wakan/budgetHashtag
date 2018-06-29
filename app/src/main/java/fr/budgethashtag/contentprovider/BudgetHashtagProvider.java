@@ -21,7 +21,7 @@ import java.util.Objects;
 
 public class BudgetHashtagProvider extends ContentProvider {
     @SuppressWarnings("WeakerAccess")
-    public static final String AUTHORITY = "budgetStore";
+    public static final String AUTHORITY = "budget-store";
     private SQLiteDatabase budgetHashtagDb;
 
     @Override

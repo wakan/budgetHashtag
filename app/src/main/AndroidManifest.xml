@@ -10,7 +10,7 @@
         android:theme="@style/MyMaterialTheme"
         android:fullBackupContent="@xml/backup_descriptor">
         <provider android:name="fr.budgethashtag.contentprovider.BudgetHashtagProvider"
-        android:authorities="BudgetStore"
+        android:authorities="budget-store"
         android:exported="false" />
         <activity android:name=".view.activity.MainActivity">
             <intent-filter>
