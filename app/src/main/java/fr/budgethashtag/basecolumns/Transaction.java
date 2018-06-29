@@ -16,7 +16,7 @@ public class Transaction implements BaseColumns {
             BudgetHashtagProvider.AUTHORITY + "/" + PATH_TO_DATA);
     public static Uri contentUriCollection(long idPortefeuille) {
         Uri.Builder builder = new Uri.Builder();
-        builder.path(Portefeuille.contentUriItem(idPortefeuille).toString());
+        builder.encodedPath(Portefeuille.contentUriItem(idPortefeuille).toString());
         builder.appendPath("transaction");
         return Uri.parse(builder.build().toString());
     }
