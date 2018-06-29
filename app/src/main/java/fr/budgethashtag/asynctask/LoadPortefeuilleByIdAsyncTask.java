@@ -10,7 +10,8 @@ import android.os.AsyncTask;
 import java.lang.ref.WeakReference;
 import java.util.Objects;
 
-import fr.budgethashtag.contentprovider.PortefeuilleProvider;
+import fr.budgethashtag.basecolumns.Portefeuille;
+import fr.budgethashtag.contentprovider.BudgetHashtagProvider;
 import fr.budgethashtag.helpers.PortefeuilleHelper;
 import fr.budgethashtag.interfacecallbackasynctask.LoadPortefeuilleByIdCallback;
 
@@ -28,7 +29,7 @@ public class LoadPortefeuilleByIdAsyncTask extends AsyncTask<Void, Void, Content
         ContentResolver cr = contextRef.get().getContentResolver();
         long idPortefeuille = PortefeuilleHelper.getIdPortefeuilleFromSharedPref(contextRef);
         ContentValues cv;
-        try (Cursor c = cr.query(BudgetHashyagProvider.Portefeuille.contentUriItem(idPortefeuille),
+        try (Cursor c = cr.query(Portefeuille.contentUriItem(idPortefeuille),
                 null, null, null, null)) {
             Objects.requireNonNull(c).moveToNext();
             cv = PortefeuilleHelper.extractContentValueFromCursor(c);

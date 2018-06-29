@@ -15,9 +15,10 @@ import java.util.List;
 import java.util.Objects;
 
 import fr.budgethashtag.R;
-import fr.budgethashtag.contentprovider.BudgetProvider;
-import fr.budgethashtag.contentprovider.PortefeuilleProvider;
-import fr.budgethashtag.contentprovider.TransactionProvider;
+import fr.budgethashtag.basecolumns.Budget;
+import fr.budgethashtag.basecolumns.Portefeuille;
+import fr.budgethashtag.basecolumns.Transaction;
+import fr.budgethashtag.contentprovider.BudgetHashtagProvider;
 import fr.budgethashtag.helpers.BudgetHelper;
 import fr.budgethashtag.helpers.TransactionHelper;
 
@@ -38,27 +39,27 @@ public class AllDataExportAsyncTask extends AsyncTask<Void, Void, Void> {
     }
 
     private void writeBudgetToCsv(ContentResolver cr) {
-        try (Cursor c = cr.query(BudgetProvider.CONTENT_URI,
+        try (Cursor c = cr.query(Portefeuille.contentUriCollection(),
                 null, null, null, null)) {
             List<ContentValues> ret = new ArrayList<>(Objects.requireNonNull(c).getCount());
             while (Objects.requireNonNull(c).moveToNext()) {
                 ContentValues cv = BudgetHelper.extractContentValueFromCursor(c);
-                Integer idPortefeuille = cv.getAsInteger(BudgetProvider.Budget.KEY_COL_ID_PORTEFEUILLE);
+                Integer idPortefeuille = cv.getAsInteger(Budget.KEY_COL_ID_PORTEFEUILLE);
                 String libPortefeuille = cachePortefeuille.get(idPortefeuille);
-                cv.put(BudgetProvider.Budget.KEY_COL_ID_PORTEFEUILLE, libPortefeuille);
+                cv.put(Budget.KEY_COL_ID_PORTEFEUILLE, libPortefeuille);
                 ret.add(cv);
             }
         }
     }
     private void writeTransactionToCsv(ContentResolver cr) {
-        try (Cursor c = cr.query(TransactionProvider.CONTENT_URI,
+        try (Cursor c = cr.query(Portefeuille.contentUriCollection(),
                 null, null, null, null)) {
             List<ContentValues> ret = new ArrayList<>(Objects.requireNonNull(c).getCount());
             while (Objects.requireNonNull(c).moveToNext()) {
                 ContentValues cv = TransactionHelper.extractContentValueFromCursor(c);
-                Integer idPortefeuille = cv.getAsInteger(TransactionProvider.Transaction.KEY_COL_ID_PORTEFEUILLE);
+                Integer idPortefeuille = cv.getAsInteger(Transaction.KEY_COL_ID_PORTEFEUILLE);
                 String libPortefeuille = cachePortefeuille.get(idPortefeuille);
-                cv.put(TransactionProvider.Transaction.KEY_COL_ID_PORTEFEUILLE, libPortefeuille);
+                cv.put(Transaction.KEY_COL_ID_PORTEFEUILLE, libPortefeuille);
                 ret.add(cv);
             }
         }
@@ -66,13 +67,13 @@ public class AllDataExportAsyncTask extends AsyncTask<Void, Void, Void> {
 
     private SparseArray<String> cachePortefeuille;
     private void loadCachePortefeuille(ContentResolver cr) {
-        try (Cursor p = cr.query(PortefeuilleProvider.CONTENT_URI,
+        try (Cursor p = cr.query(Portefeuille.contentUriCollection(),
                 null, null, null, null)) {
             cachePortefeuille = new SparseArray<>(Objects.requireNonNull(p).getCount());
             while (Objects.requireNonNull(p).moveToNext()) {
                 ContentValues cv = BudgetHelper.extractContentValueFromCursor(p);
-                cachePortefeuille.put(cv.getAsInteger(PortefeuilleProvider.Portefeuille.KEY_COL_ID),
-                        cv.getAsString(PortefeuilleProvider.Portefeuille.KEY_COL_LIB));
+                cachePortefeuille.put(cv.getAsInteger(Portefeuille.KEY_COL_ID),
+                        cv.getAsString(Portefeuille.KEY_COL_LIB));
             }
         }
     }

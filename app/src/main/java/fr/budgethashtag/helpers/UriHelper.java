@@ -1,5 +1,6 @@
 package fr.budgethashtag.helpers;
 
+import android.content.ContentUris;
 import android.net.Uri;
 
 import java.util.Objects;

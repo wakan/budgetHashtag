@@ -6,7 +6,8 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import fr.budgethashtag.R
-import fr.budgethashtag.contentprovider.TransactionProvider
+import fr.budgethashtag.basecolumns.Transaction.KEY_COL_DT_VALEUR
+import fr.budgethashtag.basecolumns.Transaction.KEY_COL_LIB
 
 class MyTransactionViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -17,8 +18,8 @@ class MyTransactionViewHolder (itemView: View) : RecyclerView.ViewHolder(itemVie
 
     //puis ajouter une fonction pour remplir la cellule en fonction d'un MyObject
     fun bind(myObject: ContentValues) {
-        tvLibelle.text = myObject.get(TransactionProvider.Transaction.KEY_COL_LIB) as? String
-        tvMontant.text = myObject.get(TransactionProvider.Transaction.KEY_COL_DT_VALEUR).toString()
+        tvLibelle.text = myObject.get(KEY_COL_LIB) as? String
+        tvMontant.text = myObject.get(KEY_COL_DT_VALEUR).toString()
         imageView.setImageResource(R.mipmap.ic_launcher)
         // Picasso.with(imageView.getContext()).load(myObject.getImageUrl()).centerCrop().fit().into(imageView)
     }

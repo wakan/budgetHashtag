@@ -12,7 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import fr.budgethashtag.contentprovider.BudgetProvider;
+import fr.budgethashtag.basecolumns.Budget;
+import fr.budgethashtag.contentprovider.BudgetHashtagProvider;
 import fr.budgethashtag.helpers.BudgetHelper;
 import fr.budgethashtag.helpers.PortefeuilleHelper;
 import fr.budgethashtag.interfacecallbackasynctask.LoadBudgetsByPortefeuilleIdCallback;
@@ -30,7 +31,7 @@ public class LoadBudgetsByPortefeuilleIdAsyncTask extends AsyncTask<Void, Void, 
     protected List<ContentValues> doInBackground(Void... params) {
         ContentResolver cr = contextRef.get().getContentResolver();
         long idPortefeuille = PortefeuilleHelper.getIdPortefeuilleFromSharedPref(contextRef);
-        Cursor c = cr.query(BudgetHashtagProvider.Budget.contentUriCollection(idPortefeuille),
+        Cursor c = cr.query(Budget.contentUriCollection(idPortefeuille),
                 null, null, null, null);
         List<ContentValues> ret = new ArrayList<>(Objects.requireNonNull(c).getCount());
         try {

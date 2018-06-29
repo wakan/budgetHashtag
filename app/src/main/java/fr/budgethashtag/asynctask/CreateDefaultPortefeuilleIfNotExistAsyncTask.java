@@ -12,7 +12,8 @@ import java.lang.ref.WeakReference;
 import java.util.Objects;
 
 import fr.budgethashtag.R;
-import fr.budgethashtag.contentprovider.PortefeuilleProvider;
+import fr.budgethashtag.basecolumns.Portefeuille;
+import fr.budgethashtag.contentprovider.BudgetHashtagProvider;
 import fr.budgethashtag.helpers.UriHelper;
 import fr.budgethashtag.interfacecallbackasynctask.CreateDefaultPortefeuilleIfNotExistCallback;
 
@@ -32,17 +33,17 @@ public class CreateDefaultPortefeuilleIfNotExistAsyncTask extends AsyncTask<Void
     protected Long doInBackground(Void... params) {
         SharedPreferences appSharedPref =  contextRef.get().getSharedPreferences("BudgetHashtagSharedPref", Context.MODE_PRIVATE);
         if(appSharedPref.contains(ID_PORTEFEULLE_SELECTED)) {
-            return appSharedPref.getInt(ID_PORTEFEULLE_SELECTED, -1);
+            return appSharedPref.getLong(ID_PORTEFEULLE_SELECTED, -1);
         } else {
             long idPortefeuille = createDefaultPortefeuille();
             SharedPreferences.Editor editor = appSharedPref.edit();
-            editor.putInt(ID_PORTEFEULLE_SELECTED, idPortefeuille);
+            editor.putLong(ID_PORTEFEULLE_SELECTED, idPortefeuille);
             editor.apply();
             return idPortefeuille;
         }
     }
     @Override
-    protected void onPostExecute(Integer i){
+    protected void onPostExecute(Long i){
         super.onPostExecute(i);
         listener.onCreateDefaultPortefeuilleIfNotExist(i);
     }
@@ -50,16 +51,15 @@ public class CreateDefaultPortefeuilleIfNotExistAsyncTask extends AsyncTask<Void
     private int createDefaultPortefeuille() {
         ContentResolver cr = contextRef.get().getContentResolver();
         ContentValues cv = new ContentValues();
-        cv.put(PortefeuilleProvider.Portefeuille.KEY_COL_LIB, contextRef.get().getString(R.string.portefeuille_default_lib));
-        Uri uriAdd = cr.insert(BudgetHashtagProvider.Portefeuille.contentUriCollection(),cv);
-        if(uriAdd == null)
-        try {
-            throw new OperationApplicationException(contextRef.get().getString(R.string.ex_msg_create_default_portefeuille));
-        } catch (OperationApplicationException e) {
-            //TODO : Do better because it is not good here for catch exception
-            e.printStackTrace();
-        }
+        cv.put(Portefeuille.KEY_COL_LIB, contextRef.get().getString(R.string.portefeuille_default_lib));
+        Uri uriAdd = cr.insert(Portefeuille.contentUriCollection(), cv);
+        if (uriAdd == null)
+            try {
+                throw new OperationApplicationException(contextRef.get().getString(R.string.ex_msg_create_default_portefeuille));
+            } catch (OperationApplicationException e) {
+                //TODO : Do better because it is not good here for catch exception
+                e.printStackTrace();
+            }
         return UriHelper.getIdFromContentUri(uriAdd);
-    i
-
+    }
 }

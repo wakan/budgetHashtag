@@ -6,8 +6,8 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import fr.budgethashtag.R
-import fr.budgethashtag.contentprovider.BudgetProvider.Budget.KEY_COL_LIB
-import fr.budgethashtag.contentprovider.BudgetProvider.Budget.KEY_COL_PREVISIONNEL
+import fr.budgethashtag.basecolumns.Budget.KEY_COL_LIB
+import fr.budgethashtag.basecolumns.Budget.KEY_COL_PREVISIONNEL
 
 
 class MyBudgetViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

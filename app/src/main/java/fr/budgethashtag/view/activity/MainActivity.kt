@@ -8,7 +8,8 @@ import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import fr.budgethashtag.R
-import fr.budgethashtag.contentprovider.PortefeuilleProvider
+import fr.budgethashtag.basecolumns.Portefeuille
+import fr.budgethashtag.contentprovider.BudgetHashtagProvider
 import fr.budgethashtag.databinding.ActivityMainBinding
 import fr.budgethashtag.interfacecallbackasynctask.LoadBudgetsByPortefeuilleIdCallback
 import fr.budgethashtag.interfacecallbackasynctask.LoadPortefeuilleByIdCallback
@@ -53,11 +54,10 @@ class MainActivity : AppCompatActivity(), LoadPortefeuilleByIdCallback, LoadTran
     }
 
     override fun onLoadPortefeuilleById(contentValues: ContentValues) {
-        supportActionBar!!.title = contentValues.getAsString(PortefeuilleProvider.Portefeuille.KEY_COL_LIB)
+        supportActionBar!!.title = contentValues.getAsString(Portefeuille.KEY_COL_LIB)
     }
 
     override fun onLoadTransactionsByPortefeuilleId(contentValuesList: List<ContentValues>) {
-
         transactionFragment.onLoadTransactionsByPortefeuilleId(contentValuesList)
     }
 

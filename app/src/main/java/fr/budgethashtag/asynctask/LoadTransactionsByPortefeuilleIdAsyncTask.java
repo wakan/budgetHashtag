@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import fr.budgethashtag.contentprovider.TransactionProvider;
+import fr.budgethashtag.basecolumns.Transaction;
 import fr.budgethashtag.helpers.PortefeuilleHelper;
 import fr.budgethashtag.helpers.TransactionHelper;
 import fr.budgethashtag.interfacecallbackasynctask.LoadTransactionsByPortefeuilleIdCallback;
@@ -30,7 +30,7 @@ public class LoadTransactionsByPortefeuilleIdAsyncTask extends AsyncTask<Void, V
     protected List<ContentValues> doInBackground(Void... params) {
         ContentResolver cr = contextRef.get().getContentResolver();
         long idPortefeuille = PortefeuilleHelper.getIdPortefeuilleFromSharedPref(contextRef);
-        Cursor c = cr.query(BudgetHashtagProvider.Transaction.contentUriCollection(idPortefeuille),
+        Cursor c = cr.query(Transaction.contentUriCollection(idPortefeuille),
                 null, null, null, null);
         List<ContentValues> ret = new ArrayList<>(Objects.requireNonNull(c).getCount());
         try {

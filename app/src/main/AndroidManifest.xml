@@ -9,15 +9,9 @@
         android:supportsRtl="true"
         android:theme="@style/MyMaterialTheme"
         android:fullBackupContent="@xml/backup_descriptor">
-        <provider android:name="fr.budgethashtag.contentprovider.BudgetProvider"
-        android:authorities="BudgetStore.Budget"
+        <provider android:name="fr.budgethashtag.contentprovider.BudgetHashtagProvider"
+        android:authorities="BudgetStore"
         android:exported="false" />
-        <provider android:name="fr.budgethashtag.contentprovider.PortefeuilleProvider"
-        android:authorities="BudgetStore.Portefeuille"
-        android:exported="false" />
-        <provider android:name="fr.budgethashtag.contentprovider.TransactionProvider"
-            android:authorities="BudgetStore.Transaction"
-            android:exported="false" />
         <activity android:name=".view.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>

@@ -31,7 +31,7 @@ class MainActivityViewModel(context: Context) : ILifeCycleViewModel, CreateDefau
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun onCreateDefaultPortefeuilleIfNotExist(idPortefeuille: Int) {
+    override fun onCreateDefaultPortefeuilleIfNotExist(idPortefeuille: Long) {
         loadPortefeuilleName()
         loadTransactions()
         loadBudgets()

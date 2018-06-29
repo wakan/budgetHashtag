@@ -5,7 +5,6 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.OperationApplicationException;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.widget.Toast;
@@ -13,7 +12,7 @@ import android.widget.Toast;
 import java.lang.ref.WeakReference;
 
 import fr.budgethashtag.R;
-import fr.budgethashtag.contentprovider.BudgetProvider;
+import fr.budgethashtag.basecolumns.Budget;
 import fr.budgethashtag.helpers.PortefeuilleHelper;
 
 public class SaveBudgetAsyncTask extends AsyncTask<Void, Void, Void> {
@@ -36,10 +35,10 @@ public class SaveBudgetAsyncTask extends AsyncTask<Void, Void, Void> {
         long idPortefeuille = PortefeuilleHelper.getIdPortefeuilleFromSharedPref(contextRef);
         ContentResolver cr = contextRef.get().getContentResolver();
         ContentValues cv = new ContentValues();
-        cv.put(BudgetProvider.Budget.KEY_COL_LIB, libelle);
-        cv.put(BudgetProvider.Budget.KEY_COL_PREVISIONNEL, concurrency);
-        cv.put(BudgetProvider.Budget.KEY_COL_ID_PORTEFEUILLE, idPortefeuille);
-        Uri uriAdd = cr.insert(BudgetHashtagProvider.Budget.contentUriCollection(idPortefeuille),cv);
+        cv.put(Budget.KEY_COL_LIB, libelle);
+        cv.put(Budget.KEY_COL_PREVISIONNEL, concurrency);
+        cv.put(Budget.KEY_COL_ID_PORTEFEUILLE, idPortefeuille);
+        Uri uriAdd = cr.insert(Budget.contentUriCollection(idPortefeuille),cv);
         if(uriAdd == null)
             try {
                 throw new OperationApplicationException(contextRef.get().getString(R.string.ex_msg_save_budget));
