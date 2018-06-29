@@ -18,7 +18,7 @@ public class Budget implements BaseColumns {
         Uri.Builder builder = new Uri.Builder();
         builder.path(Portefeuille.contentUriItem(idPortefeuille).toString());
         builder.appendPath("budget");
-        return builder.build();
+        return Uri.parse(builder.build().toString());
     }
     public static Uri contentUriItem(long idPortefeuille, long id) {
         return UriHelper.getUriForId(contentUriCollection(idPortefeuille), id);

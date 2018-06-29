@@ -17,7 +17,7 @@ public class BudgetTransaction implements BaseColumns {
         Uri.Builder builder = new Uri.Builder();
         builder.path(Portefeuille.contentUriItem(idPortefeuille).toString());
         builder.appendPath("budgetstransactions");
-        return builder.build();
+        return Uri.parse(builder.build().toString());
     }
 
     public static final String KEY_COL_ID_TRANSACTION = "id_transaction";
