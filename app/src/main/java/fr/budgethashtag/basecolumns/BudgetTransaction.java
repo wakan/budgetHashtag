@@ -12,9 +12,9 @@ public class BudgetTransaction implements BaseColumns {
     public static final String PATH_TO_DATA = Portefeuille.PATH_TO_DATA + "/#/budgetstransactions";
     private static final Uri CONTENT_URI = Uri.parse("content://" +
             BudgetHashtagProvider.AUTHORITY + "/" + PATH_TO_DATA);
-    public static final Uri contentUriCollection(long idPortefeuille) {
+    public static Uri contentUriCollection(long idPortefeuille) {
         Uri.Builder builder = new Uri.Builder();
-        builder.path(new Portefeuille().contentUriItem(idPortefeuille).toString());
+        builder.path(Portefeuille.contentUriItem(idPortefeuille).toString());
         builder.appendPath("budgetstransactions");
         return builder.build();
     }

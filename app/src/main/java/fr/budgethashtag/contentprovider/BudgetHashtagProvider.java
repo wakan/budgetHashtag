@@ -6,7 +6,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -102,7 +101,7 @@ public class BudgetHashtagProvider extends ContentProvider {
                 break;
             case BUDGET:
                 if(null == projection) {
-                    String[] projectionPerso = {
+                    calculatedProjection = new String[]{
                             Budget.KEY_COL_ID,
                             Budget.KEY_COL_LIB,
                             Budget.KEY_COL_COLOR,
@@ -119,7 +118,6 @@ public class BudgetHashtagProvider extends ContentProvider {
                                     "     on tran." + Transaction.KEY_COL_ID + " = id_transaction " +
                                     " where id_budget = bud." + Budget.KEY_COL_ID + ") as " + Budget.KEY_COL_EXP_COUNT_MNT
                     };
-                    calculatedProjection = projectionPerso;
                 }
                 qb.setTables(BudgetHashtagDbHelper.BUDGET_TABLE_NAME);
                 qb.appendWhere( Portefeuille.KEY_COL_ID + "=" + uri.getPathSegments().get(0));
@@ -135,7 +133,7 @@ public class BudgetHashtagProvider extends ContentProvider {
         c.setNotificationUri(Objects.requireNonNull(getContext()).getContentResolver(), uri);
         return c;
     }
-    private final String setOrderbyClose(Uri uri, String sortOrder) {
+    private String setOrderbyClose(Uri uri, String sortOrder) {
         String orderBy = null;
         if (TextUtils.isEmpty(sortOrder)) {
             switch (uriMatcher.match(uri)) {
@@ -157,7 +155,7 @@ public class BudgetHashtagProvider extends ContentProvider {
     @Override
     public Uri insert(@NonNull Uri uri, ContentValues initialValues) {
         Uri returnUri;
-        long idAdded = 0l;
+        long idAdded = 0L;
         switch (uriMatcher.match(uri)) {
             case PORTEFEUILLE:
                 idAdded = budgetHashtagDb.insert(BudgetHashtagDbHelper.PORTEFEUILLE_TABLE_NAME, null, initialValues);
@@ -174,7 +172,7 @@ public class BudgetHashtagProvider extends ContentProvider {
         }
         if(idAdded <= 0) {
             throw new SQLException(
-                    getContext().getString(R.string.ex_msg_insert) + uri);
+                    Objects.requireNonNull(getContext()).getString(R.string.ex_msg_insert) + uri);
         }
         returnUri = UriHelper.getUriForId(uri, idAdded);
         getContext().getContentResolver().notifyChange(uri, null);

@@ -10,7 +10,6 @@ public class UriHelper {
         return  Integer.parseInt(Objects.requireNonNull(uri).getPathSegments().get(0));
     }
     public  static Uri getUriForId(Uri uri, long id)  {
-        Uri itemUri = ContentUris.withAppendedId(uri, id);
-        return itemUri;
+        return ContentUris.withAppendedId(uri, id);
     }
 }

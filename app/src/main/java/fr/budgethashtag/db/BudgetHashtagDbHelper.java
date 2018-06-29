@@ -9,7 +9,6 @@ import fr.budgethashtag.R;
 import fr.budgethashtag.basecolumns.Budget;
 import fr.budgethashtag.basecolumns.Portefeuille;
 import fr.budgethashtag.basecolumns.Transaction;
-import fr.budgethashtag.contentprovider.BudgetHashtagProvider;
 
 public class BudgetHashtagDbHelper extends SQLiteOpenHelper {
     private static final String TAG = "BudgetHashtagDbHelper";

@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.support.annotation.NonNull;
 
 import fr.budgethashtag.basecolumns.Budget;
-import fr.budgethashtag.contentprovider.BudgetHashtagProvider;
 
 public class BudgetHelper {
 

@@ -3,7 +3,6 @@ package fr.budgethashtag.asynctask;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.util.SparseArray;
@@ -18,7 +17,6 @@ import fr.budgethashtag.R;
 import fr.budgethashtag.basecolumns.Budget;
 import fr.budgethashtag.basecolumns.Portefeuille;
 import fr.budgethashtag.basecolumns.Transaction;
-import fr.budgethashtag.contentprovider.BudgetHashtagProvider;
 import fr.budgethashtag.helpers.BudgetHelper;
 import fr.budgethashtag.helpers.TransactionHelper;
 

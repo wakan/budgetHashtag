@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import fr.budgethashtag.R
 import fr.budgethashtag.basecolumns.Portefeuille
-import fr.budgethashtag.contentprovider.BudgetHashtagProvider
 import fr.budgethashtag.databinding.ActivityMainBinding
 import fr.budgethashtag.interfacecallbackasynctask.LoadBudgetsByPortefeuilleIdCallback
 import fr.budgethashtag.interfacecallbackasynctask.LoadPortefeuilleByIdCallback

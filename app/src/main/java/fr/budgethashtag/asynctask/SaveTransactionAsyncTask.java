@@ -9,7 +9,6 @@ import fr.budgethashtag.R;
 import fr.budgethashtag.basecolumns.Budget;
 import fr.budgethashtag.basecolumns.BudgetTransaction;
 import fr.budgethashtag.basecolumns.Transaction;
-import fr.budgethashtag.contentprovider.BudgetHashtagProvider;
 import fr.budgethashtag.helpers.PortefeuilleHelper;
 import fr.budgethashtag.helpers.UriHelper;
 
@@ -32,9 +31,9 @@ public class SaveTransactionAsyncTask extends AsyncTask<Void, Void, Void> {
     private final Double accuracy;
 
     public class WorkTransactions {
-        List<Integer> transactionsExistantesAjoutees = new ArrayList<>();
-        List<Integer> transactionsExistantesSupprimees = new ArrayList<>();
-        List<String> transactionsNouvelles = new ArrayList<>();
+        final List<Integer> transactionsExistantesAjoutees = new ArrayList<>();
+        final List<Integer> transactionsExistantesSupprimees = new ArrayList<>();
+        final List<String> transactionsNouvelles = new ArrayList<>();
     }
 
     public SaveTransactionAsyncTask(Context context,

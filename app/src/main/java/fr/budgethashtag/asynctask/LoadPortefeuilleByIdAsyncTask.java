@@ -3,7 +3,6 @@ package fr.budgethashtag.asynctask;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 
@@ -11,7 +10,6 @@ import java.lang.ref.WeakReference;
 import java.util.Objects;
 
 import fr.budgethashtag.basecolumns.Portefeuille;
-import fr.budgethashtag.contentprovider.BudgetHashtagProvider;
 import fr.budgethashtag.helpers.PortefeuilleHelper;
 import fr.budgethashtag.interfacecallbackasynctask.LoadPortefeuilleByIdCallback;
 

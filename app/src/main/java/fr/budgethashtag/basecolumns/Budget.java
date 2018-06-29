@@ -13,13 +13,13 @@ public class Budget implements BaseColumns {
     public static final String PATH_TO_DATA = Portefeuille.PATH_TO_DATA + "/#/budget";
     private static final Uri CONTENT_URI = Uri.parse("content://" +
             BudgetHashtagProvider.AUTHORITY + "/" + PATH_TO_DATA);
-    public static final Uri contentUriCollection(long idPortefeuille) {
+    public static Uri contentUriCollection(long idPortefeuille) {
         Uri.Builder builder = new Uri.Builder();
-        builder.path(new Portefeuille().contentUriItem(idPortefeuille).toString());
+        builder.path(Portefeuille.contentUriItem(idPortefeuille).toString());
         builder.appendPath("budget");
         return builder.build();
     }
-    public static final Uri contentUriItem(long idPortefeuille, long id) {
+    public static Uri contentUriItem(long idPortefeuille, long id) {
         return UriHelper.getUriForId(contentUriCollection(idPortefeuille), id);
     }
 

@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 
 import fr.budgethashtag.asynctask.CreateDefaultPortefeuilleIfNotExistAsyncTask;
 import fr.budgethashtag.basecolumns.Portefeuille;
-import fr.budgethashtag.contentprovider.BudgetHashtagProvider;
 
 import java.lang.ref.WeakReference;
 
@@ -27,8 +26,7 @@ public class PortefeuilleHelper {
 
     public static long getIdPortefeuilleFromSharedPref(WeakReference<Context> contextRef) {
         SharedPreferences appSharedPref =  contextRef.get().getSharedPreferences("BudgetHashtagSharedPref", Context.MODE_PRIVATE);
-        long idPortefeuille = appSharedPref.getLong(CreateDefaultPortefeuilleIfNotExistAsyncTask.ID_PORTEFEULLE_SELECTED, 0);
-        return idPortefeuille;
+        return appSharedPref.getLong(CreateDefaultPortefeuilleIfNotExistAsyncTask.ID_PORTEFEULLE_SELECTED, 0);
     }
 
 }

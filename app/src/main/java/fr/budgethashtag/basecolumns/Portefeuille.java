@@ -13,10 +13,10 @@ public class Portefeuille implements BaseColumns {
     public static final String PATH_TO_DATA = "portefeuille";
     private static final Uri CONTENT_URI = Uri.parse("content://" +
             BudgetHashtagProvider.AUTHORITY + "/" + PATH_TO_DATA);
-    public static final Uri contentUriCollection() {
+    public static Uri contentUriCollection() {
         return CONTENT_URI;
     }
-    public static final Uri contentUriItem(long id) {
+    public static Uri contentUriItem(long id) {
         return UriHelper.getUriForId(CONTENT_URI, id);
     }
 

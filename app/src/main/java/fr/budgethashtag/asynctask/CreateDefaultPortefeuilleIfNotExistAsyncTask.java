@@ -9,11 +9,9 @@ import android.net.Uri;
 import android.os.AsyncTask;
 
 import java.lang.ref.WeakReference;
-import java.util.Objects;
 
 import fr.budgethashtag.R;
 import fr.budgethashtag.basecolumns.Portefeuille;
-import fr.budgethashtag.contentprovider.BudgetHashtagProvider;
 import fr.budgethashtag.helpers.UriHelper;
 import fr.budgethashtag.interfacecallbackasynctask.CreateDefaultPortefeuilleIfNotExistCallback;
 
