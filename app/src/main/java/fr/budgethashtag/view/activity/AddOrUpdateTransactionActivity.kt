@@ -7,13 +7,13 @@ import fr.budgethashtag.R
 import fr.budgethashtag.databinding.ActivityAddTransactionBinding
 import fr.budgethashtag.viewmodel.AddTransactionViewModel
 
-class AddTransactionActivity : Activity() {
-    private val TAG: String = "AddTransactionActivity"
-    private var viewModel = AddTransactionViewModel(this)
+class AddOrUpdateTransactionActivity : Activity() {
+    private val TAG: String = "AddOrUpdateTransactionActivity"
+    private var viewModel = AddOrUpdateTransactionViewModel(this)
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding: ActivityAddTransactionBinding = DataBindingUtil.setContentView(this, R.layout.activity_add_transaction)
+        val binding: ActivityAddOrUpdateTransactionBinding = DataBindingUtil.setContentView(this, R.layout.activity_add_or_update_transaction)
         binding.viewModel = viewModel
     }
 }

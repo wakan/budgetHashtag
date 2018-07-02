@@ -25,7 +25,7 @@
                 <action android:name="android.intent.action.INSERT"/>
             </intent-filter>
         </activity>
-        <activity android:name=".view.activity.AddTransactionActivity">
+        <activity android:name=".view.activity.AddOrUpdateTransactionActivity">
             <intent-filter>
                 <data android:mimeType="vnd.android.cursor.dir/vdn.budgethashtag.transaction" />
                 <action android:name="android.intent.action.INSERT"/>
