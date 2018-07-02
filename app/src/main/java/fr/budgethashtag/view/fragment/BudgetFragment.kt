@@ -2,6 +2,7 @@ package fr.budgethashtag.view.fragment
 
 import android.app.Activity
 import android.content.ContentValues
+import android.content.Context
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -11,8 +12,11 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.Toast
 import fr.budgethashtag.R
 import fr.budgethashtag.adapter.MyBudgetAdapter
+import fr.budgethashtag.basecolumns.Budget
 import fr.budgethashtag.databinding.FragmentBudgetBinding
 import fr.budgethashtag.interfacecallbackasynctask.LoadBudgetsByPortefeuilleIdCallback
 import fr.budgethashtag.viewmodel.BudgetFragmentViewModel
@@ -50,9 +54,19 @@ class BudgetFragment : Fragment(), LoadBudgetsByPortefeuilleIdCallback, SwipeRef
         //pour adapter en grille comme une RecyclerView, avec 2 cellules par ligne
         //recyclerView.setLayoutManager(new GridLayoutManager(this,2));
 
+
+
+        class itemClickListener: AdapterView.OnItemClickListener {
+            override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                Toast.makeText(this@BudgetFragment.activity, "TEST: " + position, Toast.LENGTH_SHORT).show()
+            }
+        }
+
         //puis créer un MyAdapter, lui fournir notre liste de villes.
         //cet adapter servira à remplir notre recyclerview
-        recyclerView.adapter = MyBudgetAdapter(contentValuesList)
+        recyclerView.adapter = MyBudgetAdapter(contentValuesList){
+            Toast.makeText(this@BudgetFragment.activity, "TEST: " + it.get(Budget.KEY_COL_LIB) as? String, Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onRefresh() {

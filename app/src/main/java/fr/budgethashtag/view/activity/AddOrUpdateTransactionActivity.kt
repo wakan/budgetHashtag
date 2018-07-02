@@ -4,8 +4,8 @@ import android.app.Activity
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import fr.budgethashtag.R
-import fr.budgethashtag.databinding.ActivityAddTransactionBinding
-import fr.budgethashtag.viewmodel.AddTransactionViewModel
+import fr.budgethashtag.databinding.ActivityAddOrUpdateTransactionBinding
+import fr.budgethashtag.viewmodel.AddOrUpdateTransactionViewModel
 
 class AddOrUpdateTransactionActivity : Activity() {
     private val TAG: String = "AddOrUpdateTransactionActivity"
