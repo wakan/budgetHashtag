@@ -5,9 +5,9 @@ import android.databinding.ObservableField
 import android.os.Bundle
 import android.util.Log
 
-class AddTransactionViewModel(context: Context) : ILifeCycleViewModel
+class AddOrUpdateTransactionViewModel(context: Context) : ILifeCycleViewModel
 {
-    private val TAG: String = "AddTransactionViewModel"
+    private val TAG: String = "AddOrUpdateTransactionViewModel"
     private val mContext: Context = context
     var libelle = ObservableField<String>("")
     var montant = ObservableField<String>("")

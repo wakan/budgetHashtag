@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="fr.budgethashtag.viewmodel.AddTransactionViewModel"/>
+            type="fr.budgethashtag.viewmodel.AddOrUpdateTransactionViewModel"/>
     </data>
 
     <LinearLayout
@@ -22,7 +22,7 @@
             android:theme="@style/AppTheme.AppBarOverlay">
 
             <include
-                android:id="@+id/toolbarAddTransaction"
+                android:id="@+id/toolbarAddOrUpdateTransaction"
                 layout="@layout/my_toolbar"/>
 
 
