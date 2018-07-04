@@ -1,8 +1,11 @@
 package fr.budgethashtag.viewmodel
 
+import android.Manifest
 import android.content.ContentValues
 import android.content.Context
+import android.content.pm.PackageManager
 import android.databinding.ObservableField
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import fr.budgethashtag.asynctask.LoadTransactionsByPortefeuilleIdAndIdTransacAsyncTask
@@ -11,6 +14,13 @@ import fr.budgethashtag.asynctask.beanwork.WorkTransactions
 import fr.budgethashtag.basecolumns.Transaction
 import fr.budgethashtag.interfacecallbackasynctask.LoadTransactionsByPortefeuilleIdAndIdTransacCallback
 import java.util.*
+import android.location.LocationListener
+import fr.budgethashtag.helpers.LocationHelper
+import android.location.LocationManager
+import android.os.Build
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.PermissionChecker.checkSelfPermission
+
 
 class AddOrUpdateTransactionViewModel(context: Context, id: Int)
     : ILifeCycleViewModel,
@@ -22,6 +32,7 @@ class AddOrUpdateTransactionViewModel(context: Context, id: Int)
     private val id = id
     var libelle = ObservableField<String>("")
     var montant = ObservableField<String>("")
+    var bestLocation:Location? = null
 
     override fun onCreate(extras: Bundle?) {
         if(id > 0) {montant
@@ -30,9 +41,25 @@ class AddOrUpdateTransactionViewModel(context: Context, id: Int)
         }
     }
     override fun onPause() {
+        val locationManager = mContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        locationManager.removeUpdates(locationListener)
     }
     override fun onResume() {
+        startLocation()
     }
+
+    public fun startLocation() {
+        val locationManager = mContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        if (Build.VERSION.SDK_INT >= 23
+                && checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0F, locationListener)
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0F, locationListener)
+        locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 0L, 0F, locationListener)
+    }
+
     override fun onDestroy() {
     }
 
@@ -42,6 +69,25 @@ class AddOrUpdateTransactionViewModel(context: Context, id: Int)
         montant.set(montantDb.toString())
     }
 
+    var locationListener: LocationListener = object : LocationListener {
+        override fun onLocationChanged(location: Location) {
+            if(null == bestLocation) {
+                bestLocation = location
+            } else {
+                if(LocationHelper.isBetterLocation(location, bestLocation)) {
+                    bestLocation = location
+                }
+            }
+        }
+
+        override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
+
+        override fun onProviderEnabled(provider: String) {}
+
+        override fun onProviderDisabled(provider: String) {}
+    }
+
+
     fun onClickedBtnAddTransactionActivity(value: Int) {
         when (value) {
             0 -> {
@@ -49,9 +95,11 @@ class AddOrUpdateTransactionViewModel(context: Context, id: Int)
                 val date = Date()
                 SaveTransactionAsyncTask(mContext,
                         id,
-                        libelle.get(),date, montant.get()!!.toDouble(),
-                        WorkTransactions() ,
-                        null, null, null, null, null).execute()
+                        libelle.get(), date, montant.get()!!.toDouble(),
+                        WorkTransactions(),
+                        bestLocation?.provider,
+                        bestLocation?.longitude, bestLocation?.latitude, bestLocation?.altitude,
+                        bestLocation?.accuracy?.toDouble()).execute()
 
             }
         }
