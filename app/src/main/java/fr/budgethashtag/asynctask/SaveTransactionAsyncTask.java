@@ -21,6 +21,7 @@ import java.util.Objects;
 public class SaveTransactionAsyncTask extends AsyncTask<Void, Void, Void> {
 
     private final WeakReference<Context> contextRef;
+    private final int id;
     private final String libelle;
     private final Date date;
     private final Double montant;
@@ -34,10 +35,12 @@ public class SaveTransactionAsyncTask extends AsyncTask<Void, Void, Void> {
 
 
     public SaveTransactionAsyncTask(Context context,
+                                    int id,
                                     String libelle,
                                     Date date, Double montant, WorkTransactions transactions,
                                     String locationProvider, Double longitude, Double latitude, Double altitude, Double accuracy) {
         this.contextRef = new WeakReference<>(context);
+        this.id = id;
         this.libelle = libelle;
         this.date = date;
         this.montant = montant;
@@ -91,22 +94,27 @@ public class SaveTransactionAsyncTask extends AsyncTask<Void, Void, Void> {
         cv.put(Transaction.KEY_COL_LIB, libelle);
         cv.put(Transaction.KEY_COL_DT_VALEUR, date.getTime());
         cv.put(Transaction.KEY_COL_MONTANT, montant);
-        if(null != locationProvider) {
-            cv.put(Transaction.KEY_COL_LOCATION_PROVIDER, locationProvider);
-            cv.put(Transaction.KEY_COL_LOCATION_ACCURACY, accuracy);
-            cv.put(Transaction.KEY_COL_LOCATION_ALTITUDE, altitude);
-            cv.put(Transaction.KEY_COL_LOCATION_LATITUDE, latitude);
-            cv.put(Transaction.KEY_COL_LOCATION_LONGITUDE, longitude);
-        }
-        Uri uriAdd = cr.insert(Transaction.contentUriCollection(idPortefeuille),cv);
-        if(uriAdd == null)
-            try {
-                throw new OperationApplicationException(contextRef.get().getString(R.string.ex_msg_save_budget));
-            } catch (OperationApplicationException e) {
-                //TODO : Do better because it is not good here for catch exception
-                e.printStackTrace();
+        if(id > 0) {
+            cr.update(Transaction.contentUriItem(idPortefeuille, id), cv, null, null);
+            return id;
+        } else {
+            if(null != locationProvider) {
+                cv.put(Transaction.KEY_COL_LOCATION_PROVIDER, locationProvider);
+                cv.put(Transaction.KEY_COL_LOCATION_ACCURACY, accuracy);
+                cv.put(Transaction.KEY_COL_LOCATION_ALTITUDE, altitude);
+                cv.put(Transaction.KEY_COL_LOCATION_LATITUDE, latitude);
+                cv.put(Transaction.KEY_COL_LOCATION_LONGITUDE, longitude);
             }
-        return Integer.parseInt(uriAdd.getPathSegments().get(3));
+            Uri uriAdd = cr.insert(Transaction.contentUriCollection(idPortefeuille), cv);
+            if (uriAdd == null)
+                try {
+                    throw new OperationApplicationException(contextRef.get().getString(R.string.ex_msg_save_budget));
+                } catch (OperationApplicationException e) {
+                    //TODO : Do better because it is not good here for catch exception
+                    e.printStackTrace();
+                }
+            return Integer.parseInt(uriAdd.getPathSegments().get(3));
+        }
     }
 
     private void insertBudgetTransaction(ContentResolver cr, long idTransaction, long idPortefeuille,

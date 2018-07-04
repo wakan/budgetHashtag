@@ -86,12 +86,12 @@ public class BudgetHashtagProvider extends ContentProvider {
             case BUDGET_ID:
                 qb.setTables(BudgetHashtagDbHelper.BUDGET_TABLE_NAME);
                 qb.appendWhere( Budget.KEY_COL_ID_PORTEFEUILLE + "=" + uri.getPathSegments().get(1)
-                        + "AND" + Budget.KEY_COL_ID + "=" + uri.getPathSegments().get(3));
+                        + " AND " + Budget.KEY_COL_ID + "=" + uri.getPathSegments().get(3));
                 break;
             case TRANSACTION_ID:
                 qb.setTables(BudgetHashtagDbHelper.TRANSACTION_TABLE_NAME);
                 qb.appendWhere( Transaction.KEY_COL_ID_PORTEFEUILLE + "=" + uri.getPathSegments().get(1)
-                        + "AND" + Transaction.KEY_COL_ID + "=" + uri.getPathSegments().get(3));
+                        + " AND " + Transaction.KEY_COL_ID + "=" + uri.getPathSegments().get(3));
                 break;
             case PORTEFEUILLE:
                 qb.setTables(BudgetHashtagDbHelper.PORTEFEUILLE_TABLE_NAME);
@@ -183,11 +183,71 @@ public class BudgetHashtagProvider extends ContentProvider {
     }
     @Override
     public int delete(@NonNull Uri uri, String where, String[] whereArgs) {
-        throw new UnsupportedOperationException();
+        int nbDeleteRow = 0;
+        switch (uriMatcher.match(uri)) {
+            case BUDGET:
+                nbDeleteRow = budgetHashtagDb.delete(BudgetHashtagDbHelper.BUDGET_TABLE_NAME,
+                        where, whereArgs);
+                break;
+            case BUDGET_ID:
+                String whereContructBud =  Budget.KEY_COL_ID_PORTEFEUILLE + " = ? AND " + Budget.KEY_COL_ID + " = ?";
+                String[] whereArgsConstructBud = {uri.getPathSegments().get(1), uri.getPathSegments().get(3)};
+                nbDeleteRow = budgetHashtagDb.delete(BudgetHashtagDbHelper.BUDGET_TABLE_NAME,
+                        whereContructBud, whereArgsConstructBud);
+                break;
+            case TRANSACTION:
+                nbDeleteRow = budgetHashtagDb.delete(BudgetHashtagDbHelper.TRANSACTION_TABLE_NAME,
+                        where, whereArgs);
+                break;
+            case TRANSACTION_ID:
+                String whereContructTran =  Transaction.KEY_COL_ID_PORTEFEUILLE + " = ? AND " + Transaction.KEY_COL_ID + " = ?";
+                String[] whereArgsConstructTran = {uri.getPathSegments().get(1), uri.getPathSegments().get(3)};
+                nbDeleteRow = budgetHashtagDb.delete(BudgetHashtagDbHelper.BUDGET_TABLE_NAME,
+                        whereContructTran, whereArgsConstructTran);
+                break;
+            case BUDGET_TRANSACTION:
+                nbDeleteRow = budgetHashtagDb.delete(BudgetHashtagDbHelper.BUDGET_TRANSACTION_TABLE_NAME,
+                        where, whereArgs);
+                break;
+            case PORTEFEUILLE:
+                nbDeleteRow = budgetHashtagDb.delete(BudgetHashtagDbHelper.BUDGET_TRANSACTION_TABLE_NAME,
+                        where, whereArgs);
+                break;
+            case PORTEFEUILLE_ID:
+                String whereContructPort =  Portefeuille.KEY_COL_ID + " = ?";
+                String[] whereArgsConstructPort = {uri.getPathSegments().get(1)};
+                nbDeleteRow = budgetHashtagDb.delete(BudgetHashtagDbHelper.PORTEFEUILLE_TABLE_NAME,
+                        whereContructPort, whereArgsConstructPort);
+                break;
+        }
+        return nbDeleteRow;
     }
     @Override
     public int update(@NonNull Uri uri, ContentValues values, String where, String[] whereArgs) {
-        throw new UnsupportedOperationException();
+        int nbUpdateRow = 0;
+        switch (uriMatcher.match(uri)) {
+            case BUDGET:
+                nbUpdateRow = budgetHashtagDb.update(BudgetHashtagDbHelper.BUDGET_TABLE_NAME, values,
+                        where, whereArgs);
+                break;
+            case BUDGET_ID:
+                String whereContructBud =  Budget.KEY_COL_ID_PORTEFEUILLE + " = ? AND " + Budget.KEY_COL_ID + " = ?";
+                String[] whereArgsConstructBud = {uri.getPathSegments().get(1), uri.getPathSegments().get(3)};
+                nbUpdateRow = budgetHashtagDb.update(BudgetHashtagDbHelper.BUDGET_TABLE_NAME, values,
+                        whereContructBud, whereArgsConstructBud);
+                break;
+            case TRANSACTION:
+                nbUpdateRow = budgetHashtagDb.update(BudgetHashtagDbHelper.TRANSACTION_TABLE_NAME, values,
+                        where, whereArgs);
+                break;
+            case TRANSACTION_ID:
+                String whereContructTran =  Transaction.KEY_COL_ID_PORTEFEUILLE + " = ? AND " + Transaction.KEY_COL_ID + " = ?";
+                String[] whereArgsConstructTran = {uri.getPathSegments().get(1), uri.getPathSegments().get(3)};
+                nbUpdateRow = budgetHashtagDb.update(BudgetHashtagDbHelper.TRANSACTION_TABLE_NAME, values,
+                        whereContructTran, whereArgsConstructTran);
+                break;
+        }
+        return nbUpdateRow;
     }
 
 

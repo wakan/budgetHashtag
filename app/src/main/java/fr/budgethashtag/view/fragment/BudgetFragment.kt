@@ -54,24 +54,12 @@ class BudgetFragment : Fragment(), LoadBudgetsByPortefeuilleIdCallback, SwipeRef
         //définit l'agencement des cellules, ici de façon verticale, comme une ListView
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        //pour adapter en grille comme une RecyclerView, avec 2 cellules par ligne
-        //recyclerView.setLayoutManager(new GridLayoutManager(this,2));
-
-
-
-        class itemClickListener: AdapterView.OnItemClickListener {
-            override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                Toast.makeText(this@BudgetFragment.activity, "TEST: " + position, Toast.LENGTH_SHORT).show()
-            }
-        }
-
         //puis créer un MyAdapter, lui fournir notre liste de villes.
         //cet adapter servira à remplir notre recyclerview
         recyclerView.adapter = MyBudgetAdapter(contentValuesList){
             val intent = Intent(this@BudgetFragment.activity, UpdateBudgetActivity::class.java)
             intent.putExtra(Budget.KEY_COL_ID,  it.get(Budget.KEY_COL_ID) as Int)
             this@BudgetFragment.activity!!.startActivity(intent)
-            Toast.makeText(this@BudgetFragment.activity, "TEST: " + it.get(Budget.KEY_COL_LIB) as? String, Toast.LENGTH_SHORT).show()
         }
     }
 
