@@ -6,20 +6,19 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.databinding.ObservableField
 import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
+import android.support.v4.content.PermissionChecker.checkSelfPermission
 import android.util.Log
 import fr.budgethashtag.asynctask.LoadTransactionsByPortefeuilleIdAndIdTransacAsyncTask
 import fr.budgethashtag.asynctask.SaveTransactionAsyncTask
 import fr.budgethashtag.asynctask.beanwork.WorkTransactions
 import fr.budgethashtag.basecolumns.Transaction
+import fr.budgethashtag.helpers.LocationHelper
 import fr.budgethashtag.interfacecallbackasynctask.LoadTransactionsByPortefeuilleIdAndIdTransacCallback
 import java.util.*
-import android.location.LocationListener
-import fr.budgethashtag.helpers.LocationHelper
-import android.location.LocationManager
-import android.os.Build
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.PermissionChecker.checkSelfPermission
 
 
 class AddOrUpdateTransactionViewModel(context: Context, id: Int)
@@ -48,12 +47,12 @@ class AddOrUpdateTransactionViewModel(context: Context, id: Int)
         startLocation()
     }
 
-    public fun startLocation() {
+    private fun startLocation() {
         val locationManager = mContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (Build.VERSION.SDK_INT >= 23
                 && checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
+            return
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0F, locationListener)
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0F, locationListener)
@@ -69,7 +68,7 @@ class AddOrUpdateTransactionViewModel(context: Context, id: Int)
         montant.set(montantDb.toString())
     }
 
-    var locationListener: LocationListener = object : LocationListener {
+    private var locationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
             if(null == bestLocation) {
                 bestLocation = location

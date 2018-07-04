@@ -18,7 +18,7 @@ class AddOrUpdateTransactionActivity : Activity() {
         super.onCreate(savedInstanceState)
         ActivityCompat.requestPermissions( this, arrayOf( android.Manifest.permission.ACCESS_COARSE_LOCATION,
                                                                 android.Manifest.permission.ACCESS_FINE_LOCATION),
-                                                    MY_PERMISSION_ACCESS_COURSE_LOCATION );
+                                                    MY_PERMISSION_ACCESS_COURSE_LOCATION )
 
         val binding: ActivityAddOrUpdateTransactionBinding = DataBindingUtil.setContentView(this, R.layout.activity_add_or_update_transaction)
         val id = intent.getIntExtra(Transaction.KEY_COL_ID, -1)
