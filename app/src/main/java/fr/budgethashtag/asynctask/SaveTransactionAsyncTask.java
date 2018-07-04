@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.widget.Toast;
 import fr.budgethashtag.R;
+import fr.budgethashtag.asynctask.beanwork.WorkTransactions;
 import fr.budgethashtag.basecolumns.Budget;
 import fr.budgethashtag.basecolumns.BudgetTransaction;
 import fr.budgethashtag.basecolumns.Transaction;
@@ -30,11 +31,7 @@ public class SaveTransactionAsyncTask extends AsyncTask<Void, Void, Void> {
     private final Double altitude;
     private final Double accuracy;
 
-    public class WorkTransactions {
-        final List<Integer> transactionsExistantesAjoutees = new ArrayList<>();
-        final List<Integer> transactionsExistantesSupprimees = new ArrayList<>();
-        final List<String> transactionsNouvelles = new ArrayList<>();
-    }
+
 
     public SaveTransactionAsyncTask(Context context,
                                     String libelle,
@@ -57,9 +54,9 @@ public class SaveTransactionAsyncTask extends AsyncTask<Void, Void, Void> {
         ContentResolver cr = contextRef.get().getContentResolver();
         long idPortefeuille = PortefeuilleHelper.getIdPortefeuilleFromSharedPref(contextRef);
         long idTransaction = insertTransaction(cr, idPortefeuille);
-        List<Integer> idsInsert = insertNewBudget(cr, idPortefeuille, transactions.transactionsNouvelles);
-        insertBudgetTransaction(cr, idPortefeuille, idTransaction, idsInsert, transactions.transactionsExistantesAjoutees);
-        deleteBudgetTransaction(cr, idTransaction, idPortefeuille, transactions.transactionsExistantesSupprimees);
+        List<Integer> idsInsert = insertNewBudget(cr, idPortefeuille, transactions.getTransactionsNouvelles());
+        insertBudgetTransaction(cr, idPortefeuille, idTransaction, idsInsert, transactions.getTransactionsExistantesAjoutees());
+        deleteBudgetTransaction(cr, idTransaction, idPortefeuille, transactions.getTransactionsExistantesSupprimees());
         return null;
     }
     @Override

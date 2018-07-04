@@ -4,10 +4,13 @@ import android.content.Context
 import android.databinding.ObservableField
 import android.os.Bundle
 import android.util.Log
+import fr.budgethashtag.asynctask.SaveTransactionAsyncTask
+import fr.budgethashtag.asynctask.beanwork.WorkTransactions
+import java.util.*
 
 class AddOrUpdateTransactionViewModel(context: Context) : ILifeCycleViewModel
 {
-    private val TAG: String = "AddOrUpdateTransactionViewModel"
+    private val TAG: String = "AddOrUpdateTransVM"
     private val mContext: Context = context
     var libelle = ObservableField<String>("")
     var montant = ObservableField<String>("")
@@ -32,8 +35,11 @@ class AddOrUpdateTransactionViewModel(context: Context) : ILifeCycleViewModel
         when (value) {
             0 -> {
                 Log.i(TAG, "Libelle : ${libelle.get()} Montant : ${montant.get()}")
-                val color = ""
-                //SaveBudgetAsyncTask(mContext, libelle.get(), montant.get()!!.toDouble(), color).execute()
+                val date = Date();
+                SaveTransactionAsyncTask(mContext,
+                        libelle.get(),date, montant.get()!!.toDouble(),
+                        WorkTransactions() ,
+                        null, null, null, null, null).execute();
             }
         }
     }

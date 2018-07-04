@@ -3,6 +3,7 @@ package fr.budgethashtag.view.fragment
 import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -19,6 +20,8 @@ import fr.budgethashtag.adapter.MyBudgetAdapter
 import fr.budgethashtag.basecolumns.Budget
 import fr.budgethashtag.databinding.FragmentBudgetBinding
 import fr.budgethashtag.interfacecallbackasynctask.LoadBudgetsByPortefeuilleIdCallback
+import fr.budgethashtag.view.activity.AddBudgetActivity
+import fr.budgethashtag.view.activity.UpdateBudgetActivity
 import fr.budgethashtag.viewmodel.BudgetFragmentViewModel
 
 
@@ -65,6 +68,9 @@ class BudgetFragment : Fragment(), LoadBudgetsByPortefeuilleIdCallback, SwipeRef
         //puis créer un MyAdapter, lui fournir notre liste de villes.
         //cet adapter servira à remplir notre recyclerview
         recyclerView.adapter = MyBudgetAdapter(contentValuesList){
+            val intent = Intent(this@BudgetFragment.activity, UpdateBudgetActivity::class.java)
+            intent.putExtra(Budget.KEY_COL_ID,  it.get(Budget.KEY_COL_ID) as Int)
+            this@BudgetFragment.activity!!.startActivity(intent)
             Toast.makeText(this@BudgetFragment.activity, "TEST: " + it.get(Budget.KEY_COL_LIB) as? String, Toast.LENGTH_SHORT).show()
         }
     }
