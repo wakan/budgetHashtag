@@ -126,7 +126,7 @@ public class BudgetHashtagProvider extends ContentProvider {
             default:
                 break;
         }
-        String orderBy = setOrderbyClose(uri, sortOrder);
+        String orderBy = setOrderByClose(uri, sortOrder);
         if(null == calculatedProjection) {
             calculatedProjection = projection;
         }
@@ -134,7 +134,7 @@ public class BudgetHashtagProvider extends ContentProvider {
         c.setNotificationUri(Objects.requireNonNull(getContext()).getContentResolver(), uri);
         return c;
     }
-    private String setOrderbyClose(Uri uri, String sortOrder) {
+    private String setOrderByClose(Uri uri, String sortOrder) {
         String orderBy = null;
         if (TextUtils.isEmpty(sortOrder)) {
             switch (uriMatcher.match(uri)) {

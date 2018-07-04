@@ -2,7 +2,6 @@ package fr.budgethashtag.view.fragment
 
 import android.app.Activity
 import android.content.ContentValues
-import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -13,18 +12,13 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.Toast
 import fr.budgethashtag.R
 import fr.budgethashtag.adapter.MyBudgetAdapter
 import fr.budgethashtag.basecolumns.Budget
 import fr.budgethashtag.databinding.FragmentBudgetBinding
 import fr.budgethashtag.interfacecallbackasynctask.LoadBudgetsByPortefeuilleIdCallback
-import fr.budgethashtag.view.activity.AddBudgetActivity
 import fr.budgethashtag.view.activity.UpdateBudgetActivity
 import fr.budgethashtag.viewmodel.BudgetFragmentViewModel
-
-
 
 
 class BudgetFragment : Fragment(), LoadBudgetsByPortefeuilleIdCallback, SwipeRefreshLayout.OnRefreshListener {

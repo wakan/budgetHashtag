@@ -38,7 +38,7 @@ class AddOrUpdateTransactionViewModel(context: Context, id: Int)
 
     override fun onLoadTransactionsByPortefeuilleIdAndIdTransac(contentValues: ContentValues?) {
         libelle.set(contentValues!!.get(Transaction.KEY_COL_LIB) as? String)
-        val montantDb = contentValues!!.get(Transaction.KEY_COL_MONTANT)
+        val montantDb = contentValues.get(Transaction.KEY_COL_MONTANT)
         montant.set(montantDb.toString())
     }
 
@@ -46,14 +46,14 @@ class AddOrUpdateTransactionViewModel(context: Context, id: Int)
         when (value) {
             0 -> {
                 Log.i(TAG, "Libelle : ${libelle.get()} Montant : ${montant.get()}")
-                val date = Date();
+                val date = Date()
                 SaveTransactionAsyncTask(mContext,
                         id,
                         libelle.get(),date, montant.get()!!.toDouble(),
                         WorkTransactions() ,
-                        null, null, null, null, null).execute();
+                        null, null, null, null, null).execute()
 
-             }
+            }
         }
     }
 

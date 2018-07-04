@@ -40,12 +40,7 @@
                 <action android:name="android.intent.action.EDIT"/>
             </intent-filter>
         </activity>
-        <activity android:name=".view.activity.GraphActivity">
-            <intent-filter>
-                <data android:mimeType="vnd.android.cursor.dir/vdn.budgethashtag.budget" />
-                <action android:name="android.intent.action.VIEW"/>
-            </intent-filter>
-        </activity>
+        <activity android:name=".view.activity.GraphActivity"/>
 
     </application>
 </manifest>

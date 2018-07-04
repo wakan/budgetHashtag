@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WorkTransactions {
-    final List<Integer> transactionsExistantesAjoutees = new ArrayList<>();
-    final List<Integer> transactionsExistantesSupprimees = new ArrayList<>();
-    final List<String> transactionsNouvelles = new ArrayList<>();
+    private final List<Integer> transactionsExistantesAjoutees = new ArrayList<>();
+    private final List<Integer> transactionsExistantesSupprimees = new ArrayList<>();
+    private final List<String> transactionsNouvelles = new ArrayList<>();
 
     public List<Integer> getTransactionsExistantesAjoutees() {
         return transactionsExistantesAjoutees;

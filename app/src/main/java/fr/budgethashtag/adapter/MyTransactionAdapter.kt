@@ -15,7 +15,7 @@ class MyTransactionAdapter() : RecyclerView.Adapter<MyTransactionViewHolder>() {
     constructor(list: List<ContentValues>, itemClickListener: (ContentValues)->Unit)
             : this(){
         this.listTransactions = list
-        this.itemClickListener = itemClickListener;
+        this.itemClickListener = itemClickListener
     }
 
     //cette fonction permet de créer les viewHolder

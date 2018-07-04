@@ -113,7 +113,7 @@ public class SaveTransactionAsyncTask extends AsyncTask<Void, Void, Void> {
                     //TODO : Do better because it is not good here for catch exception
                     e.printStackTrace();
                 }
-            return Integer.parseInt(uriAdd.getPathSegments().get(3));
+            return Integer.parseInt(Objects.requireNonNull(uriAdd).getPathSegments().get(3));
         }
     }
 

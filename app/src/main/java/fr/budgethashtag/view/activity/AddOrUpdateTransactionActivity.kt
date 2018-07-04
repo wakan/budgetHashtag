@@ -18,6 +18,6 @@ class AddOrUpdateTransactionActivity : Activity() {
         val id = intent.getIntExtra(Transaction.KEY_COL_ID, -1)
         viewModel = AddOrUpdateTransactionViewModel(this, id)
         binding.viewModel = viewModel
-        viewModel.onCreate(savedInstanceState);
+        viewModel.onCreate(savedInstanceState)
     }
 }

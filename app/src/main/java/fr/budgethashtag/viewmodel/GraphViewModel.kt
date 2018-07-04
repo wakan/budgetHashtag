@@ -1,10 +1,7 @@
 package fr.budgethashtag.viewmodel
 
 import android.content.Context
-import android.databinding.ObservableField
 import android.os.Bundle
-import android.util.Log
-import fr.budgethashtag.asynctask.SaveBudgetAsyncTask
 
 
 class GraphViewModel(context: Context) : ILifeCycleViewModel
