@@ -34,17 +34,21 @@ class AddOrUpdateTransactionViewModel(context: Context, id: Int)
     var bestLocation:Location? = null
 
     override fun onCreate(extras: Bundle?) {
-        if(id > 0) {montant
+        if(id > 0) {
             LoadTransactionsByPortefeuilleIdAndIdTransacAsyncTask(
                     mContext, this, id).execute()
         }
     }
     override fun onPause() {
-        val locationManager = mContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        locationManager.removeUpdates(locationListener)
+        if(id <= 0) {
+            val locationManager = mContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            locationManager.removeUpdates(locationListener)
+        }
     }
     override fun onResume() {
-        startLocation()
+        if(id <= 0) {
+            startLocation()
+        }
     }
 
     private fun startLocation() {
