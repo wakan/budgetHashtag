@@ -1,6 +1,7 @@
 package fr.budgethashtag.adapter
 
 import android.content.ContentValues
+import android.databinding.ObservableList
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +10,10 @@ import fr.budgethashtag.R
 
 class MyTransactionAdapter() : RecyclerView.Adapter<MyTransactionViewHolder>() {
 
-    private lateinit var listTransactions:  List<ContentValues>
+    private lateinit var listTransactions:  ObservableList<ContentValues>
     private lateinit var itemClickListener: (ContentValues)->Unit
 
-    constructor(list: List<ContentValues>, itemClickListener: (ContentValues)->Unit)
+    constructor(list: ObservableList<ContentValues>, itemClickListener: (ContentValues)->Unit)
             : this(){
         this.listTransactions = list
         this.itemClickListener = itemClickListener

@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
 import android.databinding.DataBindingUtil
+import android.databinding.ObservableArrayList
+import android.databinding.ObservableList
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
@@ -28,6 +30,8 @@ class BudgetFragment : Fragment(), LoadBudgetsByPortefeuilleIdCallback, SwipeRef
     private lateinit var binding: FragmentBudgetBinding
     private lateinit var recyclerView : RecyclerView
 
+    private val contentValues: ObservableList<ContentValues> = ObservableArrayList<ContentValues>()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
 
@@ -38,29 +42,32 @@ class BudgetFragment : Fragment(), LoadBudgetsByPortefeuilleIdCallback, SwipeRef
         recyclerView = binding.includeContentFragmentBudget!!.budgetRecyclerView
 
         binding.includeContentFragmentBudget!!.swipeRefreshBudgetLayout.setOnRefreshListener(this)
+        recyclerView!!.layoutManager = LinearLayoutManager(activity)
 
         return binding.root
     }
 
-    override fun onLoadBudgetsByPortefeuilleIdCallback(contentValuesList: List<ContentValues>) {
-
-
-        //définit l'agencement des cellules, ici de façon verticale, comme une ListView
-        recyclerView.layoutManager = LinearLayoutManager(activity)
-
-        //puis créer un MyAdapter, lui fournir notre liste de villes.
-        //cet adapter servira à remplir notre recyclerview
-        recyclerView.adapter = MyBudgetAdapter(contentValuesList){
+    override fun onStart() {
+        super.onStart()
+        recyclerView!!.adapter = MyBudgetAdapter(contentValues){
             val intent = Intent(this@BudgetFragment.activity, UpdateBudgetActivity::class.java)
             intent.putExtra(Budget.KEY_COL_ID,  it.get(Budget.KEY_COL_ID) as Int)
             this@BudgetFragment.activity!!.startActivity(intent)
         }
     }
 
+    override fun onLoadBudgetsByPortefeuilleIdCallback(contentValuesList: List<ContentValues>) {
+        contentValues.clear()
+        contentValues.addAll(contentValuesList)
+        if(isAdded && null != activity && null != view) {
+            recyclerView!!.adapter.notifyDataSetChanged()
+        }
+    }
+
     override fun onRefresh() {
 
         viewModel.reloadBudgets()
-        recyclerView.adapter.notifyDataSetChanged()
+        recyclerView!!.adapter.notifyDataSetChanged()
         binding.includeContentFragmentBudget!!.swipeRefreshBudgetLayout.isRefreshing = false
 
     }

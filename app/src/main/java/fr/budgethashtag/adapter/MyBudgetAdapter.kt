@@ -1,6 +1,7 @@
 package fr.budgethashtag.adapter
 
 import android.content.ContentValues
+import android.databinding.ObservableList
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -10,14 +11,14 @@ import fr.budgethashtag.R
 
 class MyBudgetAdapter() : RecyclerView.Adapter<MyBudgetViewHolder>() {
 
-    private lateinit var listBudgets:  List<ContentValues>
+    private lateinit var listBudgets:  ObservableList<ContentValues>
     private lateinit var itemClickListener: (ContentValues)->Unit
 
-    constructor(list: List<ContentValues>) : this(){
+    constructor(list: ObservableList<ContentValues>) : this(){
         this.listBudgets = list
     }
 
-    constructor(contentValuesList: List<ContentValues>, itemClickListener: (ContentValues)->Unit)
+    constructor(contentValuesList: ObservableList<ContentValues>, itemClickListener: (ContentValues)->Unit)
         :this(contentValuesList) {
         this.itemClickListener = itemClickListener
     }
