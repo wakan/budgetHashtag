@@ -1,11 +1,11 @@
 package fr.budgethashtag.viewmodel
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import fr.budgethashtag.asynctask.LoadTransactionsByPortefeuilleIdAsyncTask
 import fr.budgethashtag.view.activity.AddOrUpdateTransactionActivity
 import fr.budgethashtag.view.fragment.TransactionFragment
+import org.jetbrains.anko.startActivity
 
 class TransactionFragmentViewModel(context: Context,  transactionFragment: TransactionFragment) : ILifeCycleViewModel
 {
@@ -32,8 +32,7 @@ class TransactionFragmentViewModel(context: Context,  transactionFragment: Trans
     fun onClickedBtnTransactionFragment(value:Int) {
         when(value) {
             0 -> {
-                val intent = Intent(mContext, AddOrUpdateTransactionActivity::class.java)
-                mContext.startActivity(intent)
+                mContext.startActivity<AddOrUpdateTransactionActivity>()
             }
         }
     }

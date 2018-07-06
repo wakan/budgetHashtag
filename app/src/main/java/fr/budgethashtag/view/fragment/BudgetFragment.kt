@@ -2,7 +2,6 @@ package fr.budgethashtag.view.fragment
 
 import android.app.Activity
 import android.content.ContentValues
-import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -19,17 +18,17 @@ import fr.budgethashtag.databinding.FragmentBudgetBinding
 import fr.budgethashtag.interfacecallbackasynctask.LoadBudgetsByPortefeuilleIdCallback
 import fr.budgethashtag.view.activity.UpdateBudgetActivity
 import fr.budgethashtag.viewmodel.BudgetFragmentViewModel
+import org.jetbrains.anko.startActivity
 
 
 class BudgetFragment : Fragment(), LoadBudgetsByPortefeuilleIdCallback, SwipeRefreshLayout.OnRefreshListener {
 
     private val TAG: String = "BudgetFragment"
-    private lateinit var viewModel : BudgetFragmentViewModel
+    private lateinit var viewModel: BudgetFragmentViewModel
     private lateinit var binding: FragmentBudgetBinding
-    private lateinit var recyclerView : RecyclerView
+    private lateinit var recyclerView: RecyclerView
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
-    {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_budget, container, false)
         viewModel = BudgetFragmentViewModel(activity as Activity, this)
@@ -50,10 +49,9 @@ class BudgetFragment : Fragment(), LoadBudgetsByPortefeuilleIdCallback, SwipeRef
 
         //puis créer un MyAdapter, lui fournir notre liste de villes.
         //cet adapter servira à remplir notre recyclerview
-        recyclerView.adapter = MyBudgetAdapter(contentValuesList){
-            val intent = Intent(this@BudgetFragment.activity, UpdateBudgetActivity::class.java)
-            intent.putExtra(Budget.KEY_COL_ID,  it.get(Budget.KEY_COL_ID) as Int)
-            this@BudgetFragment.activity!!.startActivity(intent)
+        recyclerView.adapter = MyBudgetAdapter(contentValuesList)
+        {
+            this@BudgetFragment.activity!!.startActivity<UpdateBudgetActivity>(Budget.KEY_COL_ID to it.get(Budget.KEY_COL_ID) as Int)
         }
     }
 

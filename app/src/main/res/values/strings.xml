@@ -16,6 +16,7 @@
     <string name="toast_export_done">Export terminé</string>
     <string name="content_description_icon_budget">icon budget</string>
     <string name="budget">Budget</string>
+    <string name="AjoutOK">Ajout OK</string>
     <string name="transaction">Transaction</string>
     <string name="menu_save">Sauvegarder</string>
 

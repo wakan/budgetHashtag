@@ -32,7 +32,8 @@ class MainActivity : AppCompatActivity(), LoadPortefeuilleByIdCallback, LoadTran
     private lateinit var transactionFragment : TransactionFragment
     private lateinit var budgetFragment : BudgetFragment
 
-    public override fun onCreate(savedInstanceState: Bundle?) {
+    public override fun onCreate(savedInstanceState: Bundle?)
+    {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.viewModel = viewModel
@@ -42,7 +43,7 @@ class MainActivity : AppCompatActivity(), LoadPortefeuilleByIdCallback, LoadTran
 
         setSupportActionBar(mainToolbar)
         tabLayout.setupWithViewPager(viewPager)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(false)
 
         budgetFragment = BudgetFragment()
         transactionFragment = TransactionFragment()

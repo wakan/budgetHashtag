@@ -43,12 +43,5 @@
             android:hint="@string/hint_montant_budget"
             android:inputType="numberDecimal"
             android:text="@={viewModel.montant}"/>
-
-        <Button
-            android:id="@+id/btn_save_budget"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="@{()-> viewModel.onClickedBtnAddTransactionActivity(0)}"
-            android:text="@string/add_transaction"/>
     </LinearLayout>
 </layout>

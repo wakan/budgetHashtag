@@ -39,10 +39,11 @@ class AddBudgetActivity : AppCompatActivity()
             R.id.action_add -> {
                 viewModel.onClickedBtnAddBudgetActivity(0)
             }
+            android.R.id.home -> {
+                finish()
+            }
         }
 
         return super.onOptionsItemSelected(item)
-
-
     }
 }
