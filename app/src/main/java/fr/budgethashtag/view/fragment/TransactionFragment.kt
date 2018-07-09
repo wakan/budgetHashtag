@@ -12,7 +12,6 @@ import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +22,7 @@ import fr.budgethashtag.databinding.FragmentTransactionBinding
 import fr.budgethashtag.interfacecallbackasynctask.LoadTransactionsByPortefeuilleIdCallback
 import fr.budgethashtag.view.activity.AddOrUpdateTransactionActivity
 import fr.budgethashtag.viewmodel.TransactionFragmentViewModel
+import org.jetbrains.anko.startActivity
 
 class TransactionFragment : Fragment(), LoadTransactionsByPortefeuilleIdCallback, SwipeRefreshLayout.OnRefreshListener {
 
@@ -37,26 +37,12 @@ class TransactionFragment : Fragment(), LoadTransactionsByPortefeuilleIdCallback
     {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_transaction, container, false)
         recyclerView = binding.includeContentFragmentTransaction!!.transactionRecyclerView
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Log.e(TAG, (recyclerView == null).toString())
-        }
         viewModel = TransactionFragmentViewModel(activity as Activity, this)
         binding.viewModel = viewModel
+
+        recyclerView = binding.includeContentFragmentTransaction!!.transactionRecyclerView
+
         binding.includeContentFragmentTransaction!!.swipeRefreshTransactionLayout.setOnRefreshListener(this)
-
-
-        //définit l'agencement des cellules, ici de façon verticale, comme une ListView
-        recyclerView.layoutManager = LinearLayoutManager(activity)
-
-        //pour adapter en grille comme une RecyclerView, avec 2 cellules par ligne
-        //recyclerView.setLayoutManager(new GridLayoutManager(this,2));
-        //puis créer un MyAdapter, lui fournir notre liste de villes.
-        //cet adapter servira à remplir notre recyclerview
-        recyclerView.adapter = MyTransactionAdapter(contentValues){
-            val intent = Intent(this@TransactionFragment.activity, AddOrUpdateTransactionActivity::class.java)
-            intent.putExtra(Transaction.KEY_COL_ID,  it.get(Transaction.KEY_COL_ID) as Int)
-            this@TransactionFragment.activity!!.startActivity(intent)
-        }
 
         return binding.root
     }

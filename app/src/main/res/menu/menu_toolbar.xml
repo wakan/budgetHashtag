@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:actionbarcompat_mse="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_map"
+        android:icon="@android:drawable/ic_dialog_map"
+        android:orderInCategory="0"
+        actionbarcompat_mse:showAsAction="always"
+        android:title="@string/menu_save">
+    </item>
     <item
         android:id="@+id/action_add"
-        android:icon="@mipmap/ic_add_white"
+        android:icon="@android:drawable/ic_menu_save"
         android:orderInCategory="0"
         actionbarcompat_mse:showAsAction="always"
         android:title="@string/menu_save">

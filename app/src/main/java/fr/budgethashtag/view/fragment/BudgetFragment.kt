@@ -21,6 +21,7 @@ import fr.budgethashtag.databinding.FragmentBudgetBinding
 import fr.budgethashtag.interfacecallbackasynctask.LoadBudgetsByPortefeuilleIdCallback
 import fr.budgethashtag.view.activity.UpdateBudgetActivity
 import fr.budgethashtag.viewmodel.BudgetFragmentViewModel
+import org.jetbrains.anko.startActivity
 
 
 class BudgetFragment : Fragment(), LoadBudgetsByPortefeuilleIdCallback, SwipeRefreshLayout.OnRefreshListener {
@@ -50,9 +51,7 @@ class BudgetFragment : Fragment(), LoadBudgetsByPortefeuilleIdCallback, SwipeRef
     override fun onStart() {
         super.onStart()
         recyclerView!!.adapter = MyBudgetAdapter(contentValues){
-            val intent = Intent(this@BudgetFragment.activity, UpdateBudgetActivity::class.java)
-            intent.putExtra(Budget.KEY_COL_ID,  it.get(Budget.KEY_COL_ID) as Int)
-            this@BudgetFragment.activity!!.startActivity(intent)
+            this@BudgetFragment.activity!!.startActivity<UpdateBudgetActivity>(Budget.KEY_COL_ID to it.get(Budget.KEY_COL_ID) as Int)
         }
     }
 
@@ -67,7 +66,7 @@ class BudgetFragment : Fragment(), LoadBudgetsByPortefeuilleIdCallback, SwipeRef
     override fun onRefresh() {
 
         viewModel.reloadBudgets()
-        recyclerView!!.adapter.notifyDataSetChanged()
+        recyclerView.adapter.notifyDataSetChanged()
         binding.includeContentFragmentBudget!!.swipeRefreshBudgetLayout.isRefreshing = false
 
     }

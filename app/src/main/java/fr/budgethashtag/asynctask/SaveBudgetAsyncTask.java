@@ -54,6 +54,6 @@ public class SaveBudgetAsyncTask extends AsyncTask<Void, Void, Void> {
     {
         super.onPostExecute(aVoid);
         ((Activity)contextRef.get()).finish();
-        Toast.makeText(contextRef.get(), "Ajout OK", Toast.LENGTH_SHORT).show();
+        Toast.makeText(contextRef.get(), R.string.AjoutOK, Toast.LENGTH_SHORT).show();
     }
 }

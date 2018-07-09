@@ -1,22 +1,26 @@
 package fr.budgethashtag.asynctask;
 
 import android.app.Activity;
-import android.content.*;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.OperationApplicationException;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.widget.Toast;
-import fr.budgethashtag.R;
-import fr.budgethashtag.asynctask.beanwork.WorkTransactions;
-import fr.budgethashtag.basecolumns.Budget;
-import fr.budgethashtag.basecolumns.BudgetTransaction;
-import fr.budgethashtag.basecolumns.Transaction;
-import fr.budgethashtag.helpers.PortefeuilleHelper;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+
+import fr.budgethashtag.R;
+import fr.budgethashtag.asynctask.beanwork.WorkTransactions;
+import fr.budgethashtag.basecolumns.Budget;
+import fr.budgethashtag.basecolumns.BudgetTransaction;
+import fr.budgethashtag.basecolumns.Transaction;
+import fr.budgethashtag.helpers.PortefeuilleHelper;
 
 public class SaveTransactionAsyncTask extends AsyncTask<Void, Void, Void> {
 
@@ -66,7 +70,7 @@ public class SaveTransactionAsyncTask extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         ((Activity) contextRef.get()).finish();
-        Toast.makeText(contextRef.get(), "Ajout OK", Toast.LENGTH_SHORT).show();
+        Toast.makeText(contextRef.get(), R.string.AjoutOK, Toast.LENGTH_SHORT).show();
     }
 
     private List<Integer> insertNewBudget(ContentResolver cr, long idPortefeuille, List<String> transactionsNouvelles) {

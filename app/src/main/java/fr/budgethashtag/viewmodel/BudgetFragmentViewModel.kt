@@ -1,11 +1,11 @@
 package fr.budgethashtag.viewmodel
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import fr.budgethashtag.asynctask.LoadBudgetsByPortefeuilleIdAsyncTask
 import fr.budgethashtag.view.activity.AddBudgetActivity
 import fr.budgethashtag.view.fragment.BudgetFragment
+import org.jetbrains.anko.startActivity
 
 class BudgetFragmentViewModel(context: Context, budgetFragment: BudgetFragment) : ILifeCycleViewModel {
     private val TAG: String = "BudgetFragmentViewModel"
@@ -31,8 +31,7 @@ class BudgetFragmentViewModel(context: Context, budgetFragment: BudgetFragment) 
     fun onClickedBtnBudgetFragment(value: Int) {
         when (value) {
             0 -> {
-                val intent = Intent(mContext, AddBudgetActivity::class.java)
-                mContext.startActivity(intent)
+                mContext.startActivity<AddBudgetActivity>()
             }
         }
     }
