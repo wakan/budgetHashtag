@@ -35,7 +35,6 @@ class BudgetFragment : Fragment(), LoadBudgetsByPortefeuilleIdCallback, SwipeRef
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
-
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_budget, container, false)
         viewModel = BudgetFragmentViewModel(activity as Activity, this)
         binding.viewModel = viewModel
@@ -51,7 +50,8 @@ class BudgetFragment : Fragment(), LoadBudgetsByPortefeuilleIdCallback, SwipeRef
     override fun onStart() {
         super.onStart()
         recyclerView!!.adapter = MyBudgetAdapter(contentValues){
-            this@BudgetFragment.activity!!.startActivity<UpdateBudgetActivity>(Budget.KEY_COL_ID to it.get(Budget.KEY_COL_ID) as Int)
+            this@BudgetFragment.activity!!.startActivity<UpdateBudgetActivity>(
+                    Budget.KEY_COL_ID to it.get(Budget.KEY_COL_ID) as Int)
         }
     }
 
@@ -64,10 +64,9 @@ class BudgetFragment : Fragment(), LoadBudgetsByPortefeuilleIdCallback, SwipeRef
     }
 
     override fun onRefresh() {
-
         viewModel.reloadBudgets()
         recyclerView.adapter.notifyDataSetChanged()
         binding.includeContentFragmentBudget!!.swipeRefreshBudgetLayout.isRefreshing = false
-
     }
+
 }
