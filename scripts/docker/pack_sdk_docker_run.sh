@@ -1,4 +1,6 @@
 docker run \
+   --name packsdkandroidbudgethashtag \
    -it --rm \
-   -v $PWD:/dest:rw
-   packsdkandroidbudgethashtagdocker.image
+  packsdkandroidbudgethashtagdocker.image 
+
+
