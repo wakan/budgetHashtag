@@ -2,6 +2,7 @@ package fr.budgethashtag.viewmodel
 
 import android.content.Context
 import android.os.Bundle
+import android.os.PersistableBundle
 import fr.budgethashtag.asynctask.CreateDefaultPortefeuilleIfNotExistAsyncTask
 import fr.budgethashtag.asynctask.LoadBudgetsByPortefeuilleIdAsyncTask
 import fr.budgethashtag.asynctask.LoadPortefeuilleByIdAsyncTask
@@ -18,7 +19,8 @@ class MainActivityViewModel(context: Context) : ILifeCycleViewModel, CreateDefau
     override fun onCreate(extras: Bundle?) {
         CreateDefaultPortefeuilleIfNotExistAsyncTask(mContext, this).execute()
     }
-
+    override fun onSaveInstanceState(outState: Bundle?) {
+    }
     override fun onPause() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

@@ -37,6 +37,11 @@ class AddOrUpdateTransactionActivity : AppCompatActivity() {
         supportActionBar!!.setTitle(R.string.transaction)
     }
 
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        viewModel.onSaveInstanceState(outState)
+    }
+
     public override fun onPause() {
         super.onPause()
         viewModel.onPause()

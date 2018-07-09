@@ -2,6 +2,7 @@ package fr.budgethashtag.viewmodel
 
 import android.content.Context
 import android.os.Bundle
+import android.os.PersistableBundle
 import fr.budgethashtag.asynctask.LoadTransactionsByPortefeuilleIdAsyncTask
 import fr.budgethashtag.view.activity.AddOrUpdateTransactionActivity
 import fr.budgethashtag.view.fragment.TransactionFragment
@@ -16,7 +17,8 @@ class TransactionFragmentViewModel(context: Context,  transactionFragment: Trans
     override fun onCreate(extras: Bundle?) {
         //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
-
+    override fun onSaveInstanceState(outState: Bundle?) {
+    }
     override fun onPause() {
         //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
