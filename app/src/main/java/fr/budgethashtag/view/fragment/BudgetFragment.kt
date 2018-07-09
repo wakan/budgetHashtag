@@ -42,7 +42,6 @@ class BudgetFragment : Fragment(), LoadBudgetsByPortefeuilleIdCallback, SwipeRef
 
         binding.includeContentFragmentBudget!!.swipeRefreshBudgetLayout.setOnRefreshListener(this)
         recyclerView.layoutManager = LinearLayoutManager(activity)
-
         return binding.root
     }
 
