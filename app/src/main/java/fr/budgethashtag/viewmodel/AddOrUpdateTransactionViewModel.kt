@@ -10,13 +10,11 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.v4.content.PermissionChecker.checkSelfPermission
 import android.util.Log
 import fr.budgethashtag.asynctask.LoadTransactionsByPortefeuilleIdAndIdTransacAsyncTask
 import fr.budgethashtag.asynctask.SaveTransactionAsyncTask
 import fr.budgethashtag.asynctask.beanwork.WorkTransactions
-import fr.budgethashtag.basecolumns.Budget
 import fr.budgethashtag.basecolumns.Transaction
 import fr.budgethashtag.helpers.LocationHelper
 import fr.budgethashtag.interfacecallbackasynctask.LoadTransactionsByPortefeuilleIdAndIdTransacCallback
@@ -47,7 +45,7 @@ class AddOrUpdateTransactionViewModel(context: Context, id: Int)
     }
     override fun onSaveInstanceState(outState: Bundle?) {
         outState!!.putString(Transaction.KEY_COL_LIB, libelle.get())
-        outState!!.putString(Transaction.KEY_COL_MONTANT, montant.get())
+        outState.putString(Transaction.KEY_COL_MONTANT, montant.get())
     }
     override fun onPause() {
         if(id <= 0) {

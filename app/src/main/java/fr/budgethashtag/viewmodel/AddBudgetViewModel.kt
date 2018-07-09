@@ -3,7 +3,6 @@ package fr.budgethashtag.viewmodel
 import android.content.Context
 import android.databinding.ObservableField
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import fr.budgethashtag.asynctask.SaveBudgetAsyncTask
 import fr.budgethashtag.basecolumns.Budget
@@ -24,7 +23,7 @@ class AddBudgetViewModel(context: Context) : ILifeCycleViewModel
     }
     override fun onSaveInstanceState(outState: Bundle?) {
         outState!!.putString(Budget.KEY_COL_LIB, libelle.get())
-        outState!!.putString(Budget.KEY_COL_PREVISIONNEL, montant.get())
+        outState.putString(Budget.KEY_COL_PREVISIONNEL, montant.get())
     }
 
     override fun onPause() {

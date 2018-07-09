@@ -2,7 +2,6 @@ package fr.budgethashtag.viewmodel
 
 import android.content.Context
 import android.os.Bundle
-import android.os.PersistableBundle
 
 
 class UpdateBudgetViewModel(context: Context) : ILifeCycleViewModel

@@ -2,7 +2,6 @@ package fr.budgethashtag.view.fragment
 
 import android.app.Activity
 import android.content.ContentValues
-import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.databinding.ObservableArrayList
 import android.databinding.ObservableList
@@ -42,14 +41,14 @@ class BudgetFragment : Fragment(), LoadBudgetsByPortefeuilleIdCallback, SwipeRef
         recyclerView = binding.includeContentFragmentBudget!!.budgetRecyclerView
 
         binding.includeContentFragmentBudget!!.swipeRefreshBudgetLayout.setOnRefreshListener(this)
-        recyclerView!!.layoutManager = LinearLayoutManager(activity)
+        recyclerView.layoutManager = LinearLayoutManager(activity)
 
         return binding.root
     }
 
     override fun onStart() {
         super.onStart()
-        recyclerView!!.adapter = MyBudgetAdapter(contentValues){
+        recyclerView.adapter = MyBudgetAdapter(contentValues){
             this@BudgetFragment.activity!!.startActivity<UpdateBudgetActivity>(
                     Budget.KEY_COL_ID to it.get(Budget.KEY_COL_ID) as Int)
         }
@@ -59,7 +58,7 @@ class BudgetFragment : Fragment(), LoadBudgetsByPortefeuilleIdCallback, SwipeRef
         contentValues.clear()
         contentValues.addAll(contentValuesList)
         if(isAdded && null != activity && null != view) {
-            recyclerView!!.adapter.notifyDataSetChanged()
+            recyclerView.adapter.notifyDataSetChanged()
         }
     }
 
