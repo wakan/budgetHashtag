@@ -43,5 +43,10 @@
             android:hint="@string/hint_montant_budget"
             android:inputType="numberDecimal"
             android:text="@={viewModel.montant}"/>
+
+        <fragment
+                android:name="fr.budgethashtag.view.fragment.AddOrUpdateBudgetInTransactionFragment"
+                android:layout_width="match_parent" android:layout_height="match_parent"
+                  android:id="@+id/frm_add_or_update_budget_in_transaction"/>
     </LinearLayout>
 </layout>
