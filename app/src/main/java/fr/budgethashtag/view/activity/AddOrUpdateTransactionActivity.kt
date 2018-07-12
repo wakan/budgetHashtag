@@ -1,5 +1,6 @@
 package fr.budgethashtag.view.activity
 
+import android.content.ContentValues
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
@@ -8,11 +9,14 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import fr.budgethashtag.R
+import fr.budgethashtag.asynctask.LoadBudgetsByPortefeuilleIdAsyncTask
 import fr.budgethashtag.basecolumns.Transaction
 import fr.budgethashtag.databinding.ActivityAddOrUpdateTransactionBinding
+import fr.budgethashtag.interfacecallbackasynctask.LoadBudgetsByPortefeuilleIdCallback
 import fr.budgethashtag.viewmodel.AddOrUpdateTransactionViewModel
 
-class AddOrUpdateTransactionActivity : AppCompatActivity() {
+class AddOrUpdateTransactionActivity : AppCompatActivity(), LoadBudgetsByPortefeuilleIdCallback {
+
     private val TAG: String = "AddOrUpdateTransactionActivity"
     private val MY_PERMISSION_ACCESS_COURSE_LOCATION = 5142
     private lateinit var viewModel:  AddOrUpdateTransactionViewModel
@@ -35,6 +39,15 @@ class AddOrUpdateTransactionActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setTitle(R.string.transaction)
+
+        LoadBudgetsByPortefeuilleIdAsyncTask(this, this).execute()
+
+    }
+
+    override fun onLoadBudgetsByPortefeuilleIdCallback(contentValuesList: MutableList<ContentValues>?) {
+        val fragLoadBudgetsByPortefeuilleIdCallback =supportFragmentManager.findFragmentById(R.id.frm_add_or_update_budget_in_transaction)
+                as LoadBudgetsByPortefeuilleIdCallback
+        fragLoadBudgetsByPortefeuilleIdCallback.onLoadBudgetsByPortefeuilleIdCallback(contentValuesList)
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {

@@ -14,7 +14,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import fr.budgethashtag.R
-import fr.budgethashtag.adapter.MyBudgetAdapter
 import fr.budgethashtag.adapter.MyTransactionAdapter
 import fr.budgethashtag.basecolumns.Transaction
 import fr.budgethashtag.databinding.FragmentTransactionBinding
