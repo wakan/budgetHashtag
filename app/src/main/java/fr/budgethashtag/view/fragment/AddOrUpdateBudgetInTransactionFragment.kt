@@ -11,12 +11,16 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import fr.budgethashtag.R
 import fr.budgethashtag.adapter.MyBudgetAdapter
+import fr.budgethashtag.basecolumns.Budget
 import fr.budgethashtag.databinding.FragmentAddOrUpdateBudgetInTransactionBinding
 import fr.budgethashtag.interfacecallbackasynctask.LoadBudgetsByPortefeuilleIdCallback
 import fr.budgethashtag.viewmodel.AddOrUpdateBudgetInTransactionViewModel
+import org.jetbrains.anko.find
 
 class AddOrUpdateBudgetInTransactionFragment : Fragment(), LoadBudgetsByPortefeuilleIdCallback {
 
@@ -30,11 +34,25 @@ class AddOrUpdateBudgetInTransactionFragment : Fragment(), LoadBudgetsByPortefeu
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_or_update_budget_in_transaction, container, false)
         viewModel = AddOrUpdateBudgetInTransactionViewModel()
         binding.viewModel = viewModel
-
         recyclerView = binding.existInTransBudgetRecyclerView
-
         recyclerView.layoutManager = LinearLayoutManager(this@AddOrUpdateBudgetInTransactionFragment.activity)
         return binding.root
+    }
+
+    override fun onViewCreated(view:View, savedInstanceState: Bundle?) {
+        autocompleteBudgetInit()
+    }
+
+    private fun autocompleteBudgetInit() {
+        val array = ArrayList<String>(contentValues.size)
+        contentValues.forEach {
+            array.add(it.getAsString(Budget.KEY_COL_LIB))
+        }
+
+        val adapter = ArrayAdapter<String>(this.activity, android.R.layout.simple_dropdown_item_1line,
+                array)
+        val autoCompleteTextView = view!!.find<AutoCompleteTextView>(R.id.autocomplete_budget)
+        autoCompleteTextView.setAdapter(adapter)
     }
 
     override fun onStart() {
@@ -51,6 +69,7 @@ class AddOrUpdateBudgetInTransactionFragment : Fragment(), LoadBudgetsByPortefeu
         if(isAdded && null != activity && null != view) {
             recyclerView.adapter.notifyDataSetChanged()
         }
+        autocompleteBudgetInit()
     }
 
 

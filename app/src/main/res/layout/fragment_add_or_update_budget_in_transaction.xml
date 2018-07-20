@@ -17,9 +17,15 @@
         <android.support.v7.widget.RecyclerView
                 android:id="@+id/exist_in_trans_budget_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
+                android:layout_height="wrap_content">
         </android.support.v7.widget.RecyclerView>
+        <AutoCompleteTextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:id="@+id/autocomplete_budget"
+            android:labelFor="@+id/autocomplete_budget"
+             android:inputType="textAutoCorrect"
+            >
+
+        </AutoCompleteTextView>
 
     </LinearLayout>
 
