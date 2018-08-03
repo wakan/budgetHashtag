@@ -25,12 +25,14 @@
                 android:id="@+id/toolbarMain"
                 layout="@layout/my_toolbar"/>
 
-            <android.support.design.widget.TabLayout
+            <fr.budgethashtag.view.customlayout.CustomTab
                 android:id="@+id/tabs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:tabMode="fixed"
-                app:tabGravity="fill"/>
+                app:tabGravity="fill"
+            />
+            <!--app:setUpWithViewpager="@{ viewpager }"-->
 
 
         </android.support.design.widget.AppBarLayout>
@@ -38,9 +40,9 @@
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </android.support.v4.view.ViewPager>
+            android:layout_height="match_parent"
+            android:adapter="@{viewModel.pagerAdapter}"
+        />
 
     </LinearLayout>
 

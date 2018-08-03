@@ -13,7 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MyMaterialTheme"
-        android:fullBackupContent="@xml/backup_descriptor">
+        android:fullBackupContent="@xml/backup_descriptor"
+        android:name=".BudgetHashtagApplication"
+        >
         <provider android:name="fr.budgethashtag.contentprovider.BudgetHashtagProvider"
         android:authorities="budget-store"
         android:exported="false" />
