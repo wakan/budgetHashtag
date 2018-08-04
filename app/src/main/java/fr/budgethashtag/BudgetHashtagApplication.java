@@ -26,14 +26,20 @@ public class BudgetHashtagApplication extends Application {
         Log.e(TAG, "onTerminate is called");
     }
 
+    private boolean servcieManagerAlreadyExist = false;
     //TODO Voir pour implementer un Singleton
     private ServiceManager serviceManager;
     public ServiceManager getServiceManager(){
         if(null == serviceManager){
             //TODO Inject dependency for testing
-            serviceManager = new ServiceManagerImpl();
+            serviceManager = new ServiceManagerImpl(this);
+            servcieManagerAlreadyExist = true;
         }
         return serviceManager;
+    }
+
+    public final boolean serviceManagerAlreadyExist() {
+        return servcieManagerAlreadyExist;
     }
 
     private AtomicInteger isActivityAlive=new AtomicInteger(0);
@@ -79,6 +85,7 @@ public class BudgetHashtagApplication extends Application {
         if (null != serviceManager) {
             serviceManager.unbindAndDie();
             serviceManager = null;
+            servcieManagerAlreadyExist = false;
         }
     }
 

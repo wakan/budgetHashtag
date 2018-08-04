@@ -37,7 +37,6 @@ public class BudgetHashtagDbHelper extends SQLiteOpenHelper {
             + Transaction.KEY_COL_DT_VALEUR + " DATE not null, "
             + Transaction.KEY_COL_MONTANT + " REAL not null, "
             + Transaction.KEY_COL_ID_PORTEFEUILLE + " integer not null, "
-            + Transaction.KEY_COL_LOCATION_TIME + " integer, "
             + Transaction.KEY_COL_LOCATION_PROVIDER + " TEXT(55), "
             + Transaction.KEY_COL_LOCATION_ACCURACY + " REAL, "
             + Transaction.KEY_COL_LOCATION_ALTITUDE + " REAL, "

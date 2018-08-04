@@ -27,6 +27,7 @@ public class LoadTransactionsByPortefeuilleIdAndIdTransacAsyncTask extends Async
     }
     @Override
     protected ContentValues doInBackground(Void... params) {
+        /*
         ContentResolver cr = contextRef.get().getContentResolver();
         long idPortefeuille = PortefeuilleHelper.getIdPortefeuilleFromSharedPref(contextRef);
         try (Cursor c = cr.query(Transaction.contentUriItem(idPortefeuille, id),
@@ -34,6 +35,8 @@ public class LoadTransactionsByPortefeuilleIdAndIdTransacAsyncTask extends Async
             Objects.requireNonNull(c).moveToNext();
             return TransactionHelper.extractContentValueFromCursor(c);
         }
+        */
+        return null;
     }
     @Override
     protected void onPostExecute(ContentValues c){

@@ -29,7 +29,6 @@ public class Transaction implements BaseColumns {
     public static final String KEY_COL_DT_VALEUR = "dtValeur";
     public static final String KEY_COL_MONTANT = "montant";
     public static final String KEY_COL_ID_PORTEFEUILLE = "idPortefeuille";
-    public static final String KEY_COL_LOCATION_TIME = "locationTime";
     public static final String KEY_COL_LOCATION_PROVIDER = "locationProvider";
     public static final String KEY_COL_LOCATION_ACCURACY = "locationAccuracy";
     public static final String KEY_COL_LOCATION_ALTITUDE = "locationAltitude";

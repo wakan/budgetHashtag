@@ -3,15 +3,13 @@ package fr.budgethashtag.service.portefeuille;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.OperationApplicationException;
+import fr.budgethashtag.service.MotherService;
+import io.reactivex.Observable;
 
-public interface PortefeuilleService {
-    Long getOrCreateDefaultPortefeuilleIfNotExist(final Context context)
-            throws OperationApplicationException;
-    Long createDefaultPortefeuille(final Context context)
-            throws OperationApplicationException;
+public interface PortefeuilleService extends MotherService {
+    Observable<Long> getOrCreateDefaultPortefeuilleIfNotExistAsync(final Context context);
+    Observable<Long> createDefaultPortefeuilleAsync(final Context context);
+    Observable<ContentValues> getPortefeuilleByIdAsync(final Context context);
 
     long getIdPortefeuilleFromSharedPref(final Context context);
-
-    ContentValues getPortefeuilleById(final Context context);
-
 }

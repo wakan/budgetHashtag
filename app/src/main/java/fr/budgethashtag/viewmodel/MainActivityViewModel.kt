@@ -1,24 +1,16 @@
 package fr.budgethashtag.viewmodel
 
-import android.content.ContentValues
 import android.databinding.BaseObservable
 import android.databinding.Bindable
 import android.os.Bundle
-import fr.budgethashtag.asynctask.LoadBudgetsByPortefeuilleIdAsyncTask
-import fr.budgethashtag.asynctask.LoadTransactionsByPortefeuilleIdAsyncTask
-import fr.budgethashtag.interfacecallbackasynctask.LoadBudgetsByPortefeuilleIdCallback
-import fr.budgethashtag.interfacecallbackasynctask.LoadTransactionsByPortefeuilleIdCallback
 import fr.budgethashtag.view.fragment.BudgetFragment
 import fr.budgethashtag.view.fragment.TransactionFragment
 import android.support.v4.view.PagerAdapter
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
-import fr.budgethashtag.service.portefeuille.PortefeuilleObservable
+import fr.budgethashtag.BudgetHashtagApplication
 import fr.budgethashtag.view.fragment.ViewPagerAdapter
-import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import org.reactivestreams.Subscriber
 
 
 class MainActivityViewModel(context: AppCompatActivity) : BaseObservable(),
@@ -31,14 +23,13 @@ class MainActivityViewModel(context: AppCompatActivity) : BaseObservable(),
     lateinit var  adapter: ViewPagerAdapter
 
 
-
     override fun onCreate(extras: Bundle?) {
-        PortefeuilleObservable.getOrCreateDefaultPortefeuilleIfNotExist(mContext)
-                .subscribeOn(AndroidSchedulers.mainThread())
+        BudgetHashtagApplication.instance.serviceManager.portefeuilleService
+                .getOrCreateDefaultPortefeuilleIfNotExistAsync(mContext)
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ _ ->
                     loadPortefeuilleName()
-                },
-                        { error -> Toast.makeText(mContext, error.message, Toast.LENGTH_LONG).show() }
+                }, { error -> Toast.makeText(mContext, error.message, Toast.LENGTH_LONG).show() }
                 )
         createViewPager()
     }
@@ -57,8 +48,9 @@ class MainActivityViewModel(context: AppCompatActivity) : BaseObservable(),
     }
 
     private fun loadPortefeuilleName() {
-        PortefeuilleObservable.getPortefeuilleById(mContext)
-                .subscribeOn(AndroidSchedulers.mainThread())
+        BudgetHashtagApplication.instance.serviceManager.portefeuilleService
+                .getPortefeuilleByIdAsync(mContext)
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ _ ->
                     //supportActionBar!!.title = contentValues.getAsString(Portefeuille.KEY_COL_LIB)
                 },
@@ -76,7 +68,5 @@ class MainActivityViewModel(context: AppCompatActivity) : BaseObservable(),
 
         //notifyPropertyChanged(BR.pagerAdapter)
     }
-
-
 
 }

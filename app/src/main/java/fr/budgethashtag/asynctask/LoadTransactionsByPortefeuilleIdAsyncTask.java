@@ -27,6 +27,7 @@ public class LoadTransactionsByPortefeuilleIdAsyncTask extends AsyncTask<Void, V
     }
     @Override
     protected List<ContentValues> doInBackground(Void... params) {
+        /*
         ContentResolver cr = contextRef.get().getContentResolver();
         long idPortefeuille = PortefeuilleHelper.getIdPortefeuilleFromSharedPref(contextRef);
         Cursor c = cr.query(Transaction.contentUriCollection(idPortefeuille),
@@ -44,6 +45,8 @@ public class LoadTransactionsByPortefeuilleIdAsyncTask extends AsyncTask<Void, V
             c.close();
         }
         return ret;
+        */
+        return null;
     }
     @Override
     protected void onPostExecute(List<ContentValues> c){
