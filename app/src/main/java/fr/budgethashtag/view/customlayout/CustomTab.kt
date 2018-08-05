@@ -2,15 +2,14 @@ package fr.budgethashtag.view.customlayout
 
 import android.content.Context
 import android.support.annotation.Nullable
-import android.widget.TextView
-import android.view.LayoutInflater
-import android.widget.LinearLayout
-import android.support.v4.view.ViewPager
 import android.support.design.widget.TabLayout
-
+import android.support.v4.view.ViewPager
 import android.util.AttributeSet
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.LinearLayout
+import android.widget.TextView
 import fr.budgethashtag.R
 
 class CustomTab : TabLayout {

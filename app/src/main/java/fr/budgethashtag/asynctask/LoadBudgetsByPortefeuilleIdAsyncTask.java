@@ -1,20 +1,12 @@
 package fr.budgethashtag.asynctask;
 
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.os.AsyncTask;
+import fr.budgethashtag.interfacecallbackasynctask.LoadBudgetsByPortefeuilleIdCallback;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
-import fr.budgethashtag.basecolumns.Budget;
-import fr.budgethashtag.helpers.BudgetHelper;
-import fr.budgethashtag.helpers.PortefeuilleHelper;
-import fr.budgethashtag.interfacecallbackasynctask.LoadBudgetsByPortefeuilleIdCallback;
 
 public class LoadBudgetsByPortefeuilleIdAsyncTask extends AsyncTask<Void, Void, List<ContentValues>> {
 

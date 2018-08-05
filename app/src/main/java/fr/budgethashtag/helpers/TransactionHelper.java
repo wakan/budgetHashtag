@@ -7,7 +7,6 @@ import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-
 import fr.budgethashtag.R;
 import fr.budgethashtag.basecolumns.Transaction;
 

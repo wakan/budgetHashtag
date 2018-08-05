@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-
 import fr.budgethashtag.R;
 import fr.budgethashtag.basecolumns.Budget;
 import fr.budgethashtag.basecolumns.Portefeuille;

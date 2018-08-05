@@ -2,7 +2,6 @@ package fr.budgethashtag.service.portefeuille;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.OperationApplicationException;
 import fr.budgethashtag.service.MotherService;
 import io.reactivex.Observable;
 

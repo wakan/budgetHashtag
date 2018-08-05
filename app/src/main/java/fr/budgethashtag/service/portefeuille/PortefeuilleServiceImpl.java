@@ -8,16 +8,13 @@ import fr.budgethashtag.BudgetHashtagApplication;
 import fr.budgethashtag.R;
 import fr.budgethashtag.basecolumns.Portefeuille;
 import fr.budgethashtag.helpers.PortefeuilleHelper;
-import fr.budgethashtag.service.MotherService;
 import fr.budgethashtag.service.MotherServiceImpl;
 import fr.budgethashtag.service.ServiceManager;
-import fr.budgethashtag.service.ServiceManagerImpl;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.schedulers.Schedulers;
 
-import java.lang.ref.WeakReference;
 import java.util.Objects;
 
 public class PortefeuilleServiceImpl extends MotherServiceImpl

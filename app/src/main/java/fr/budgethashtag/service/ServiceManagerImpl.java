@@ -3,10 +3,8 @@ package fr.budgethashtag.service;
 
 import android.util.Log;
 import fr.budgethashtag.BudgetHashtagApplication;
-import fr.budgethashtag.basecolumns.Portefeuille;
 import fr.budgethashtag.service.portefeuille.PortefeuilleService;
 import fr.budgethashtag.service.portefeuille.PortefeuilleServiceImpl;
-import io.reactivex.Observable;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;

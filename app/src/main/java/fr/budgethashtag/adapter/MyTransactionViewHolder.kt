@@ -6,7 +6,8 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import fr.budgethashtag.R
-import fr.budgethashtag.basecolumns.Transaction.*
+import fr.budgethashtag.basecolumns.Transaction.KEY_COL_LIB
+import fr.budgethashtag.basecolumns.Transaction.KEY_COL_MONTANT
 
 class MyTransactionViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
     private lateinit var itemClickListener: (ContentValues)->Unit

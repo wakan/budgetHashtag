@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:a2ee="http://schemas.android.com/apk/res-auto"
+>
+    <item android:id="@+id/contact_dev"
+          a2ee:showAsAction="ifRoom"
+          android:icon="@drawable/ic_launcher_background"
+          android:orderInCategory="1"
+        android:title="@string/menu_contact"
+    >
+        <menu>
+            <item android:id="@+id/action_show_website"
+                  android:icon="@mipmap/ic_launcher_round"
+                  android:title="@string/menu_show_website"
+                  />
+            <item android:id="@+id/action_mail_dev"
+                  android:icon="@mipmap/ic_launcher_round"
+                  android:title="@string/menu_send_mail"
+            />
+
+
+        </menu>
+    </item>
+    <item
+            android:id="@+id/action_export"
+            a2ee:showAsAction="ifRoom"
+            android:icon="@android:drawable/ic_dialog_map"
+            android:orderInCategory="0"
+            android:title="@string/menu_export">
+    </item>
+    <item
+            android:id="@+id/action_import"
+            a2ee:showAsAction="ifRoom"
+            android:icon="@android:drawable/ic_menu_save"
+            android:orderInCategory="0"
+            android:title="@string/menu_import">
+    </item>
+</menu>

@@ -1,17 +1,11 @@
 package fr.budgethashtag.asynctask;
 
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.os.AsyncTask;
-import fr.budgethashtag.basecolumns.Transaction;
-import fr.budgethashtag.helpers.PortefeuilleHelper;
-import fr.budgethashtag.helpers.TransactionHelper;
 import fr.budgethashtag.interfacecallbackasynctask.LoadTransactionsByPortefeuilleIdAndIdTransacCallback;
 
 import java.lang.ref.WeakReference;
-import java.util.Objects;
 
 public class LoadTransactionsByPortefeuilleIdAndIdTransacAsyncTask extends AsyncTask<Void, Void, ContentValues> {
 

@@ -1,14 +1,9 @@
 package fr.budgethashtag.helpers;
 
 import android.content.ContentValues;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
-
 import fr.budgethashtag.basecolumns.Portefeuille;
-
-import java.lang.ref.WeakReference;
 
 public class PortefeuilleHelper {
 

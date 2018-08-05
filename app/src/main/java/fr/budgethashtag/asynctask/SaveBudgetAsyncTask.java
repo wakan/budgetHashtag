@@ -2,15 +2,11 @@ package fr.budgethashtag.asynctask;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.OperationApplicationException;
 import android.os.AsyncTask;
 import android.widget.Toast;
+import fr.budgethashtag.R;
 
 import java.lang.ref.WeakReference;
-
-import fr.budgethashtag.R;
-import fr.budgethashtag.helpers.BudgetHelper;
-import fr.budgethashtag.helpers.PortefeuilleHelper;
 
 public class SaveBudgetAsyncTask extends AsyncTask<Void, Void, Void> {
 

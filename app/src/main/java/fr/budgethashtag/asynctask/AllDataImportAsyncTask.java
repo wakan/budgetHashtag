@@ -1,21 +1,11 @@
 package fr.budgethashtag.asynctask;
 
-import android.content.*;
-import android.database.Cursor;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 import fr.budgethashtag.R;
-import fr.budgethashtag.basecolumns.Budget;
-import fr.budgethashtag.basecolumns.Portefeuille;
-import fr.budgethashtag.constantes.SharedPrefConstantes;
-import fr.budgethashtag.helpers.BudgetHelper;
-import fr.budgethashtag.helpers.PathHelper;
-import fr.budgethashtag.helpers.PortefeuilleHelper;
-import fr.budgethashtag.helpers.TransactionHelper;
 
-import java.io.*;
 import java.lang.ref.WeakReference;
-import java.util.*;
 
 
 public class AllDataImportAsyncTask extends AsyncTask<Void, Void, Void> {

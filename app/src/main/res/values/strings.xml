@@ -19,5 +19,13 @@
     <string name="AjoutOK">Ajout OK</string>
     <string name="transaction">Transaction</string>
     <string name="menu_save">Sauvegarder</string>
-
+    <string name="menu_export">Exporter</string>
+    <string name="menu_import">Importer</string>
+    <string name="menu_contact">Contact dev</string>
+    <string name="menu_show_website">show website</string>
+    <string name="menu_send_mail">Envoyer un email au developpeur</string>
+    <string name="mail_subject">[BudgetHashtag]Ton sujet:</string>
+    <string name="mail_body">ton message</string>
+    <string name="dev_email">wakan.powa+budgethashtag@gmail.com</string>
+    <string name="website_url">http://twitter.fr/wakanpowa</string>
 </resources>
