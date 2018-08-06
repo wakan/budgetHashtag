@@ -6,9 +6,8 @@ import fr.budgethashtag.service.MotherService;
 import io.reactivex.Observable;
 
 public interface PortefeuilleService extends MotherService {
-    Observable<Long> getOrCreateDefaultPortefeuilleIfNotExistAsync(final Context context);
-    Observable<Long> createDefaultPortefeuilleAsync(final Context context);
-    Observable<ContentValues> getPortefeuilleByIdAsync(final Context context);
+    void getOrCreateDefaultPortefeuilleIfNotExistAsync();
+    void getPortefeuilleByIdAsync();
 
-    long getIdPortefeuilleFromSharedPref(final Context context);
+    long getIdPortefeuilleFromSharedPref();
 }

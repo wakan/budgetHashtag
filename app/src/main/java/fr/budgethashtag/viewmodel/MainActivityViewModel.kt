@@ -25,12 +25,7 @@ class MainActivityViewModel(context: AppCompatActivity) : BaseObservable(),
 
     override fun onCreate(extras: Bundle?) {
         BudgetHashtagApplication.instance.serviceManager.portefeuilleService
-                .getOrCreateDefaultPortefeuilleIfNotExistAsync(mContext)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ _ ->
-                    loadPortefeuilleName()
-                }, { error -> Toast.makeText(mContext, error.message, Toast.LENGTH_LONG).show() }
-                )
+                .getOrCreateDefaultPortefeuilleIfNotExistAsync()
         createViewPager()
     }
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -49,13 +44,8 @@ class MainActivityViewModel(context: AppCompatActivity) : BaseObservable(),
 
     private fun loadPortefeuilleName() {
         BudgetHashtagApplication.instance.serviceManager.portefeuilleService
-                .getPortefeuilleByIdAsync(mContext)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ _ ->
-                    //supportActionBar!!.title = contentValues.getAsString(Portefeuille.KEY_COL_LIB)
-                },
-                        { error -> Toast.makeText(mContext, error.message, Toast.LENGTH_LONG).show() }
-                )
+                .getPortefeuilleByIdAsync()
+        //supportActionBar!!.title = contentValues.getAsString(Portefeuille.KEY_COL_LIB)
     }
 
     val pagerAdapter: PagerAdapter

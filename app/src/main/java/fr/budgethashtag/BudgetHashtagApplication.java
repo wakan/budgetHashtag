@@ -1,6 +1,7 @@
 package fr.budgethashtag;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -40,6 +41,10 @@ public class BudgetHashtagApplication extends Application {
 
     public final boolean serviceManagerAlreadyExist() {
         return servcieManagerAlreadyExist;
+    }
+
+    public final Context getContext(){
+        return getApplicationContext();
     }
 
     private AtomicInteger isActivityAlive=new AtomicInteger(0);
