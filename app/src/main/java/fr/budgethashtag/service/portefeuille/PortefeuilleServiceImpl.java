@@ -15,10 +15,6 @@ import fr.budgethashtag.transverse.event.portefeuille.GetOrCreateDefaultPortefeu
 import fr.budgethashtag.transverse.event.portefeuille.GetPortefeuilleByIdResponseEvent;
 import fr.budgethashtag.transverse.exception.BudgetHashtagException;
 import fr.budgethashtag.transverse.exception.ExceptionManager;
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.schedulers.Schedulers;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;

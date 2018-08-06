@@ -5,12 +5,10 @@ import android.databinding.Bindable
 import android.os.Bundle
 import android.support.v4.view.PagerAdapter
 import android.support.v7.app.AppCompatActivity
-import android.widget.Toast
 import fr.budgethashtag.BudgetHashtagApplication
 import fr.budgethashtag.view.fragment.BudgetFragment
 import fr.budgethashtag.view.fragment.TransactionFragment
 import fr.budgethashtag.view.fragment.ViewPagerAdapter
-import io.reactivex.android.schedulers.AndroidSchedulers
 
 
 class MainActivityViewModel(context: AppCompatActivity) : BaseObservable(),
