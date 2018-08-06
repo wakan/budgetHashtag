@@ -12,7 +12,7 @@ import fr.budgethashtag.basecolumns.Transaction;
 public class BudgetHashtagDbHelper extends SQLiteOpenHelper {
     private static final String TAG = "BudgetHashtagDbHelper";
     private static final String DB_NAME = "budgetHashtag.db";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
 
     public static final String PORTEFEUILLE_TABLE_NAME = "portefeuilles";
     public static final String BUDGET_TABLE_NAME = "budgets";
@@ -35,6 +35,8 @@ public class BudgetHashtagDbHelper extends SQLiteOpenHelper {
             + Transaction.KEY_COL_LIB + " TEXT(55) not null, "
             + Transaction.KEY_COL_DT_VALEUR + " DATE not null, "
             + Transaction.KEY_COL_MONTANT + " REAL not null, "
+            + Transaction.KEY_COL_IS_APPROXIMATELY + " boolean not null check("
+            + Transaction.KEY_COL_IS_APPROXIMATELY + " IN (0,1)), "
             + Transaction.KEY_COL_ID_PORTEFEUILLE + " integer not null, "
             + Transaction.KEY_COL_LOCATION_PROVIDER + " TEXT(55), "
             + Transaction.KEY_COL_LOCATION_ACCURACY + " REAL, "
