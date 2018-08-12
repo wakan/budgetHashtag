@@ -1,6 +1,8 @@
 package fr.budgethashtag.service.transaction;
 
-public interface TransactionService {
+import fr.budgethashtag.service.MotherService;
+
+public interface TransactionService extends MotherService {
     void loadTransacByIdPortefeuilleAsync();
     void loadTransacByIdPortefeuilleAndIdTransacAsync(int id);
 

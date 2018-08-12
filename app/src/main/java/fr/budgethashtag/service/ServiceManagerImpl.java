@@ -3,8 +3,12 @@ package fr.budgethashtag.service;
 
 import android.util.Log;
 import fr.budgethashtag.BudgetHashtagApplication;
+import fr.budgethashtag.service.budget.BudgetService;
+import fr.budgethashtag.service.budget.BudgetServiceImpl;
 import fr.budgethashtag.service.portefeuille.PortefeuilleService;
 import fr.budgethashtag.service.portefeuille.PortefeuilleServiceImpl;
+import fr.budgethashtag.service.transaction.TransactionService;
+import fr.budgethashtag.service.transaction.TransactionServiceImpl;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
@@ -16,6 +20,8 @@ public class ServiceManagerImpl implements ServiceManager {
 
     ArrayList<MotherService> motherServices;
     PortefeuilleService portefeuilleService = null;
+    BudgetService budgetService = null;
+    TransactionService transactionService = null;
 
     public ServiceManagerImpl(BudgetHashtagApplication application) {
         if (application.serviceManagerAlreadyExist()) {
@@ -46,6 +52,22 @@ public class ServiceManagerImpl implements ServiceManager {
             motherServices.add(portefeuilleService);
         }
         return portefeuilleService;
+    }
+    @Override
+    public final BudgetService getBudgetService() {
+        if (null == budgetService) {
+            budgetService = new BudgetServiceImpl(this);
+            motherServices.add(budgetService);
+        }
+        return budgetService;
+    }
+    @Override
+    public final TransactionService getTransactionService() {
+        if (null == transactionService) {
+            transactionService = new TransactionServiceImpl(this);
+            motherServices.add(transactionService);
+        }
+        return transactionService;
     }
 
     private ExecutorService cancelableThreadsExecutor = null;
