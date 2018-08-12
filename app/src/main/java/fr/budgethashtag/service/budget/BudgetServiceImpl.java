@@ -2,7 +2,6 @@ package fr.budgethashtag.service.budget;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.net.Uri;
@@ -11,8 +10,6 @@ import android.util.Log;
 import fr.budgethashtag.BudgetHashtagApplication;
 import fr.budgethashtag.R;
 import fr.budgethashtag.basecolumns.Budget;
-import fr.budgethashtag.basecolumns.Transaction;
-import fr.budgethashtag.helpers.TransactionHelper;
 import fr.budgethashtag.service.MotherServiceImpl;
 import fr.budgethashtag.service.ServiceManager;
 import fr.budgethashtag.service.portefeuille.PortefeuilleService;
@@ -33,7 +30,7 @@ public class BudgetServiceImpl extends MotherServiceImpl implements BudgetServic
     private LoadBudgetByIdPortefeuilleAndIdBudgetResponseEvent loadBudgetByIdPortefeuilleAndIdBudgetResponseEvent;
     private SaveBudgetResponseEvent saveBudgetResponseEvent;
     private Map<Integer, Map<Integer, ContentValues>> budgetByIdPortefeuilleId = new HashMap<>();
-    private Map<Integer, Boolean> isbudgetCompletelyLoadedByIdPortefeuille = new HashMap<>();
+    private Map<Integer, Boolean> isBudgetCompletelyLoadedByIdPortefeuille = new HashMap<>();
     public BudgetServiceImpl(ServiceManager srvManager) {
         super(srvManager);
         //TODO : Injection
@@ -56,7 +53,7 @@ public class BudgetServiceImpl extends MotherServiceImpl implements BudgetServic
     private void loadBudgetByIdPortefeuilleSync() {
         Log.d(TAG, "loadBudgetByIdPortefeuilleSync() called");
         int idPortefeuille = portefeuilleService.getIdPortefeuilleFromSharedPref();
-        if(!isbudgetCompletelyLoadedByIdPortefeuille.containsKey(idPortefeuille)) {
+        if(!isBudgetCompletelyLoadedByIdPortefeuille.containsKey(idPortefeuille)) {
             ContentResolver cr = BudgetHashtagApplication.instance.getContext().getContentResolver();
             Cursor c = cr.query(Budget.contentUriCollection(idPortefeuille),
                     null, null, null, null);
@@ -75,7 +72,7 @@ public class BudgetServiceImpl extends MotherServiceImpl implements BudgetServic
                     c.close();
                 }
                 budgetByIdPortefeuilleId.put(idPortefeuille, budgetById);
-                isbudgetCompletelyLoadedByIdPortefeuille.put(idPortefeuille, true);
+                isBudgetCompletelyLoadedByIdPortefeuille.put(idPortefeuille, true);
             }
         }
         postLoadBudgetByIdPortefeuilleEvent(idPortefeuille);

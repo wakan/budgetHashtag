@@ -12,7 +12,6 @@ import fr.budgethashtag.R;
 import fr.budgethashtag.asynctask.beanwork.WorkTransactions;
 import fr.budgethashtag.basecolumns.Budget;
 import fr.budgethashtag.basecolumns.BudgetTransaction;
-import fr.budgethashtag.helpers.TransactionHelper;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
