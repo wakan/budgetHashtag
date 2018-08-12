@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import fr.budgethashtag.R
-import fr.budgethashtag.asynctask.LoadBudgetsByPortefeuilleIdAsyncTask
 import fr.budgethashtag.basecolumns.Transaction
 import fr.budgethashtag.databinding.ActivityAddOrUpdateTransactionBinding
 import fr.budgethashtag.interfacecallbackasynctask.LoadBudgetsByPortefeuilleIdCallback

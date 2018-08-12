@@ -2,7 +2,6 @@ package fr.budgethashtag.viewmodel
 
 import android.content.Context
 import android.os.Bundle
-import fr.budgethashtag.asynctask.LoadBudgetsByPortefeuilleIdAsyncTask
 import fr.budgethashtag.view.activity.AddBudgetActivity
 import fr.budgethashtag.view.fragment.BudgetFragment
 import org.jetbrains.anko.startActivity

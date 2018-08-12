@@ -4,7 +4,6 @@ import android.content.Context
 import android.databinding.ObservableField
 import android.os.Bundle
 import android.util.Log
-import fr.budgethashtag.asynctask.SaveBudgetAsyncTask
 import fr.budgethashtag.basecolumns.Budget
 
 

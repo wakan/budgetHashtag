@@ -10,7 +10,6 @@ import fr.budgethashtag.R;
 import fr.budgethashtag.basecolumns.Budget;
 import fr.budgethashtag.basecolumns.Portefeuille;
 import fr.budgethashtag.basecolumns.Transaction;
-import fr.budgethashtag.helpers.BudgetHelper;
 import fr.budgethashtag.helpers.PathHelper;
 import fr.budgethashtag.helpers.TransactionHelper;
 

@@ -74,8 +74,9 @@ public class PortefeuilleServiceImpl extends MotherServiceImpl
             ExceptionManager.manage(new BudgetHashtagException(getClass(),
                     R.string.ex_msg_create_default_portefeuille,
                     new OperationApplicationException()));
-        return Integer.parseInt(Objects.requireNonNull(uriAdd).getPathSegments().get(1));
+        return getIdFromUri(uriAdd);
     }
+
     private void postGetOrCreateDefaultPortefeuilleIfNotExistEvent() {
         if(getOrCreateDefaultPortefeuilleIfNotExistResponseEvent ==null){
             getOrCreateDefaultPortefeuilleIfNotExistResponseEvent =
@@ -150,6 +151,10 @@ public class PortefeuilleServiceImpl extends MotherServiceImpl
         cv.put(Portefeuille.KEY_COL_LIB,
                 c.getString(c.getColumnIndex(Portefeuille.KEY_COL_LIB)));
         return cv;
+    }
+
+    private int getIdFromUri(Uri uriAdd) {
+        return Integer.parseInt(Objects.requireNonNull(uriAdd).getPathSegments().get(1));
     }
 
 }
