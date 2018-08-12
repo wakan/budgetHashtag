@@ -4,11 +4,11 @@ package fr.budgethashtag.service.portefeuille;
 import android.content.*;
 import android.database.Cursor;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import fr.budgethashtag.BudgetHashtagApplication;
 import fr.budgethashtag.R;
 import fr.budgethashtag.basecolumns.Portefeuille;
-import fr.budgethashtag.helpers.PortefeuilleHelper;
 import fr.budgethashtag.service.MotherServiceImpl;
 import fr.budgethashtag.service.ServiceManager;
 import fr.budgethashtag.transverse.event.portefeuille.GetOrCreateDefaultPortefeuilleIfNotExistResponseEvent;
@@ -30,10 +30,12 @@ public class PortefeuilleServiceImpl extends MotherServiceImpl
     public PortefeuilleServiceImpl(ServiceManager srvManager) {
         super(srvManager);
     }
+    @Override
+    public void onDestroy() { }
 
-    long idPortefeuilleCurrent;
+    int idPortefeuilleCurrent;
     GetOrCreateDefaultPortefeuilleIfNotExistResponseEvent getOrCreateDefaultPortefeuilleIfNotExistResponseEvent;
-    Map<Long, ContentValues> portefeuilleById = new HashMap<>();
+    Map<Integer, ContentValues> portefeuilleById = new HashMap<>();
     GetPortefeuilleByIdResponseEvent getPortefeuilleByIdResponseEvent;
 
     @Override
@@ -52,17 +54,17 @@ public class PortefeuilleServiceImpl extends MotherServiceImpl
         SharedPreferences appSharedPref =  BudgetHashtagApplication.instance.getContext().getSharedPreferences(
                 BudgetHashtagApplication.TAG, Context.MODE_PRIVATE);
         if(appSharedPref.contains(ID_PORTEFEULLE_SELECTED)) {
-            idPortefeuilleCurrent = appSharedPref.getLong(ID_PORTEFEULLE_SELECTED, ID_NOT_EXIST);
+            idPortefeuilleCurrent = appSharedPref.getInt(ID_PORTEFEULLE_SELECTED, ID_NOT_EXIST);
         } else {
-            long idPortefeuille = createDefaultPortefeuille();
+            int idPortefeuille = createDefaultPortefeuille();
             SharedPreferences.Editor editor = appSharedPref.edit();
-            editor.putLong(ID_PORTEFEULLE_SELECTED, idPortefeuille);
+            editor.putInt(ID_PORTEFEULLE_SELECTED, idPortefeuille);
             editor.apply();
             idPortefeuilleCurrent = idPortefeuille;
         }
         postGetOrCreateDefaultPortefeuilleIfNotExistEvent();
     }
-    private Long createDefaultPortefeuille() {
+    private Integer createDefaultPortefeuille() {
         ContentResolver cr = BudgetHashtagApplication.instance.getContext().getContentResolver();
         ContentValues cv = new ContentValues();
         cv.put(Portefeuille.KEY_COL_LIB, BudgetHashtagApplication.instance.getContext()
@@ -72,7 +74,7 @@ public class PortefeuilleServiceImpl extends MotherServiceImpl
             ExceptionManager.manage(new BudgetHashtagException(getClass(),
                     R.string.ex_msg_create_default_portefeuille,
                     new OperationApplicationException()));
-        return Long.parseLong(Objects.requireNonNull(uriAdd).getPathSegments().get(1));
+        return Integer.parseInt(Objects.requireNonNull(uriAdd).getPathSegments().get(1));
     }
     private void postGetOrCreateDefaultPortefeuilleIfNotExistEvent() {
         if(getOrCreateDefaultPortefeuilleIfNotExistResponseEvent ==null){
@@ -100,20 +102,22 @@ public class PortefeuilleServiceImpl extends MotherServiceImpl
         Log.d(TAG, "getPortefeuilleByIdSync() called");
         ContentResolver cr = BudgetHashtagApplication.instance.getContext().getContentResolver();
         if(isPortefeuilleCurrentNotInitialized()) {
-            long idPortefeuille = getIdPortefeuilleFromSharedPref();
+            int idPortefeuille = getIdPortefeuilleFromSharedPref();
             idPortefeuilleCurrent = idPortefeuille;
         }
         ContentValues cv;
-        try (Cursor c = cr.query(Portefeuille.contentUriItem(idPortefeuilleCurrent),
-                null, null, null, null)) {
-            Objects.requireNonNull(c).moveToNext();
-            cv = PortefeuilleHelper.extractContentValueFromCursor(c);
+        if(!portefeuilleById.containsKey(idPortefeuilleCurrent)) {
+            try (Cursor c = cr.query(Portefeuille.contentUriItem(idPortefeuilleCurrent),
+                    null, null, null, null)) {
+                Objects.requireNonNull(c).moveToNext();
+                cv = extractContentValueFromCursor(c);
+            }
+            portefeuilleById.put(idPortefeuilleCurrent, cv);
         }
-        portefeuilleById.put(idPortefeuilleCurrent, cv);
         postGetPortefeuilleByIdEvent();
     }
     private void postGetPortefeuilleByIdEvent() {
-        if(getPortefeuilleByIdResponseEvent ==null){
+        if(getPortefeuilleByIdResponseEvent == null){
             getPortefeuilleByIdResponseEvent =
                     new GetPortefeuilleByIdResponseEvent(portefeuilleById.get(idPortefeuilleCurrent));
         }else{
@@ -124,21 +128,28 @@ public class PortefeuilleServiceImpl extends MotherServiceImpl
     }
 
     @Override
-    public long getIdPortefeuilleFromSharedPref() {
+    public int getIdPortefeuilleFromSharedPref() {
         if(isPortefeuilleCurrentNotInitialized()) {
             SharedPreferences appSharedPref = BudgetHashtagApplication.instance.getContext()
                     .getSharedPreferences(
                             BudgetHashtagApplication.TAG, Context.MODE_PRIVATE);
-            idPortefeuilleCurrent = appSharedPref.getLong(ID_PORTEFEULLE_SELECTED, ID_NOT_EXIST);
+            idPortefeuilleCurrent = appSharedPref.getInt(ID_PORTEFEULLE_SELECTED, ID_NOT_EXIST);
         }
         return idPortefeuilleCurrent;
     }
 
     private boolean isPortefeuilleCurrentNotInitialized() {
-        return idPortefeuilleCurrent == 0L;
+        return 0 == idPortefeuilleCurrent;
     }
 
-    @Override
-    public void onDestroy() { }
+    @NonNull
+    private ContentValues extractContentValueFromCursor(Cursor c) {
+        ContentValues cv = new ContentValues();
+        cv.put(Portefeuille.KEY_COL_ID,
+                c.getInt(c.getColumnIndex(Portefeuille.KEY_COL_ID)));
+        cv.put(Portefeuille.KEY_COL_LIB,
+                c.getString(c.getColumnIndex(Portefeuille.KEY_COL_LIB)));
+        return cv;
+    }
 
 }

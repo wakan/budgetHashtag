@@ -6,5 +6,5 @@ public interface PortefeuilleService extends MotherService {
     void getOrCreateDefaultPortefeuilleIfNotExistAsync();
     void getPortefeuilleByIdAsync();
 
-    long getIdPortefeuilleFromSharedPref();
+    int getIdPortefeuilleFromSharedPref();
 }

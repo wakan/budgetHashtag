@@ -2,20 +2,20 @@ package fr.budgethashtag.transverse.event.budget;
 
 import android.content.ContentValues;
 
-import java.util.List;
+import java.util.Collection;
 
 public class LoadBudgetByIdPortefeuilleResponseEvent {
-    List<ContentValues> lstContentValues;
+    Collection<ContentValues> lstContentValues;
 
-    public LoadBudgetByIdPortefeuilleResponseEvent(List<ContentValues> lstContentValues) {
+    public LoadBudgetByIdPortefeuilleResponseEvent(Collection<ContentValues> lstContentValues) {
         this.lstContentValues = lstContentValues;
     }
 
-    public List<ContentValues> getContentValues() {
+    public Collection<ContentValues> getContentValues() {
         return lstContentValues;
     }
 
-    public void setContentValues(List<ContentValues> lstContentValues) {
+    public void setContentValues(Collection<ContentValues> lstContentValues) {
         this.lstContentValues = lstContentValues;
     }
 }

@@ -4,6 +4,6 @@ import fr.budgethashtag.service.MotherService;
 
 public interface BudgetService extends MotherService {
     void loadBudgetByIdPortefeuilleAsync();
-    void loadBudgetByIdPortefeuilleAndIdTransacAsync();
+    void loadBudgetByIdPortefeuilleAndIdBudgetAsync(int id);
     void saveBudgetAsync();
 }
