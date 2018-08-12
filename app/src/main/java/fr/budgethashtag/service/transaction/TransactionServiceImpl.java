@@ -10,24 +10,28 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import fr.budgethashtag.BudgetHashtagApplication;
 import fr.budgethashtag.R;
+import fr.budgethashtag.basecolumns.Budget;
+import fr.budgethashtag.basecolumns.BudgetTransaction;
 import fr.budgethashtag.basecolumns.Transaction;
 import fr.budgethashtag.service.MotherServiceImpl;
 import fr.budgethashtag.service.ServiceManager;
+import fr.budgethashtag.service.budget.BudgetService;
+import fr.budgethashtag.service.budget.BudgetServiceImpl;
 import fr.budgethashtag.service.portefeuille.PortefeuilleService;
 import fr.budgethashtag.service.portefeuille.PortefeuilleServiceImpl;
 import fr.budgethashtag.service.transaction.TransactionService;
 import fr.budgethashtag.transverse.event.transaction.LoadTransacByIdPortefeuilleAndIdTransacResponseEvent;
 import fr.budgethashtag.transverse.event.transaction.LoadTransacByIdPortefeuilleResponseEvent;
+import fr.budgethashtag.transverse.exception.BudgetHashtagException;
+import fr.budgethashtag.transverse.exception.ExceptionManager;
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class TransactionServiceImpl extends MotherServiceImpl implements TransactionService {
     private static final String TAG = "TransactionService";
     private final PortefeuilleService portefeuilleService;
+    private final BudgetService budgetService;
     private LoadTransacByIdPortefeuilleResponseEvent loadTransacByIdPortefeuilleResponseEvent;
     private LoadTransacByIdPortefeuilleAndIdTransacResponseEvent loadTransacByIdPortefeuilleAndIdTransacResponseEvent;
     private Map<Integer, Map<Integer, ContentValues>> transacByIdPortefeuilleId = new HashMap<>();
@@ -36,6 +40,7 @@ public class TransactionServiceImpl extends MotherServiceImpl implements Transac
         super(srvManager);
         //TODO : Injection
         portefeuilleService = new PortefeuilleServiceImpl(srvManager);
+        budgetService = new BudgetServiceImpl();
     }
     @Override
     public void onDestroy() { }
@@ -141,7 +146,107 @@ public class TransactionServiceImpl extends MotherServiceImpl implements Transac
         EventBus.getDefault().post(loadTransacByIdPortefeuilleAndIdTransacResponseEvent);
     }
 
+    @Override
+    public void saveTransactionAsync(
+            int id,
+            String libelle,
+            Date date, Double montant, List<int> budgetSupprime, List<String> budgetAjoute,
+            String locationProvider, Double longitude, Double latitude, Double altitude, Double accuracy
+    ) {
+        BudgetHashtagApplication.instance.getServiceManager().getCancelableThreadsExecutor()
+                .submit(new SaveTransactionRunnable(id));
+    }
+    private class SaveTransactionRunnable implements Runnable {
+        private int id;
+        private String libelle;
+        private Date date;
+        private Double montant;
+        private List<int> budgetSupprime;
+        private List<String> budgetAjoute;
+        private String locationProvider;
+        private Double longitude;
+        private Double latitude;
+        private Double altitude;
+        private Double accuracy;
 
+        public SaveTransactionRunnable(int id,
+                                       String libelle,
+                                       Date date, Double montant, List<int> budgetSupprime, List<String> budgetAjoute,
+                                       String locationProvider, Double longitude, Double latitude, Double altitude,
+                                       Double accuracy {
+            this.id = id;
+            this.libelle = libelle;
+            this.date = date;
+            this.montant = montant;
+            this.budgetSupprime = budgetSupprime;
+            this.budgetAjoute = budgetAjoute;
+            this.locationProvider = locationProvider;
+            this.longitude = longitude;
+            this.latitude = latitude;
+            this.altitude = altitude;
+            this.accuracy = accuracy;
+        }
+        @Override
+        public void run(){
+            saveTransacSync(id, libelle, date, montant , budgetSupprime, budgetAjoute,
+                    locationProvider, longitude, latitude, altitude, accuracy);
+        }
+    }
+    private void saveTransacSync(int id,
+                                 String libelle, Date date, Double montant,
+                                 List<int> budgetSupprime, List<String> budgetAjoute,
+                                 String locationProvider, Double longitude, Double latitude,
+                                 Double altitude, Double accuracy) {
+        Log.d(TAG, "saveTransacSync() called");
+        int idPortefeuille = portefeuilleService.getIdPortefeuilleFromSharedPref();
+        ContentResolver cr = BudgetHashtagApplication.instance.getContext().getContentResolver();
+        long idTransaction = insertTransaction(cr, id, idPortefeuille, libelle, montant, date,
+                locationProvider, accuracy, altitude, latitude, longitude);
+        budgetService.saveBudgetSync("", null, null);
+        List<Integer> idsInsert = insertNewBudget(cr, idPortefeuille, transactions.getTransactionsNouvelles());
+        insertBudgetTransaction(cr, idPortefeuille, idTransaction, idsInsert, transactions.getTransactionsExistantesAjoutees());
+        deleteBudgetTransaction(cr, idTransaction, idPortefeuille, budgetSupprime);
+
+        //reload cache budget + cache new transactio
+
+        postSaveTransactionEvent(idPortefeuille);
+    }
+    private long insertTransaction(ContentResolver cr, int id, int idPortefeuille,
+                                   String libelle, Double montant, Date date,
+                                   String locationProvider, Double accuracy, Double altitude,
+                                   Double latitude, Double longitude) {
+        Uri uri = createTransaction(id, idPortefeuille, libelle, montant, date,
+                locationProvider, accuracy, altitude, latitude, longitude);
+        return getIdFromUri(uri);
+    }
+
+    private void insertBudgetTransaction(ContentResolver cr, long idTransaction, long idPortefeuille,
+                                         String libelle,
+                                         List<Integer> idsInsert, List<Integer> budgetExistantsAjoutes) {
+        for(Integer id : idsInsert) {
+            insertOneBudgetTransaction(cr, idPortefeuille, idTransaction, libelle);
+        }
+        for(Integer id : budgetExistantsAjoutes) {
+            insertOneBudgetTransaction(cr, idPortefeuille, idTransaction, libelle);
+        }
+    }
+
+    private void insertOneBudgetTransaction(ContentResolver cr, long idPortefeuille, long idTransaction,
+                                            String libelle) {
+        ContentValues cv = new ContentValues();
+        cv.put(BudgetTransaction.KEY_COL_ID_TRANSACTION, idTransaction);
+        cv.put(BudgetTransaction.KEY_COL_ID_BUDGET, libelle);
+        Uri uriAdd = cr.insert(BudgetTransaction.contentUriCollection(idPortefeuille), cv);
+        if(uriAdd == null)
+            ExceptionManager.manage(new BudgetHashtagException(getClass(),
+                    R.string.ex_msg_save_budget_in_transaction,
+                    new OperationApplicationException()));
+    }
+    private void deleteBudgetTransaction(ContentResolver cr, long idPortefeuille, long idTransaction, List<Integer> ids) {
+        for(Integer id : ids) {
+
+        }
+    }
 
     @NonNull
     public static ContentValues extractContentValueFromCursor(Cursor c) {
@@ -169,11 +274,10 @@ public class TransactionServiceImpl extends MotherServiceImpl implements Transac
         return cv;
     }
     @NonNull
-    private Uri createTransaction(Context context, long id, long idPortefeuille, String libelle, Double montant,
+    private Uri createTransaction(long id, long idPortefeuille, String libelle, Double montant,
                                         Date dateTransac, String locationProvider, Double locationAccuracy,
-                                        Double locationAltitude, Double locationLatitude, Double locationLongitude)
-            throws OperationApplicationException {
-        ContentResolver cr = context.getContentResolver();
+                                        Double locationAltitude, Double locationLatitude, Double locationLongitude) {
+        ContentResolver cr = BudgetHashtagApplication.instance.getContext().getContentResolver();
         ContentValues cv = new ContentValues();
         cv.put(Transaction.KEY_COL_ID_PORTEFEUILLE, idPortefeuille);
         cv.put(Transaction.KEY_COL_LIB, libelle);
@@ -194,9 +298,13 @@ public class TransactionServiceImpl extends MotherServiceImpl implements Transac
             uri = cr.insert(Transaction.contentUriCollection(idPortefeuille), cv);
         }
         if(uri == null)
-            throw new OperationApplicationException(context.getString(R.string.ex_msg_save_budget));
+            ExceptionManager.manage(new BudgetHashtagException(getClass(),
+                    R.string.ex_msg_save_transaction,
+                    new OperationApplicationException()));
         return uri;
     }
-
+    private int getIdFromUri(Uri uri) {
+        return Integer.parseInt(Objects.requireNonNull(uri).getPathSegments().get(3));
+    }
 
 }

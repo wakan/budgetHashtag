@@ -28,4 +28,7 @@
     <string name="mail_body">ton message</string>
     <string name="dev_email">wakan.powa+budgethashtag@gmail.com</string>
     <string name="website_url">http://twitter.fr/wakanpowa</string>
+    <string name="ex_msg_save_transaction">error lors de la sauvegarde de la transaction</string>
+    <string name="ex_msg_save_budget_in_transaction">erreur lors de l\'engistrement du budget dans la transaction
+    </string>
 </resources>

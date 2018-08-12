@@ -157,11 +157,10 @@ public class BudgetServiceImpl extends MotherServiceImpl implements BudgetServic
         @Override
         public void run(){
             saveBudgetSync(libelle, concurrency, color);
-            createBudget(portefeuilleService.getIdPortefeuilleFromSharedPref(),
-                    libelle, concurrency, color);
         }
     }
-    private void saveBudgetSync(String libelle, double concurrency, String color) {
+    @Override
+    public void saveBudgetSync(String libelle, Double concurrency, String color) {
         Log.d(TAG, "saveBudgetSync() called");
         int idPortefeuille = portefeuilleService.getIdPortefeuilleFromSharedPref();
         Uri uri = createBudget(idPortefeuille, libelle, concurrency, color);
