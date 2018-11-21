@@ -72,14 +72,7 @@ public class BudgetHashtagApplication extends Application {
         Log.e(TAG,"applicationShouldDie is called");
         killServiceManager();
     }
-    private void initializeServiceKiller() {
-        mServiceKiller = new Runnable() {
-            @Override
-            public void run() {
-                mServiceKillerHandler.dispatchMessage(mServiceKillerHandler.obtainMessage());
-            }
-        };
-    }
+    
     @Override
     public void onLowMemory() {
         Log.w(TAG,"onLowMemory is called");
