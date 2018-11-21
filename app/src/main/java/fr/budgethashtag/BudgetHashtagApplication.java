@@ -82,6 +82,7 @@ public class BudgetHashtagApplication extends Application {
     }
     @Override
     public void onLowMemory() {
+        Log.w(TAG,"onLowMemory is called");
         super.onLowMemory();
         killServiceManager();
     }
