@@ -11,7 +11,7 @@ public interface TransactionService extends MotherService {
     void saveTransactionAsync(
             int id,
             String libelle,
-            Date date, Double montant, List<int> budgetSupprime, List<String> budgetAjoute,
+            Date date, Double montant, List<Integer> budgetSupprime, List<String> budgetAjoute,
             String locationProvider, Double longitude, Double latitude, Double altitude, Double accuracy
             );
 

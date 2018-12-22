@@ -21,6 +21,7 @@ import fr.budgethashtag.transverse.exception.BudgetHashtagException;
 import fr.budgethashtag.transverse.exception.ExceptionManager;
 import org.greenrobot.eventbus.EventBus;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class BudgetServiceImpl extends MotherServiceImpl implements BudgetService {
@@ -169,6 +170,7 @@ public class BudgetServiceImpl extends MotherServiceImpl implements BudgetServic
         loadBudgetByIdPortefeuilleAndIdBudgetAndSetInCache(id, idPortefeuille);
         postSaveBudgetEvent(idPortefeuille, id);
     }
+
     private void postSaveBudgetEvent(int idPortefeuille, int id) {
         if(null == saveBudgetResponseEvent){
             saveBudgetResponseEvent = new SaveBudgetResponseEvent();
@@ -215,6 +217,57 @@ public class BudgetServiceImpl extends MotherServiceImpl implements BudgetServic
                     R.string.ex_msg_save_budget,
                     new OperationApplicationException()));
         return uriAdd;
+    }
+
+    @Override
+    public List<Integer> findIdBudgetOrCreateIfNotExist(ContentResolver cr, int idPortefeuille,
+                                                     List<String> budgetsARetrouverOuAjouter) {
+        ArrayList<Integer> result = new ArrayList<>(budgetsARetrouverOuAjouter.size());
+        for (String libelleBudget:
+             budgetsARetrouverOuAjouter) {
+            findIdBudgetOrCreateIfNotExist(cr, idPortefeuille, libelleBudget);
+        }
+        return result;
+    }
+    private int findIdBudgetOrCreateIfNotExist(ContentResolver cr, int idPortefeuille,
+                                                     String libelleBudget) {
+        ContentValues cv = findIdBudget(cr, idPortefeuille, libelleBudget);
+        if(isBudgetExist(cv))
+        {
+            return getBudgetId(cv);
+        }
+        else {
+            Uri uri = createBudget(idPortefeuille, libelleBudget, null, null);
+            int newId = getIdFromUri(uri);
+            //Call to put in cache
+            loadBudgetByIdPortefeuilleAndIdBudgetAndSetInCache(newId, idPortefeuille);
+            return newId;
+        }
+    }
+
+    private ContentValues findIdBudget(ContentResolver cr, long idPortefeuille, String libelleBudget) {
+        String libelleNorm = normalize(libelleBudget);
+        String[] whereArgs = {libelleNorm};
+        try (Cursor c = cr.query(Budget.contentUriCollection(idPortefeuille),
+                null, Budget.KEY_COL_LIB + " = ? ", whereArgs, null)) {
+            if(null == c)
+                return null;
+            Objects.requireNonNull(c).moveToNext();
+            ContentValues contentValues = extractContentValueFromCursor(c);
+            return contentValues;
+        }
+    }
+
+    private String normalize(String libelleBudget) {
+        return libelleBudget.trim().toLowerCase();
+    }
+
+    private int getBudgetId(ContentValues cv) {
+        return cv.getAsInteger(Budget.KEY_COL_ID);
+    }
+
+    private boolean isBudgetExist(ContentValues cv) {
+        return null != cv;
     }
 
 }

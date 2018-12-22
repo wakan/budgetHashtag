@@ -28,6 +28,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.*;
 
+
 public class TransactionServiceImpl extends MotherServiceImpl implements TransactionService {
     private static final String TAG = "TransactionService";
     private final PortefeuilleService portefeuilleService;
@@ -40,7 +41,7 @@ public class TransactionServiceImpl extends MotherServiceImpl implements Transac
         super(srvManager);
         //TODO : Injection
         portefeuilleService = new PortefeuilleServiceImpl(srvManager);
-        budgetService = new BudgetServiceImpl();
+        budgetService = new BudgetServiceImpl(srvManager);
     }
     @Override
     public void onDestroy() { }
@@ -150,19 +151,21 @@ public class TransactionServiceImpl extends MotherServiceImpl implements Transac
     public void saveTransactionAsync(
             int id,
             String libelle,
-            Date date, Double montant, List<int> budgetSupprime, List<String> budgetAjoute,
+            Date date, Double montant, List<Integer> budgetSupprime,
+            List<String> budgetAjoutee,
             String locationProvider, Double longitude, Double latitude, Double altitude, Double accuracy
     ) {
         BudgetHashtagApplication.instance.getServiceManager().getCancelableThreadsExecutor()
-                .submit(new SaveTransactionRunnable(id));
+                .submit(new SaveTransactionRunnable(id, libelle, date, montant, budgetSupprime, budgetAjoutee,
+                        locationProvider, longitude, latitude, altitude, accuracy));
     }
     private class SaveTransactionRunnable implements Runnable {
         private int id;
         private String libelle;
         private Date date;
         private Double montant;
-        private List<int> budgetSupprime;
-        private List<String> budgetAjoute;
+        private List<Integer> budgetSupprime;
+        private List<String> budgetAjoutee;
         private String locationProvider;
         private Double longitude;
         private Double latitude;
@@ -171,15 +174,16 @@ public class TransactionServiceImpl extends MotherServiceImpl implements Transac
 
         public SaveTransactionRunnable(int id,
                                        String libelle,
-                                       Date date, Double montant, List<int> budgetSupprime, List<String> budgetAjoute,
+                                       Date date, Double montant, List<Integer> budgetSupprime,
+                                       List<String> budgetAjoutee,
                                        String locationProvider, Double longitude, Double latitude, Double altitude,
-                                       Double accuracy {
+                                       Double accuracy) {
             this.id = id;
             this.libelle = libelle;
             this.date = date;
             this.montant = montant;
             this.budgetSupprime = budgetSupprime;
-            this.budgetAjoute = budgetAjoute;
+            this.budgetAjoutee = budgetAjoutee;
             this.locationProvider = locationProvider;
             this.longitude = longitude;
             this.latitude = latitude;
@@ -188,30 +192,30 @@ public class TransactionServiceImpl extends MotherServiceImpl implements Transac
         }
         @Override
         public void run(){
-            saveTransacSync(id, libelle, date, montant , budgetSupprime, budgetAjoute,
-                    locationProvider, longitude, latitude, altitude, accuracy);
+            saveTransacSync(id, libelle, date, montant , budgetSupprime, budgetAjoutee,
+            locationProvider, longitude, latitude, altitude, accuracy);
         }
     }
     private void saveTransacSync(int id,
                                  String libelle, Date date, Double montant,
-                                 List<int> budgetSupprime, List<String> budgetAjoute,
+                                 List<Integer> budgetSupprime,  List<String> budgetAjoutee,
                                  String locationProvider, Double longitude, Double latitude,
                                  Double altitude, Double accuracy) {
         Log.d(TAG, "saveTransacSync() called");
         int idPortefeuille = portefeuilleService.getIdPortefeuilleFromSharedPref();
         ContentResolver cr = BudgetHashtagApplication.instance.getContext().getContentResolver();
-        long idTransaction = insertTransaction(cr, id, idPortefeuille, libelle, montant, date,
+        int idTransaction = insertTransaction(cr, id, idPortefeuille, libelle, montant, date,
                 locationProvider, accuracy, altitude, latitude, longitude);
         budgetService.saveBudgetSync("", null, null);
-        List<Integer> idsInsert = insertNewBudget(cr, idPortefeuille, transactions.getTransactionsNouvelles());
-        insertBudgetTransaction(cr, idPortefeuille, idTransaction, idsInsert, transactions.getTransactionsExistantesAjoutees());
+        List<Integer> idsInsert = budgetService.findIdBudgetOrCreateIfNotExist(cr, idPortefeuille, budgetAjoutee);
+        insertBudgetTransaction(cr, idPortefeuille, idTransaction, idsInsert);
         deleteBudgetTransaction(cr, idTransaction, idPortefeuille, budgetSupprime);
 
-        //reload cache budget + cache new transactio
+        //reload cache budget + cache new transaction
 
-        postSaveTransactionEvent(idPortefeuille);
+        ////TODO : A FAire postSaveTransactionEvent(idPortefeuille);
     }
-    private long insertTransaction(ContentResolver cr, int id, int idPortefeuille,
+    private int insertTransaction(ContentResolver cr, int id, int idPortefeuille,
                                    String libelle, Double montant, Date date,
                                    String locationProvider, Double accuracy, Double altitude,
                                    Double latitude, Double longitude) {
@@ -220,32 +224,36 @@ public class TransactionServiceImpl extends MotherServiceImpl implements Transac
         return getIdFromUri(uri);
     }
 
-    private void insertBudgetTransaction(ContentResolver cr, long idTransaction, long idPortefeuille,
-                                         String libelle,
-                                         List<Integer> idsInsert, List<Integer> budgetExistantsAjoutes) {
-        for(Integer id : idsInsert) {
-            insertOneBudgetTransaction(cr, idPortefeuille, idTransaction, libelle);
-        }
-        for(Integer id : budgetExistantsAjoutes) {
-            insertOneBudgetTransaction(cr, idPortefeuille, idTransaction, libelle);
+    private void insertBudgetTransaction(ContentResolver cr, int idTransaction, int idPortefeuille,
+                                         List<Integer> budgetAjoutee) {
+        for(Integer id : budgetAjoutee) {
+            insertOneBudgetTransaction(cr, idPortefeuille, idTransaction, id);
         }
     }
 
-    private void insertOneBudgetTransaction(ContentResolver cr, long idPortefeuille, long idTransaction,
-                                            String libelle) {
+    private void insertOneBudgetTransaction(ContentResolver cr, int idPortefeuille, int idTransaction,
+                                            int idBudget) {
         ContentValues cv = new ContentValues();
         cv.put(BudgetTransaction.KEY_COL_ID_TRANSACTION, idTransaction);
-        cv.put(BudgetTransaction.KEY_COL_ID_BUDGET, libelle);
+        cv.put(BudgetTransaction.KEY_COL_ID_BUDGET, idBudget);
         Uri uriAdd = cr.insert(BudgetTransaction.contentUriCollection(idPortefeuille), cv);
         if(uriAdd == null)
             ExceptionManager.manage(new BudgetHashtagException(getClass(),
                     R.string.ex_msg_save_budget_in_transaction,
                     new OperationApplicationException()));
     }
-    private void deleteBudgetTransaction(ContentResolver cr, long idPortefeuille, long idTransaction, List<Integer> ids) {
+    private void deleteBudgetTransaction(ContentResolver cr, int idPortefeuille, int idTransaction,
+                                        List<Integer> ids) {
         for(Integer id : ids) {
-
+            deleteOneBudgetTransaction(cr, idPortefeuille, idTransaction, id);
         }
+    }
+    private void deleteOneBudgetTransaction(ContentResolver cr, int idPortefeuille, int idTransaction,
+                                            int idBudget) {
+        String[] whereParams = {String.valueOf(idBudget), String.valueOf(idTransaction)};
+        cr.delete(BudgetTransaction.contentUriCollection(idPortefeuille),
+                BudgetTransaction.KEY_COL_ID_BUDGET + " = ? AND " + BudgetTransaction.KEY_COL_ID_TRANSACTION + " = ? ",
+                whereParams);
     }
 
     @NonNull
@@ -274,7 +282,7 @@ public class TransactionServiceImpl extends MotherServiceImpl implements Transac
         return cv;
     }
     @NonNull
-    private Uri createTransaction(long id, long idPortefeuille, String libelle, Double montant,
+    private Uri createTransaction(int id, int idPortefeuille, String libelle, Double montant,
                                         Date dateTransac, String locationProvider, Double locationAccuracy,
                                         Double locationAltitude, Double locationLatitude, Double locationLongitude) {
         ContentResolver cr = BudgetHashtagApplication.instance.getContext().getContentResolver();
