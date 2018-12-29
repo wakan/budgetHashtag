@@ -9,11 +9,13 @@ class BudgetLstBloc {
   Observable<BudgetModel> get allBudgets => _budgetFetcher.stream;
 
   fetchAllBudgets() async {
-    final element = await _repository.fetchAllBudgets();
-    _budgetFetcher.sink.add(element);
+    for (var value in await _repository.fetchAllBudgets())
+      _budgetFetcher.sink.add(value);
   }
+
   dispose() {
     _budgetFetcher.close();
   }
 }
-final bloc  = BudgetLstBloc();
+
+final bloc = BudgetLstBloc();

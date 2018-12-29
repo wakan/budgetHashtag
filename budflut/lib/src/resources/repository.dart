@@ -4,5 +4,5 @@ import 'budgets_api_provider.dart';
 class Repository {
   final budgetsApiProvider = new BudgetsApiProvider();
 
-  Future<BudgetModel> fetchAllBudgets() => budgetsApiProvider.fetchBudgetList();
+  Future<List<BudgetModel>> fetchAllBudgets() => budgetsApiProvider.fetchBudgetList();
 }

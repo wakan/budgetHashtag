@@ -1,18 +1,23 @@
 class BudgetModel {
-  int _idPortefeuille;
-  int _idBudget;
+  String _portefeuille;
   String _libelle;
   String _color;
   double _previsionnel;
 
-  BudgetModel() {
-
+  BudgetModel(String portefeuille, String libelle, String color, double previ) {
+    _portefeuille = portefeuille;
+    _libelle = libelle;
+    _color = color;
+    _previsionnel = previ;
   }
 
-  int get idPorteuille => _idPortefeuille;
-  int get idBudget => _idBudget;
+  String get porteuille => _portefeuille;
   String get libelle => _libelle;
   String get color => _color;
   double get previsionnel => _previsionnel;
 
+  @override
+  String toString() {
+    return porteuille + libelle + color + previsionnel.toString();
+  }
 }
