@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="no_error_message">Une exception a eu lieu, personne ne sait ce qu\'il s\'est passé, désolé, le développeur a été viré.</string>
+    <string name="txv_exception_clicktodismiss">\\r\\n(Click pour faire disparaitre.</string>
+
+</resources>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+>
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+            name="viewModel"
+            type="fr.budgethashtag.viewmodel.AddOrUpdateTransactionViewModel"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <include
+                android:id="@+id/toolbarAddOrUpdateTransaction"
+                layout="@layout/my_toolbar"/>
+
+
+        </android.support.design.widget.AppBarLayout>
+
+        <EditText
+            android:id="@+id/txt_libelle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_libelle_budget"
+            android:inputType="textAutoCorrect"
+            android:text="@={viewModel.libelle}"/>
+
+        <EditText
+            android:id="@+id/txt_previsionnel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_montant_budget"
+            android:inputType="numberDecimal"
+            android:text="@={viewModel.montant}"/>
+
+        <fragment
+                android:name="fr.budgethashtag.view.fragment.AddOrUpdateBudgetInTransactionFragment"
+                android:layout_width="match_parent" android:layout_height="match_parent"
+                  android:id="@+id/frm_add_or_update_budget_in_transaction"/>
+    </LinearLayout>
+</layout>
