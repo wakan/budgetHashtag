@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "413124867198",
+    "firebase_url": "https://budflut.firebaseio.com",
+    "project_id": "budflut",
+    "storage_bucket": "budflut.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:413124867198:android:300e13e37d2ff9e5",
+        "android_client_info": {
+          "package_name": "com.example.budflut"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "413124867198-3b9l0llfa7qvrt09qbie4l3slc6q56uv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCA2_E_-AMKn466p54ow3iKeCymFwYaWIY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
