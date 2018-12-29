@@ -52,6 +52,11 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(title: Text('Baby Name Votes')),
       body: _buildBody(context),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => print('hello'),
+        tooltip: 'Increment',
+        child: Icon(Icons.add),
+      ),
     );
   }
 
