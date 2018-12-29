@@ -22,6 +22,7 @@ import fr.budgethashtag.service.portefeuille.PortefeuilleServiceImpl;
 import fr.budgethashtag.service.transaction.TransactionService;
 import fr.budgethashtag.transverse.event.transaction.LoadTransacByIdPortefeuilleAndIdTransacResponseEvent;
 import fr.budgethashtag.transverse.event.transaction.LoadTransacByIdPortefeuilleResponseEvent;
+import fr.budgethashtag.transverse.event.transaction.SaveTransacResponseEvent;
 import fr.budgethashtag.transverse.exception.BudgetHashtagException;
 import fr.budgethashtag.transverse.exception.ExceptionManager;
 import org.greenrobot.eventbus.EventBus;
@@ -35,6 +36,7 @@ public class TransactionServiceImpl extends MotherServiceImpl implements Transac
     private final BudgetService budgetService;
     private LoadTransacByIdPortefeuilleResponseEvent loadTransacByIdPortefeuilleResponseEvent;
     private LoadTransacByIdPortefeuilleAndIdTransacResponseEvent loadTransacByIdPortefeuilleAndIdTransacResponseEvent;
+    private SaveTransacResponseEvent saveTransacResponseEvent;
     private Map<Integer, Map<Integer, ContentValues>> transacByIdPortefeuilleId = new HashMap<>();
     private Map<Integer, Boolean> isTransacCompletelyLoadedByIdPortefeuille = new HashMap<>();
     public TransactionServiceImpl(ServiceManager srvManager) {
@@ -211,10 +213,19 @@ public class TransactionServiceImpl extends MotherServiceImpl implements Transac
         insertBudgetTransaction(cr, idPortefeuille, idTransaction, idsInsert);
         deleteBudgetTransaction(cr, idTransaction, idPortefeuille, budgetSupprime);
 
-        //reload cache budget + cache new transaction
+        //reload cache new transaction
 
-        ////TODO : A FAire postSaveTransactionEvent(idPortefeuille);
+        postSaveTransactionEvent(idPortefeuille, idTransaction);
     }
+
+    private void postSaveTransactionEvent(int idPortefeuille, int id) {
+        if(null == saveTransacResponseEvent){
+            saveTransacResponseEvent = new SaveTransacResponseEvent();
+        }
+        Log.d(TAG, "postSaveTransactionEvent posted" );
+        EventBus.getDefault().post(saveTransacResponseEvent);
+    }
+
     private int insertTransaction(ContentResolver cr, int id, int idPortefeuille,
                                    String libelle, Double montant, Date date,
                                    String locationProvider, Double accuracy, Double altitude,
